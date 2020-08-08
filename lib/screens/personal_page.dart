@@ -7,9 +7,11 @@ import 'package:toast/toast.dart';
 
 import '../FragmentSouqNajran.dart';
 import 'bottomsheet_widget.dart';
+import 'privcy_policy.dart';
 
 class PersonalPage extends StatefulWidget {
   List<String> regionlist = [];
+
   PersonalPage(this.regionlist);
 
   @override
@@ -140,6 +142,7 @@ class __PersonalPageState extends State<PersonalPage> {
     bool success = false;
 
     return Scaffold(
+      key: _scaffoldKey,
       body: Stack(
         children: <Widget>[
           Column(
@@ -204,58 +207,38 @@ class __PersonalPageState extends State<PersonalPage> {
                   left: _minimumPadding * 2),
               child: ListView(
                 children: <Widget>[
+//                  Container(84848E
+//                    width: 70,
+//                    height: 70,
+//                    decoration: BoxDecoration(
+//                      image: DecorationImage(
+//                        alignment: Alignment.center,
+//                        matchTextDirection: true,
+//                        repeat: ImageRepeat.noRepeat,
+//                        image: AssetImage("assets/images/ic_person.png"),
+//                      ),
+//                    ),
+//                  ),
                   Container(
-                    width: 70,
                     height: 70,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        alignment: Alignment.center,
-                        matchTextDirection: true,
-                        repeat: ImageRepeat.noRepeat,
-                        image: AssetImage("assets/images/ic_person.png"),
-                      ),
-                    ),
+                    color: const Color(0xff171732).withOpacity(.4),
+                    child: Center(
+                        child: Text(
+                      "بيانات حسابك الشخصي",
+                      style: TextStyle(
+                          color: const Color(0xff171732),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
+                    )),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 30, left: 8, right: 8),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            Directionality(
-                              textDirection: TextDirection.rtl,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  _cName != null ? _cName : "الاسم",
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 8),
-                              child: Icon(Icons.person),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8),
-                              child: InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      showAlertDialogname(context, _cName);
-                                    });
-                                  },
-                                  child: Icon(Icons.mode_edit)),
-                            )
-                          ],
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: .2,
-                          color: Colors.grey,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10),
+                        Card(
+                          elevation: 2,
+                          shadowColor: Colors.blueAccent,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
@@ -264,20 +247,20 @@ class __PersonalPageState extends State<PersonalPage> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    _cMobile != null ? _cMobile : "رقم الجوال",
+                                    _cName != null ? _cName : "الاسم",
                                   ),
                                 ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(right: 8),
-                                child: Icon(Icons.phone_iphone),
+                                child: Icon(Icons.person),
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 8),
                                 child: InkWell(
                                     onTap: () {
                                       setState(() {
-                                        showAlertDialogphone(context, _cMobile);
+                                        showAlertDialogname(context, _cName);
                                       });
                                     },
                                     child: Icon(Icons.mode_edit)),
@@ -292,37 +275,90 @@ class __PersonalPageState extends State<PersonalPage> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              Directionality(
-                                textDirection: TextDirection.rtl,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    _cType != null ? _cType : "النوع",
+                          child: Card(
+                            elevation: 2,
+                            shadowColor: Colors.blueAccent,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                Directionality(
+                                  textDirection: TextDirection.rtl,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      _cMobile != null
+                                          ? _cMobile
+                                          : "رقم الجوال",
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 8),
-                                child: Icon(Icons.title),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) => MyForm4(_cType,
-                                            onSubmit4: onSubmit4));
-                                  });
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 8),
-                                  child: Icon(Icons.mode_edit),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 8),
+                                  child: Icon(Icons.phone_iphone),
                                 ),
-                              )
-                            ],
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8),
+                                  child: InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          showAlertDialogphone(
+                                              context, _cMobile);
+                                        });
+                                      },
+                                      child: Icon(Icons.mode_edit)),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: .2,
+                          color: Colors.grey,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Card(
+                            elevation: 2,
+                            shadowColor: Colors.blueAccent,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                InkWell(
+                                    onTap: () {
+                                      return showInSnackBar(
+                                          "يجب الافصاح عن نوع حسابك");
+                                    },
+                                    child: Icon(Icons.help)),
+                                Directionality(
+                                  textDirection: TextDirection.rtl,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      _cType != null ? _cType : "النوع",
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 8),
+                                  child: Icon(Icons.title),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) => MyForm4(_cType,
+                                              onSubmit4: onSubmit4));
+                                    });
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 8),
+                                    child: Icon(Icons.mode_edit),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                         Container(
@@ -337,6 +373,35 @@ class __PersonalPageState extends State<PersonalPage> {
                     padding:
                         const EdgeInsets.only(top: 100, left: 50, right: 50),
                     child: SheetButton(widget.regionlist),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: InkWell(
+                      onTap: (){
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PrivcyPolicy()));
+                      },
+                      child: Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Center(
+                              child: Text("إتفاقية الاستخدام",style: TextStyle(
+                                fontSize: 10,
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold,
+                              ),),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 5),
+                              child: Text("*",style: TextStyle(color: Colors.red),),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
                   )
                 ],
               ),
@@ -345,6 +410,26 @@ class __PersonalPageState extends State<PersonalPage> {
         ],
       ),
     );
+  }
+
+  void showInSnackBar(String value) {
+    _scaffoldKey.currentState.showSnackBar(new SnackBar(
+      content: Row(
+        children: <Widget>[
+          Icon(
+            Icons.live_help,
+            color: Colors.yellow,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: new Text(
+              value,
+              style: TextStyle(color: Colors.redAccent),
+            ),
+          ),
+        ],
+      ),
+    ));
   }
 
   showAlertDialogname(BuildContext context, name) {
@@ -650,6 +735,7 @@ class DecoratedTextField extends StatelessWidget {
 
 class SheetButton extends StatefulWidget {
   List<String> regionlist = [];
+
   SheetButton(this.regionlist);
 
   _SheetButtonState createState() => _SheetButtonState();
@@ -658,11 +744,13 @@ class SheetButton extends StatefulWidget {
 class _SheetButtonState extends State<SheetButton> {
   bool checkingFlight = false;
   bool success = false;
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return !checkingFlight
         ? MaterialButton(
+            key: _scaffoldKey,
             color: const Color(0xff171732),
             onPressed: () async {
               setState(() {
@@ -673,6 +761,7 @@ class _SheetButtonState extends State<SheetButton> {
 
               setState(() {
                 success = true;
+
               });
 
               await Future.delayed(Duration(seconds: 1));
@@ -680,11 +769,11 @@ class _SheetButtonState extends State<SheetButton> {
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          FragmentSouq1(widget.regionlist)));
+                      builder: (context) => FragmentSouq1(widget.regionlist)));
+//              return showInSnackBar("تم تحديث حسابك");
             },
             child: Text(
-              'إنهاء',
+              'تحديث',
               style: TextStyle(
                 color: Colors.white,
               ),
@@ -697,5 +786,14 @@ class _SheetButtonState extends State<SheetButton> {
                 size: 100,
                 color: Colors.green,
               );
+  }
+
+  void showInSnackBar(String value) {
+    _scaffoldKey.currentState.showSnackBar(new SnackBar(
+      content: new Text(
+        value,
+        style: TextStyle(color: const Color(0xffffffff)),
+      ),
+    ));
   }
 }

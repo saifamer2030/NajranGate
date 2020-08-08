@@ -69,10 +69,11 @@ class _AdvProlileState extends State<AdvProlile> {
 //            new Splash()),
 //      );
   }
-  showNotification(date1,title,_userId,head,name) async {
 
-    DateTime scheduledNotificationDateTime =DateTime.parse('$date1').add(new Duration(days: 13));
- //   DateTime scheduledNotificationDateTime = DateTime.now();
+  showNotification(date1, title, _userId, head, name) async {
+    DateTime scheduledNotificationDateTime =
+        DateTime.parse('$date1').add(new Duration(days: 13));
+    //   DateTime scheduledNotificationDateTime = DateTime.now();
 
 //    DateTime scheduledNotificationDateTime = new DateTime(
 //        notificationbooking.year,
@@ -105,8 +106,7 @@ class _AdvProlileState extends State<AdvProlile> {
         scheduledNotificationDateTime,
         platformChannelSpecifics,
         //payload:"$_userId,$head,$name"
-        payload:""
-    );
+        payload: "");
   }
 
   @override
@@ -164,7 +164,7 @@ class _AdvProlileState extends State<AdvProlile> {
             /////////////////////////////////////
             final advdatabaseReference =
                 FirebaseDatabase.instance.reference().child("advdata");
-           // print("kkkkkkkkkkkk${widget.cId}////${widget.cDateID}");
+            // print("kkkkkkkkkkkk${widget.cId}////${widget.cDateID}");
 
             advdatabaseReference
                 .child(widget.cId)
@@ -199,7 +199,6 @@ class _AdvProlileState extends State<AdvProlile> {
                   DATA['cType'],
                   DATA['carrange'],
                   DATA['consoome'],
-
                 );
                 _imageUrls = DATA['curilist']
                     .replaceAll(" ", "")
@@ -288,7 +287,6 @@ class _AdvProlileState extends State<AdvProlile> {
                   DATA['cType'],
                   DATA['carrange'],
                   DATA['consoome'],
-
                 );
                 _imageUrls = DATA['curilist']
                     .replaceAll(" ", "")
@@ -382,15 +380,15 @@ class _AdvProlileState extends State<AdvProlile> {
                     children: <Widget>[
                       //getImageAsset(),
 
-                            InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  new MaterialPageRoute(
-                                      builder: (context) =>
-                                          ProfilePhoto(_imageUrls)));
-                            },
-                              child: Container(
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (context) =>
+                                      ProfilePhoto(_imageUrls)));
+                        },
+                        child: Container(
                             //color: Colors.grey[200],
                             width: 300,
                             height: 200,
@@ -425,7 +423,8 @@ class _AdvProlileState extends State<AdvProlile> {
                                           loadingBuilder: (BuildContext context,
                                               Widget child,
                                               ImageChunkEvent loadingProgress) {
-                                        if (loadingProgress == null) return child;
+                                        if (loadingProgress == null)
+                                          return child;
                                         return SpinKitThreeBounce(
                                           color: const Color(0xff171732),
                                           size: 35,
@@ -599,19 +598,23 @@ class _AdvProlileState extends State<AdvProlile> {
                                             : Padding(
                                                 padding: const EdgeInsets.only(
                                                     top: 8.0),
-                                                child: advnNameclass.cprice==null?Container:Text(
-                                                  "السعر: ${advnNameclass.cprice}",
-                                                  textDirection:
-                                                      TextDirection.rtl,
-                                                  textAlign: TextAlign.right,
-                                                  style: TextStyle(
-                                                      color: const Color(
-                                                          0xff171732),
-                                                      fontSize: 15.0,
+                                                child: advnNameclass.cprice ==
+                                                        null
+                                                    ? Container
+                                                    : Text(
+                                                        "السعر: ${advnNameclass.cprice}",
+                                                        textDirection:
+                                                            TextDirection.rtl,
+                                                        textAlign:
+                                                            TextAlign.right,
+                                                        style: TextStyle(
+                                                            color: const Color(
+                                                                0xff171732),
+                                                            fontSize: 15.0,
 //                                                      fontFamily: 'Gamja Flower',
-                                                      fontStyle:
-                                                          FontStyle.normal),
-                                                ),
+                                                            fontStyle: FontStyle
+                                                                .normal),
+                                                      ),
                                               ),
                                       ],
                                     ),
@@ -629,20 +632,23 @@ class _AdvProlileState extends State<AdvProlile> {
                                             : Padding(
                                                 padding: const EdgeInsets.only(
                                                     top: 8.0),
-                                                child: Text(
-                                                  "المالك: ${widget.cName}",
-                                                  textDirection:
-                                                      TextDirection.rtl,
-                                                  textAlign: TextAlign.right,
-                                                  style: TextStyle(
-                                                      fontSize: 15.0,
-                                                      color: const Color(
-                                                          0xff171732),
+                                                child: widget.cName == null
+                                                    ? Text("اسم غير معلوم")
+                                                    : Text(
+                                                        "المالك: ${widget.cName}",
+                                                        textDirection:
+                                                            TextDirection.rtl,
+                                                        textAlign:
+                                                            TextAlign.right,
+                                                        style: TextStyle(
+                                                            fontSize: 15.0,
+                                                            color: const Color(
+                                                                0xff171732),
 //                                                      fontFamily:
 //                                                          'Gamja Flower',
-                                                      fontStyle:
-                                                          FontStyle.normal),
-                                                ),
+                                                            fontStyle: FontStyle
+                                                                .normal),
+                                                      ),
                                               ),
                                         Icon(
                                           Icons.person,
@@ -718,181 +724,191 @@ class _AdvProlileState extends State<AdvProlile> {
                                 Positioned(
                                   top: 70,
                                   right: 5,
-                                  child:
-
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Container(
-                                            height: 25,
-                                            child: advnNameclass == null
-                                                ? Text("")
-                                                : Padding(
-                                                    padding: const EdgeInsets.only(
-                                                        top: 8.0),
-                                                    child: AutoSizeText(
-
-                                                      "${advnNameclass.cdetail}",
-                                                      textDirection:
-                                                          TextDirection.rtl,
-                                                      minFontSize: 8,
-                                                      maxLines: 3,
-
-                                                      textAlign: TextAlign.right,
-                                                      style: TextStyle(
-                                                          fontSize: 15.0,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      height: 25,
+                                      child: advnNameclass == null
+                                          ? Text("")
+                                          : Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 8.0),
+                                              child: AutoSizeText(
+                                                "${advnNameclass.cdetail}",
+                                                textDirection:
+                                                    TextDirection.rtl,
+                                                minFontSize: 8,
+                                                maxLines: 3,
+                                                textAlign: TextAlign.right,
+                                                style: TextStyle(
+                                                    fontSize: 15.0,
 //                                                          fontFamily:
 //                                                              'Gamja Flower',
-                                                          fontStyle:
-                                                              FontStyle.normal),
-                                                    ),
-                                                  ),
-                                          ),
-                                        ),
-                                        /** Icon(
-                                            Icons.calendar_today,
-                                            color: Colors.grey,
-                                            ),**/
-
-
-                                ),
-                              ],
-                            )
-                        ),
-                      ),
-               _userId==widget.cId?
-               Padding(
-                 padding: const EdgeInsets.all(5.0),
-                 child: Container(
-                   width: 300 /*MediaQuery.of(context).size.width*/,
-                   height: 40,
-                   child: new RaisedButton(
-                     child: Row(
-                       mainAxisAlignment: MainAxisAlignment.center,
-                       children: <Widget>[
-                         new Text("تمديد الاعلان"),
-                         Padding(
-                           padding: const EdgeInsets.only(left: 10.0),
-                           child: Icon(
-                             Icons.check,
-                             color: Colors.white,
-                           ),
-                         ),
-                       ],
-                     ),
-
-                     textColor: Colors.white,
-                     color: const Color(0xff171732),
-                     onPressed: () {
-                       DateTime startdate =DateTime.parse(advnNameclass.cdate);
-                       var newdate = startdate.add(new Duration(days: 14));
-                       DateTime now = DateTime.now();
-                       var permissiondate = startdate.add(new Duration(days: 10));
-
-                       String b = newdate.month.toString();
-                       if (b.length < 2) {
-                         b = "0" + b;
-                       }
-                       String c = newdate.day.toString();
-                       if (c.length < 2) {
-                         c = "0" + c;
-                       }
-                       String d = newdate.hour.toString();
-                       if (d.length < 2) {
-                         d = "0" + d;
-                       }
-                       String e = newdate.minute.toString();
-                       if (e.length < 2) {
-                         e = "0" + e;
-                       }
-                       String date1 =
-                           '${newdate.year}-${b}-${c} ${d}:${e}:00';
-
-
-                       if (_userId == null) {
-                         Toast.show(
-                             "ابشر .. سجل دخول الاول طال عمرك",
-                             context,
-                             duration: Toast.LENGTH_LONG,
-                             gravity: Toast.BOTTOM);
-                       } else {
-    if (now.isAfter(permissiondate)) {
-    final advdatabaseReference =
-    FirebaseDatabase.instance.reference().child("advdata");
-    advdatabaseReference
-        .child(widget.cId)
-        .child(widget.cDateID)
-        .update({
-    "cdate":date1,
-    }).then((_) {
-    setState(() {
-    advnNameclass.cdate=date1;
-    showNotification(date1,advnNameclass.ctitle,advnNameclass.cId,advnNameclass.chead, _username);
-
-    Toast.show("$date1تم التمديد الى ", context,
-    duration: Toast.LENGTH_LONG,
-    gravity: Toast.BOTTOM);
-    });
-
-    });
-    }else{
-
-      Toast.show("يمكنك التجديد بعد مرور 10 ايام من موعد التجديد الاول او انتظار الاشعار", context,
-          duration: Toast.LENGTH_LONG,
-          gravity: Toast.BOTTOM);
-    }
-                       }
-                     },
-//
-                     shape: new RoundedRectangleBorder(
-                         borderRadius: new BorderRadius.circular(10.0)),
-                   ),
-                 ),
-               ):Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: Container(
-                          width: 300 /*MediaQuery.of(context).size.width*/,
-                          height: 40,
-                          child: new RaisedButton(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                new Text("الطلب"),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 10.0),
-                                  child: Icon(
-                                    Icons.check,
-                                    color: Colors.white,
+                                                    fontStyle:
+                                                        FontStyle.normal),
+                                              ),
+                                            ),
+                                    ),
                                   ),
+                                  /** Icon(
+                                      Icons.calendar_today,
+                                      color: Colors.grey,
+                                      ),**/
                                 ),
                               ],
-                            ),
-
-                            textColor: Colors.white,
-                            color: const Color(0xff171732),
-                            onPressed: () {
-                              if (_userId == null) {
-                                Toast.show(
-                                    "ابشر .. سجل دخول الاول طال عمرك",
-                                    context,
-                                    duration: Toast.LENGTH_LONG,
-                                    gravity: Toast.BOTTOM);
-                              } else {
-                                Navigator.push(
-                                  context,
-                                  new MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                      new ChatPage(
-                                          name: widget.cName,
-                                          uid: widget.cId)),
-                                );
-                              }
-                            },
-//
-                            shape: new RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(10.0)),
-                          ),
-                        ),
+                            )),
                       ),
+                      _userId == widget.cId
+                          ? Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Container(
+                                width:
+                                    300 /*MediaQuery.of(context).size.width*/,
+                                height: 40,
+                                child: new RaisedButton(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      new Text("تمديد الاعلان"),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 10.0),
+                                        child: Icon(
+                                          Icons.check,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+
+                                  textColor: Colors.white,
+                                  color: const Color(0xff171732),
+                                  onPressed: () {
+                                    DateTime startdate =
+                                        DateTime.parse(advnNameclass.cdate);
+                                    var newdate =
+                                        startdate.add(new Duration(days: 14));
+                                    DateTime now = DateTime.now();
+                                    var permissiondate =
+                                        startdate.add(new Duration(days: 10));
+
+                                    String b = newdate.month.toString();
+                                    if (b.length < 2) {
+                                      b = "0" + b;
+                                    }
+                                    String c = newdate.day.toString();
+                                    if (c.length < 2) {
+                                      c = "0" + c;
+                                    }
+                                    String d = newdate.hour.toString();
+                                    if (d.length < 2) {
+                                      d = "0" + d;
+                                    }
+                                    String e = newdate.minute.toString();
+                                    if (e.length < 2) {
+                                      e = "0" + e;
+                                    }
+                                    String date1 =
+                                        '${newdate.year}-${b}-${c} ${d}:${e}:00';
+
+                                    if (_userId == null) {
+                                      Toast.show(
+                                          "ابشر .. سجل دخول الاول طال عمرك",
+                                          context,
+                                          duration: Toast.LENGTH_LONG,
+                                          gravity: Toast.BOTTOM);
+                                    } else {
+                                      if (now.isAfter(permissiondate)) {
+                                        final advdatabaseReference =
+                                            FirebaseDatabase.instance
+                                                .reference()
+                                                .child("advdata");
+                                        advdatabaseReference
+                                            .child(widget.cId)
+                                            .child(widget.cDateID)
+                                            .update({
+                                          "cdate": date1,
+                                        }).then((_) {
+                                          setState(() {
+                                            advnNameclass.cdate = date1;
+                                            showNotification(
+                                                date1,
+                                                advnNameclass.ctitle,
+                                                advnNameclass.cId,
+                                                advnNameclass.chead,
+                                                _username);
+
+                                            Toast.show("$date1تم التمديد الى ",
+                                                context,
+                                                duration: Toast.LENGTH_LONG,
+                                                gravity: Toast.BOTTOM);
+                                          });
+                                        });
+                                      } else {
+                                        Toast.show(
+                                            "يمكنك التجديد بعد مرور 10 ايام من موعد التجديد الاول او انتظار الاشعار",
+                                            context,
+                                            duration: Toast.LENGTH_LONG,
+                                            gravity: Toast.BOTTOM);
+                                      }
+                                    }
+                                  },
+//
+                                  shape: new RoundedRectangleBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(10.0)),
+                                ),
+                              ),
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Container(
+                                width:
+                                    300 /*MediaQuery.of(context).size.width*/,
+                                height: 40,
+                                child: new RaisedButton(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      new Text("الطلب"),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 10.0),
+                                        child: Icon(
+                                          Icons.check,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+
+                                  textColor: Colors.white,
+                                  color: const Color(0xff171732),
+                                  onPressed: () {
+                                    if (_userId == null) {
+                                      Toast.show(
+                                          "ابشر .. سجل دخول الاول طال عمرك",
+                                          context,
+                                          duration: Toast.LENGTH_LONG,
+                                          gravity: Toast.BOTTOM);
+                                    } else {
+                                      Navigator.push(
+                                        context,
+                                        new MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                new ChatPage(
+                                                    name: widget.cName,
+                                                    uid: widget.cId)),
+                                      );
+                                    }
+                                  },
+//
+                                  shape: new RoundedRectangleBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(10.0)),
+                                ),
+                              ),
+                            ),
                       SizedBox(
                         height: 2 * _minimumPadding,
                         width: _minimumPadding,
@@ -1033,8 +1049,8 @@ class _AdvProlileState extends State<AdvProlile> {
                                           controller: _controller,
                                           // reverse: true,
                                           itemCount: commentlist.length,
-                                          itemBuilder: (BuildContext ctxt,
-                                              int index) {
+                                          itemBuilder:
+                                              (BuildContext ctxt, int index) {
                                             return InkWell(
                                               child: _firebasedata(
                                                 index,
@@ -1042,8 +1058,7 @@ class _AdvProlileState extends State<AdvProlile> {
                                                 commentlist[index].cId,
                                                 commentlist[index].cuserid,
                                                 commentlist[index].cdate,
-                                                commentlist[index]
-                                                    .cheaddate,
+                                                commentlist[index].cheaddate,
                                                 commentlist[index].ccoment,
                                                 commentlist[index].cname,
                                                 commentlist[index].cadvID,
@@ -1092,16 +1107,14 @@ class _AdvProlileState extends State<AdvProlile> {
                                                   BorderRadius.circular(5),
                                             ),
                                             child: Directionality(
-                                              textDirection:
-                                                  TextDirection.rtl,
+                                              textDirection: TextDirection.rtl,
                                               child: TextFormField(
                                                 textAlign: TextAlign.right,
                                                 keyboardType:
                                                     TextInputType.text,
                                                 textDirection:
                                                     TextDirection.rtl,
-                                                controller:
-                                                    _commentController,
+                                                controller: _commentController,
                                                 validator: (String value) {
                                                   if ((value.isEmpty)) {
                                                     return 'ابشر .. لكن اكتب تعليق الاول طال عمرك';
@@ -1137,8 +1150,8 @@ class _AdvProlileState extends State<AdvProlile> {
                                               .validate()) {
                                             try {
                                               final result =
-                                                  await InternetAddress
-                                                      .lookup('google.com');
+                                                  await InternetAddress.lookup(
+                                                      'google.com');
                                               if (result.isNotEmpty &&
                                                   result[0]
                                                       .rawAddress
@@ -1393,10 +1406,8 @@ class _AdvProlileState extends State<AdvProlile> {
                                                           Toast.LENGTH_SHORT,
                                                       gravity: Toast.BOTTOM);
                                                 }
-
                                               });
-                                            }
-                                            ,
+                                            },
                                             child: Text("موافق"),
                                           )),
                                       CupertinoDialogAction(

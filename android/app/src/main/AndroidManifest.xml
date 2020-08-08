@@ -19,7 +19,7 @@
 
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="سوق نجران"
+        android:label="بوابة نجران"
         android:icon="@drawable/ic_lancher">
 
         <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" />

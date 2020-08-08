@@ -13,10 +13,11 @@ import 'package:souqnagran/screens/myalarms.dart';
 import 'package:souqnagran/screens/myfavourits.dart';
 import 'package:souqnagran/screens/personal_page.dart';
 import 'package:souqnagran/screens/signin.dart';
+
 class FragmentSouq1 extends StatefulWidget {
   List<String> regionlist = [];
-  FragmentSouq1(this.regionlist);
 
+  FragmentSouq1(this.regionlist);
 
   @override ///////
   _Fragment1SouqState createState() => _Fragment1SouqState();
@@ -25,7 +26,7 @@ class FragmentSouq1 extends StatefulWidget {
 FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-new FlutterLocalNotificationsPlugin();
+    new FlutterLocalNotificationsPlugin();
 
 class _Fragment1SouqState extends State<FragmentSouq1> {
   // Properties & Variables needed
@@ -34,14 +35,14 @@ class _Fragment1SouqState extends State<FragmentSouq1> {
 //  List<Widget> _children() => [
 
   List<Widget> screens() => [
-    AllAdvertesmenta(widget.regionlist),
-    MyFav(widget.regionlist),
-    MyAlarms(widget.regionlist),
-    MoreSouqNajran(widget.regionlist),
-  ]; // to store nested tabs
+        AllAdvertesmenta(widget.regionlist),
+        MyFav(widget.regionlist),
+        MyAlarms(widget.regionlist),
+        MoreSouqNajran(widget.regionlist),
+      ]; // to store nested tabs
   final PageStorageBucket bucket = PageStorageBucket();
   final GlobalKey<NavigatorState> navigatorKey =
-  new GlobalKey<NavigatorState>();
+      new GlobalKey<NavigatorState>();
   Widget currentScreen; // Our first view in viewport
   @override
   void initState() {
@@ -102,8 +103,8 @@ class _Fragment1SouqState extends State<FragmentSouq1> {
                     onPressed: () {
                       print("kkkkkkkkk");
                       setState(() {
-                        currentScreen =
-                            MoreSouqNajran(widget.regionlist); // if user taps on this dashboard tab will be active
+                        currentScreen = MoreSouqNajran(widget
+                            .regionlist); // if user taps on this dashboard tab will be active
                         currentTab = 0;
                       });
                     },
@@ -131,8 +132,8 @@ class _Fragment1SouqState extends State<FragmentSouq1> {
                     minWidth: 40,
                     onPressed: () {
                       setState(() {
-                        currentScreen  =
-                            MyAlarms(widget.regionlist); // if user taps on this dashboard tab will be active
+                        currentScreen = MyAlarms(widget
+                            .regionlist); // if user taps on this dashboard tab will be active
                         currentTab = 2;
                       });
                     },
@@ -168,8 +169,8 @@ class _Fragment1SouqState extends State<FragmentSouq1> {
                     minWidth: 40,
                     onPressed: () {
                       setState(() {
-                        currentScreen  =
-                            MyFav(widget.regionlist); // if user taps on this dashboard tab will be active
+                        currentScreen = MyFav(widget
+                            .regionlist); // if user taps on this dashboard tab will be active
                         currentTab = 1;
                       });
                     },
@@ -197,8 +198,8 @@ class _Fragment1SouqState extends State<FragmentSouq1> {
                     minWidth: 40,
                     onPressed: () {
                       setState(() {
-                        currentScreen  =
-                            AllAdvertesmenta(widget.regionlist); // if user taps on this dashboard tab will be active
+                        currentScreen = AllAdvertesmenta(widget
+                            .regionlist); // if user taps on this dashboard tab will be active
                         currentTab = 3;
                       });
                     },
@@ -245,15 +246,15 @@ class _Fragment1SouqState extends State<FragmentSouq1> {
     },
         //onBackgroundMessage: myBackgroundMessageHandler,
         onLaunch: (Map<String, dynamic> message) {
-          print('onLaunch: $message');
-          _serialiseAndNavigate(message);
-          return;
-        });
+      print('onLaunch: $message');
+      _serialiseAndNavigate(message);
+      return;
+    });
   }
 
   void configLocalNotification() {
     var initializationSettingsAndroid =
-    new AndroidInitializationSettings('@drawable/ic_launcher');
+        new AndroidInitializationSettings('@drawable/ic_launcher');
     var initializationSettingsIOS = new IOSInitializationSettings();
     var initializationSettings = new InitializationSettings(
         initializationSettingsAndroid, initializationSettingsIOS);
@@ -291,12 +292,14 @@ class _Fragment1SouqState extends State<FragmentSouq1> {
       if (view == 'cart_screen') {
         Navigator.push(
           context,
-          new MaterialPageRoute(builder: (context) => AllAdvertesmenta(widget.regionlist)),
+          new MaterialPageRoute(
+              builder: (context) => AllAdvertesmenta(widget.regionlist)),
         );
       } else if (view == 'categories_screen') {
         Navigator.push(
           context,
-          new MaterialPageRoute(builder: (context) => AllAdvertesmenta(widget.regionlist)),
+          new MaterialPageRoute(
+              builder: (context) => AllAdvertesmenta(widget.regionlist)),
         );
       }
     }
@@ -323,9 +326,9 @@ class _Fragment1SouqState extends State<FragmentSouq1> {
   Future selectNotification(String payload) async {
     await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => AllAdvertesmenta(widget.regionlist)),
+      MaterialPageRoute(
+          builder: (context) => AllAdvertesmenta(widget.regionlist)),
     );
-
 
 //    if (payload == 'cart') {
 //      debugPrint('notification payload: ' + payload);
@@ -336,6 +339,7 @@ class _Fragment1SouqState extends State<FragmentSouq1> {
 
 class MyFloatingButton extends StatefulWidget {
   List<String> regionlist = [];
+
   MyFloatingButton(this.regionlist);
 
   @override
@@ -349,27 +353,38 @@ class _MyFloatingButtonState extends State<MyFloatingButton> {
   Widget build(BuildContext context) {
     return _show
         ? FloatingActionButton(
-      backgroundColor: const Color(0xff171732),
-      child: Icon(Icons.add),
-      heroTag: "unique3",
-      onPressed: () {
-        FirebaseAuth.instance.currentUser().then((user) => user == null
-            ?
-        Navigator.of(context, rootNavigator: false).push(MaterialPageRoute(
-            builder: (context) => SignIn(widget.regionlist), maintainState: false))
-            : setState(() {
-          var sheetController = showBottomSheet(
-              context: context, builder: (context) => BottomSheetWidget(widget.regionlist));
+            backgroundColor: const Color(0xff171732),
+            child: Text(
+              "إعلان",
+              style: TextStyle(
+                fontFamily: 'Estedad-Black',
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xffffffff),
+                height: 0.7471466064453125,
+              ),
+            ),
+            heroTag: "unique3",
+            onPressed: () {
+              FirebaseAuth.instance.currentUser().then((user) => user == null
+                  ? Navigator.of(context, rootNavigator: false).push(
+                      MaterialPageRoute(
+                          builder: (context) => SignIn(widget.regionlist),
+                          maintainState: false))
+                  : setState(() {
+                      var sheetController = showBottomSheet(
+                          context: context,
+                          builder: (context) =>
+                              BottomSheetWidget(widget.regionlist));
 
-          _showButton(false);
+                      _showButton(false);
 
-          sheetController.closed.then((value) {
-            _showButton(true);
-          });
-        }));
-
-      },
-    )
+                      sheetController.closed.then((value) {
+                        _showButton(true);
+                      });
+                    }));
+            },
+          )
         : Container();
   }
 

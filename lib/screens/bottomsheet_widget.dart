@@ -17,13 +17,7 @@ class BottomSheetWidget extends StatefulWidget {
   _BottomSheetWidgetState createState() => _BottomSheetWidgetState();
 }
 
-String _car = "قسم السيارات",
-    _building = "قسم العقارات",
-    _elect = "قسم والاجهزة والالكترونيات",
-    _anim = "قسم المواشي والطيور والحيوانات",
-    _shapiat = "قسم الشعبيات",
-    _family = "قسم الاسر المنتجة",
-    _service = "قسم خدمات نجران";
+
 
 class _BottomSheetWidgetState extends State<BottomSheetWidget> {
   List<DepartmentClass> departlist = [];
@@ -193,7 +187,7 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
         margin: EdgeInsets.all(1),
         child: InkWell(
           onTap: () {
-            if (_cType != null && _cMobile != null && _cName != null) {
+            if (_cType != null) {
 
               Navigator.push(
                   context,
@@ -207,7 +201,7 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
                 new CupertinoAlertDialog(
                   title: new Text("تنبية"),
                   content:
-                  new Text("نبغاك تكمل بيانات ملفك الشخصي"),
+                  new Text("نبغاك تخبرنا عن نوع حسابك"),
                   actions: [
                     CupertinoDialogAction(
                         isDefaultAction: false,

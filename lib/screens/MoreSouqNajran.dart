@@ -177,9 +177,7 @@ class _MoreSouqNajranState extends State<MoreSouqNajran> {
                                         SignIn(widget.regionlist)));
                           }else{
                             if (_userId != null &&
-                                _cType != null &&
-                                _cMobile != null &&
-                                _cName != null) {
+                                _cType != null ) {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -197,7 +195,7 @@ class _MoreSouqNajranState extends State<MoreSouqNajran> {
                                     ),
                                   ),
                                   content: new Text(
-                                    "نبغاك تكمل بيانات ملفك الشخصي",
+                                    "نبغاك تخبرنا عن نوع حسابك",
                                     style: TextStyle(
 //                                      fontFamily: 'Estedad-Black',
                                     ),
@@ -283,9 +281,7 @@ class _MoreSouqNajranState extends State<MoreSouqNajran> {
                                       builder: (context) =>
                                           SignIn(widget.regionlist)));
                             } else {
-                              if (_cType != null &&
-                                  _cMobile != null &&
-                                  _cName != null) {
+                              if (_cType != null) {
                                 Navigator.push(
                                     context,
                                     new MaterialPageRoute(
@@ -301,8 +297,9 @@ class _MoreSouqNajranState extends State<MoreSouqNajran> {
 //                                      fontFamily: 'Estedad-Black',
                                           ),
                                     ),
-                                    content: new Text(
-                                      "نبغاك تكمل بيانات ملفك الشخصي",
+                                    content:
+                                    new Text(
+                                      "نبغاك تخبرنا عن نوع حسابك",
                                       style: TextStyle(
 //                                      fontFamily: 'Estedad-Black',
                                           ),
@@ -524,36 +521,36 @@ class _MoreSouqNajranState extends State<MoreSouqNajran> {
                             ],
                           ),
                         ),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: .2,
-                          color: Colors.grey,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            Text(
-                              'تقييم التطبيق',
-                              style: TextStyle(
-//                                fontFamily: 'Estedad-Black',
-                                fontSize: 13,
-                                fontWeight: FontWeight.bold,
-                                color: const Color(0xff171732),
-                                height: 1.2307692307692308,
-                              ),
-                              textAlign: TextAlign.right,
-                            ),
-
-                            // Adobe XD layer: 'world-wide-web-icon…' (shape)
-                            Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: new Icon(
-                                  Icons.star,
-                                  color: Colors.grey,
-                                ) // Adobe XD layer: 'terms' (shape)
-                                ),
-                          ],
-                        ),
+//                        Container(
+//                          width: MediaQuery.of(context).size.width,
+//                          height: .2,
+//                          color: Colors.grey,
+//                        ),
+//                        Row(
+//                          mainAxisAlignment: MainAxisAlignment.end,
+//                          children: <Widget>[
+//                            Text(
+//                              'تقييم التطبيق',
+//                              style: TextStyle(
+////                                fontFamily: 'Estedad-Black',
+//                                fontSize: 13,
+//                                fontWeight: FontWeight.bold,
+//                                color: const Color(0xff171732),
+//                                height: 1.2307692307692308,
+//                              ),
+//                              textAlign: TextAlign.right,
+//                            ),
+//
+//                            // Adobe XD layer: 'world-wide-web-icon…' (shape)
+//                            Padding(
+//                                padding: const EdgeInsets.all(8.0),
+//                                child: new Icon(
+//                                  Icons.star,
+//                                  color: Colors.grey,
+//                                ) // Adobe XD layer: 'terms' (shape)
+//                                ),
+//                          ],
+//                        ),
                         Container(
                           width: MediaQuery.of(context).size.width,
                           height: .2,
@@ -609,36 +606,36 @@ class _MoreSouqNajranState extends State<MoreSouqNajran> {
                           height: .2,
                           color: Colors.grey,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            Text(
-                              'نبذة عن التطبيق',
-                              style: TextStyle(
-//                                fontFamily: 'Estedad-Black',
-                                fontSize: 13,
-                                fontWeight: FontWeight.bold,
-                                color: const Color(0xff171732),
-                                height: 1.2307692307692308,
-                              ),
-                              textAlign: TextAlign.right,
-                            ),
-
-                            // Adobe XD layer: 'world-wide-web-icon…' (shape)
-                            Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: new Icon(
-                                  Icons.smartphone,
-                                  color: Colors.grey,
-                                ) // Adobe XD layer: 'terms' (shape)
-                                ),
-                          ],
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: .2,
-                          color: Colors.grey,
-                        ),
+//                        Row(
+//                          mainAxisAlignment: MainAxisAlignment.end,
+//                          children: <Widget>[
+//                            Text(
+//                              'نبذة عن التطبيق',
+//                              style: TextStyle(
+////                                fontFamily: 'Estedad-Black',
+//                                fontSize: 13,
+//                                fontWeight: FontWeight.bold,
+//                                color: const Color(0xff171732),
+//                                height: 1.2307692307692308,
+//                              ),
+//                              textAlign: TextAlign.right,
+//                            ),
+//
+//                            // Adobe XD layer: 'world-wide-web-icon…' (shape)
+//                            Padding(
+//                                padding: const EdgeInsets.all(8.0),
+//                                child: new Icon(
+//                                  Icons.smartphone,
+//                                  color: Colors.grey,
+//                                ) // Adobe XD layer: 'terms' (shape)
+//                                ),
+//                          ],
+//                        ),
+//                        Container(
+//                          width: MediaQuery.of(context).size.width,
+//                          height: .2,
+//                          color: Colors.grey,
+//                        ),
                         InkWell(
                           onTap: () {
                             FirebaseAuth.instance.signOut();

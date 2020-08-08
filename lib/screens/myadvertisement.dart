@@ -659,7 +659,9 @@ class _MyAdvertisementState extends State<MyAdvertisement> {
                                   height: _minimumPadding,
                                   width: _minimumPadding,
                                 ),
-                                Text(
+                                cname == null
+                               ? Text("اسم غير معلوم")
+                               : Text(
                                   "$cname",
                                   textDirection: TextDirection.rtl,
                                   textAlign: TextAlign.right,
