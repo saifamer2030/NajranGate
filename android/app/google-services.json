@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "381457442905",
+    "firebase_url": "https://souqnagran-49abe.firebaseio.com",
+    "project_id": "souqnagran-49abe",
+    "storage_bucket": "souqnagran-49abe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:381457442905:android:706c6015b60604ad192948",
+        "android_client_info": {
+          "package_name": "com.arabdevelopers.souqnagran"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "381457442905-64aqhn2ibuugmhrj58q1dkqi37dpbgg5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.arabdevelopers.souqnagran",
+            "certificate_hash": "24778533f3cda8798b50c9c50a86060de5315f49"
+          }
+        },
+        {
+          "client_id": "381457442905-6p8argqoqre1066kan1h05jvn10sch3j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhsnTx047M9KtyTQ6I5QcXians4LDDK6E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "381457442905-6p8argqoqre1066kan1h05jvn10sch3j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
