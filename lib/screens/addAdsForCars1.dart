@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
+
 //import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:souqnagran/classes/DepartmentClass.dart';
 import 'package:souqnagran/screens/alladvertsments.dart';
@@ -70,7 +71,7 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
   String url1;
   String imagepathes = '';
   final advdatabaseReference =
-  FirebaseDatabase.instance.reference().child("advdata");
+      FirebaseDatabase.instance.reference().child("advdata");
 
   double _value = 0.0;
   TextEditingController _titleController = TextEditingController();
@@ -82,7 +83,6 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
   List<Asset> images = List<Asset>();
   String _error = 'No Error Dectected';
 
-
   String _path;
   Map<String, String> _paths;
   String _extension;
@@ -90,6 +90,7 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
   bool _multiPick = true;
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   List<StorageUploadTask> _tasks = <StorageUploadTask>[];
+
   void _setvalue(double value) => setState(() => _value = value);
 
   Future onSelectNotification(String payload) async {
@@ -112,38 +113,38 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
   @override
   void initState() {
     super.initState();
-    _pickType=FileType.image;
+    _pickType = FileType.image;
     _departcurrentItemSelected =
         widget.department; //widget.departlist[widget.index];
     _regioncurrentItemSelected = widget.regionlist[0];
     FirebaseAuth.instance.currentUser().then((user) => user == null
         ? null
         : setState(() {
-      _userId = user.uid;
-      final userdatabaseReference =
-      FirebaseDatabase.instance.reference().child("userdata");
+            _userId = user.uid;
+            final userdatabaseReference =
+                FirebaseDatabase.instance.reference().child("userdata");
 
-      //////////////////////////
-      userdatabaseReference
-          .child(_userId)
-          .child("cName")
-          .once()
-          .then((DataSnapshot snapshot5) {
-        setState(() {
-          if (snapshot5.value != null) {
-            setState(() {
-              _cName = snapshot5.value;
+            //////////////////////////
+            userdatabaseReference
+                .child(_userId)
+                .child("cName")
+                .once()
+                .then((DataSnapshot snapshot5) {
+              setState(() {
+                if (snapshot5.value != null) {
+                  setState(() {
+                    _cName = snapshot5.value;
+                  });
+                } else {
+                  setState(() {
+                    _cName = "اسم غير معلوم";
+                  });
+                }
+              });
             });
-          } else {
-            setState(() {
-              _cName = "اسم غير معلوم";
-            });
-          }
-        });
-      });
 
-      ////////////////////////
-    }));
+            ////////////////////////
+          }));
 
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     var android = AndroidInitializationSettings('@drawable/ic_lancher');
@@ -157,15 +158,15 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
 
   void openFileExplorer() async {
     try {
-     // _path = null;
+      // _path = null;
       //if (_multiPick) {
-        print("hhhhhh1");
+      print("hhhhhh1");
 
-        _paths = await FilePicker.getMultiFilePath(
-            type: _pickType,
-         // allowedExtensions: ['jpg', 'png', 'jpeg'],
-        );
-        print("hhhhhh2");
+      _paths = await FilePicker.getMultiFilePath(
+        type: _pickType,
+        // allowedExtensions: ['jpg', 'png', 'jpeg'],
+      );
+      print("hhhhhh2");
 
 //      } else {
 //        _path = await FilePicker.getFilePath(
@@ -173,7 +174,7 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
 //            //allowedExtensions: [_extension]
 //        );
 //      }
-     // uploadToFirebase();
+      // uploadToFirebase();
     } on PlatformException catch (e) {
       print("hhhhhh" + e.toString());
     }
@@ -183,13 +184,14 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
   uploadToFirebase() {
     if (_multiPick) {
       _paths.forEach((fileName, filePath) => {upload(fileName, filePath)});
-    //  createRecord();
+      //  createRecord();
     } else {
       String fileName = _path.split('/').last;
       String filePath = _path;
       upload(fileName, filePath);
     }
   }
+
 //  final StorageUploadTask uploadTask =
 //  storageRef.child('$now.jpg').putFile(file);
 //  var Imageurl = await (await uploadTask.onComplete).ref.getDownloadURL();
@@ -205,7 +207,7 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
   upload(fileName, filePath) {
     _extension = fileName.toString().split('.').last;
     StorageReference storageRef =
-    FirebaseStorage.instance.ref().child(fileName);
+        FirebaseStorage.instance.ref().child(fileName);
     final StorageUploadTask uploadTask = storageRef.putFile(
       File(filePath),
       StorageMetadata(
@@ -214,13 +216,14 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
     );
     setState(() async {
       _tasks.add(uploadTask);
-       var Imageurl = await (await uploadTask.onComplete).ref.getDownloadURL();
-  url1 = Imageurl.toString();
-  urlList.add(url1);
+      var Imageurl = await (await uploadTask.onComplete).ref.getDownloadURL();
+      url1 = Imageurl.toString();
+      urlList.add(url1);
 
-   //   final String url = await uploadTask.lastSnapshot.ref.getDownloadURL();
+      //   final String url = await uploadTask.lastSnapshot.ref.getDownloadURL();
     });
   }
+
   Future<void> loadAssets() async {
     List<Asset> resultList = List<Asset>();
     String error = 'No Error Dectected';
@@ -228,7 +231,7 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
     try {
       resultList = await MultiImagePicker.pickImages(
         maxImages: 7,
-        enableCamera: true,
+        enableCamera: false,
         selectedAssets: images,
         cupertinoOptions: CupertinoOptions(takePhotoIcon: "اعلان"),
         materialOptions: MaterialOptions(
@@ -242,7 +245,7 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
       );
     } on Exception catch (e) {
       error = e.toString();
-     // print("hhh$e");
+      // print("hhh$e");
     }
 
     // If the widget was removed from the tree while the asynchronous platform
@@ -253,14 +256,15 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
     setState(() {
       images = resultList;
       _error = error;
-      picno=images.length;
+      picno = images.length;
 
-  //    print("hhhh$images");
+      //    print("hhhh$images");
     });
   }
+
   showNotification(date1, title, _userId, head, name) async {
     DateTime scheduledNotificationDateTime =
-    DateTime.parse('$date1').add(new Duration(days: 13));
+        DateTime.parse('$date1').add(new Duration(days: 13));
 //    DateTime scheduledNotificationDateTime = DateTime.now();
 
 //    DateTime scheduledNotificationDateTime = new DateTime(
@@ -294,19 +298,20 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
         scheduledNotificationDateTime,
         platformChannelSpecifics,
         payload: ""
-      //  "$_userId,$head,$_cName"
-    );
+        //  "$_userId,$head,$_cName"
+        );
   }
+
   bool _isCheckedPrice = false;
+
   @override
   Widget build(BuildContext context) {
-
     Widget loadingIndicator = _load2
         ? new Container(
-      child: SpinKitCircle(
-        color: const Color(0xff171732),
-      ),
-    )
+            child: SpinKitCircle(
+              color: const Color(0xff171732),
+            ),
+          )
         : new Container();
 
     return Scaffold(
@@ -325,8 +330,8 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
                 Transform.translate(
                   offset: Offset(0.0, -42.0),
                   child:
-                  // Adobe XD layer: 'logoBox' (shape)
-                  Center(
+                      // Adobe XD layer: 'logoBox' (shape)
+                      Center(
                     child: Container(
                       width: 166.0,
                       height: 60.0,
@@ -369,28 +374,28 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
                           InkWell(
                             onTap: () {
                               //openFileExplorer();
-                             loadAssets();
-                           /**   if (picno == 0) {
-                                getImage1();
-                              } else if (picno == 1) {
-                                getImage2();
-                              } else if (picno == 2) {
-                                getImage3();
-                              } else if (picno == 3) {
-                                getImage4();
-                              } else if (picno == 4) {
-                                getImage5();
-                              } else if (picno == 5) {
-                                getImage6();
-                              } else if (picno == 6) {
-                                getImage7();
-                              } else {
-                                Toast.show(
-                                    'نحتاج سبعة صور فقط حق إعلانك طال عمرك',
-                                    context,
-                                    duration: Toast.LENGTH_SHORT,
-                                    gravity: Toast.BOTTOM);
-                              }**/
+                              loadAssets();
+                              /**   if (picno == 0) {
+                                  getImage1();
+                                  } else if (picno == 1) {
+                                  getImage2();
+                                  } else if (picno == 2) {
+                                  getImage3();
+                                  } else if (picno == 3) {
+                                  getImage4();
+                                  } else if (picno == 4) {
+                                  getImage5();
+                                  } else if (picno == 5) {
+                                  getImage6();
+                                  } else if (picno == 6) {
+                                  getImage7();
+                                  } else {
+                                  Toast.show(
+                                  'نحتاج سبعة صور فقط حق إعلانك طال عمرك',
+                                  context,
+                                  duration: Toast.LENGTH_SHORT,
+                                  gravity: Toast.BOTTOM);
+                                  }**/
                             },
                             child: Center(
                               child: Container(
@@ -416,7 +421,7 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
                                       ),
                                       Padding(
                                         padding:
-                                        const EdgeInsets.only(top: 10.0),
+                                            const EdgeInsets.only(top: 10.0),
                                         child: Icon(
                                           Icons.add_circle,
                                           color: Colors.grey,
@@ -427,25 +432,25 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
                                             top: 10.0, left: 160.0),
                                         child: (picno > 0)
                                             ? Container(
-                                          width: 30,
-                                          height: 30,
-                                          decoration: new BoxDecoration(
-                                              color: Colors.green,
-                                              shape: BoxShape.circle),
-                                          child: Center(
-                                            child: Text(
-                                              "$picno",
-                                              textDirection:
-                                              TextDirection.rtl,
-                                              style: TextStyle(
-                                                  color: const Color(
-                                                      0xff171732),
-                                                  fontSize: 15,
-                                                  fontWeight:
-                                                  FontWeight.bold),
-                                            ),
-                                          ),
-                                        )
+                                                width: 30,
+                                                height: 30,
+                                                decoration: new BoxDecoration(
+                                                    color: Colors.green,
+                                                    shape: BoxShape.circle),
+                                                child: Center(
+                                                  child: Text(
+                                                    "$picno",
+                                                    textDirection:
+                                                        TextDirection.rtl,
+                                                    style: TextStyle(
+                                                        color: const Color(
+                                                            0xff171732),
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ),
+                                              )
                                             : null,
                                       ),
                                     ],
@@ -524,7 +529,7 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
                               children: <Widget>[
                                 Padding(
                                   padding:
-                                  const EdgeInsets.only(right: 1, left: 1),
+                                      const EdgeInsets.only(right: 1, left: 1),
                                   child: Text(
                                     "الحي",
                                     style: TextStyle(
@@ -558,26 +563,26 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
                                 ),
                                 child: DropdownButtonHideUnderline(
                                     child: ButtonTheme(
-                                      alignedDropdown: true,
-                                      child: DropdownButton<String>(
-                                        items:
+                                  alignedDropdown: true,
+                                  child: DropdownButton<String>(
+                                    items:
                                         widget.regionlist.map((String value) {
-                                          return new DropdownMenuItem<String>(
-                                            value: value,
-                                            child: new Text(value),
-                                          );
-                                        }).toList(),
-                                        value: _regioncurrentItemSelected,
-                                        onChanged: (String newValueSelected) {
-                                          // Your code to execute, when a menu item is selected from dropdown
-                                          _onDropDownItemSelectedreg(
-                                              newValueSelected);
-                                        },
-                                        style: new TextStyle(
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                    )),
+                                      return new DropdownMenuItem<String>(
+                                        value: value,
+                                        child: new Text(value),
+                                      );
+                                    }).toList(),
+                                    value: _regioncurrentItemSelected,
+                                    onChanged: (String newValueSelected) {
+                                      // Your code to execute, when a menu item is selected from dropdown
+                                      _onDropDownItemSelectedreg(
+                                          newValueSelected);
+                                    },
+                                    style: new TextStyle(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                )),
                               ),
                             ),
                           ),
@@ -588,7 +593,7 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
                               children: <Widget>[
                                 Padding(
                                   padding:
-                                  const EdgeInsets.only(right: 1, left: 1),
+                                      const EdgeInsets.only(right: 1, left: 1),
                                   child: Text(
                                     "القسم",
                                     style: TextStyle(
@@ -617,13 +622,20 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
                                 color: Colors.grey,
                                 child: InkWell(
                                   onTap: () {
-                                    setState(() {
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) => MyForm3(
-                                              widget.department,
-                                              onSubmit3: onSubmit3));
-                                    });
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => MyForm3(
+                                                widget.department,
+                                                onSubmit3: onSubmit3)));
+
+//                                    setState(() {
+//                                      showDialog(
+//                                          context: context,
+//                                          builder: (context) => MyForm3(
+//                                              widget.department,
+//                                              onSubmit3: onSubmit3));
+//                                    });
 //showBottomSheet();
                                   },
                                   child: Card(
@@ -661,26 +673,26 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
                                     ),
                                     child: DropdownButtonHideUnderline(
                                         child: ButtonTheme(
-                                          alignedDropdown: true,
-                                          child: DropdownButton<String>(
-                                            items: widget.departlist
-                                                .map((String value) {
-                                              return new DropdownMenuItem<String>(
-                                                value: value,
-                                                child: new Text(value),
-                                              );
-                                            }).toList(),
-                                            value: _departcurrentItemSelected,
-                                            onChanged: (String newValueSelected) {
-                                              // Your code to execute, when a menu item is selected from dropdown
-                                              _onDropDownItemSelecteddep(
-                                                  newValueSelected);
-                                            },
-                                            style: new TextStyle(
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        )),
+                                      alignedDropdown: true,
+                                      child: DropdownButton<String>(
+                                        items: widget.departlist
+                                            .map((String value) {
+                                          return new DropdownMenuItem<String>(
+                                            value: value,
+                                            child: new Text(value),
+                                          );
+                                        }).toList(),
+                                        value: _departcurrentItemSelected,
+                                        onChanged: (String newValueSelected) {
+                                          // Your code to execute, when a menu item is selected from dropdown
+                                          _onDropDownItemSelecteddep(
+                                              newValueSelected);
+                                        },
+                                        style: new TextStyle(
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    )),
                                   ),
                                 ),
                               ),
@@ -693,7 +705,7 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
                               children: <Widget>[
                                 Padding(
                                   padding:
-                                  const EdgeInsets.only(right: 1, left: 1),
+                                      const EdgeInsets.only(right: 1, left: 1),
                                   child: Text(
                                     "وسيلة الاتصال",
                                     style: TextStyle(
@@ -751,499 +763,502 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
                           ),
                           widget.department == "السيارات"
                               ? Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      right: 10, left: 10),
-                                  child: Text(
-                                    "نوع الاعلان؟",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            right: 10, left: 10),
+                                        child: Text(
+                                          "نوع الاعلان؟",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18,
 //                                            fontFamily: 'Estedad-Black',
-                                    ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ],
-                            ),
-                          )
+                                )
                               : Container(),
                           widget.department == "السيارات"
                               ? Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              ListTile(
-                                title: const Text(
-                                  'بيع',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: <Widget>[
+                                    ListTile(
+                                      title: const Text(
+                                        'بيع',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
 //                                          fontFamily: 'Estedad-Black',
-                                  ),
-                                  textAlign: TextAlign.right,
-                                ),
-                                trailing: Radio(
-                                  value: SingingCharacter1.sale,
-                                  groupValue: _character1,
-                                  onChanged: (SingingCharacter1 value) {
-                                    setState(() {
-                                      _character1 = value;
-                                    });
-                                  },
-                                ),
-                              ),
-                              ListTile(
-                                title: const Text(
-                                  'تنازل',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
+                                        ),
+                                        textAlign: TextAlign.right,
+                                      ),
+                                      trailing: Radio(
+                                        value: SingingCharacter1.sale,
+                                        groupValue: _character1,
+                                        onChanged: (SingingCharacter1 value) {
+                                          setState(() {
+                                            _character1 = value;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                    ListTile(
+                                      title: const Text(
+                                        'تنازل',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
 //                                          fontFamily: 'Estedad-Black',
-                                  ),
-                                  textAlign: TextAlign.right,
-                                ),
-                                trailing: Radio(
-                                  value: SingingCharacter1.give,
-                                  groupValue: _character1,
-                                  onChanged: (SingingCharacter1 value) {
-                                    setState(() {
-                                      _character1 = value;
-                                    });
-                                  },
-                                ),
-                              ),
-                            ],
-                          )
+                                        ),
+                                        textAlign: TextAlign.right,
+                                      ),
+                                      trailing: Radio(
+                                        value: SingingCharacter1.give,
+                                        groupValue: _character1,
+                                        onChanged: (SingingCharacter1 value) {
+                                          setState(() {
+                                            _character1 = value;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                )
                               : Container(),
                           widget.department == "السيارات"
                               ? Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      right: 10, left: 10),
-                                  child: Text(
-                                    "نوع القير؟",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            right: 10, left: 10),
+                                        child: Text(
+                                          "نوع القير؟",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18,
 //                                            fontFamily: 'Estedad-Black',
-                                    ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ],
-                            ),
-                          )
+                                )
                               : Container(),
                           widget.department == "السيارات"
                               ? Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              ListTile(
-                                title: const Text(
-                                  'عادي',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: <Widget>[
+                                    ListTile(
+                                      title: const Text(
+                                        'عادي',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
 //                                          fontFamily: 'Estedad-Black',
-                                  ),
-                                  textAlign: TextAlign.right,
-                                ),
-                                trailing: Radio(
-                                  value: SingingCharacter2.manul,
-                                  groupValue: _character2,
-                                  onChanged: (SingingCharacter2 value) {
-                                    setState(() {
-                                      _character2 = value;
-                                    });
-                                  },
-                                ),
-                              ),
-                              ListTile(
-                                title: const Text(
-                                  'اتوماتيك',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
+                                        ),
+                                        textAlign: TextAlign.right,
+                                      ),
+                                      trailing: Radio(
+                                        value: SingingCharacter2.manul,
+                                        groupValue: _character2,
+                                        onChanged: (SingingCharacter2 value) {
+                                          setState(() {
+                                            _character2 = value;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                    ListTile(
+                                      title: const Text(
+                                        'اتوماتيك',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
 //                                          fontFamily: 'Estedad-Black',
-                                  ),
-                                  textAlign: TextAlign.right,
-                                ),
-                                trailing: Radio(
-                                  value: SingingCharacter2.outo,
-                                  groupValue: _character2,
-                                  onChanged: (SingingCharacter2 value) {
-                                    setState(() {
-                                      _character2 = value;
-                                    });
-                                  },
-                                ),
-                              ),
-                            ],
-                          )
+                                        ),
+                                        textAlign: TextAlign.right,
+                                      ),
+                                      trailing: Radio(
+                                        value: SingingCharacter2.outo,
+                                        groupValue: _character2,
+                                        onChanged: (SingingCharacter2 value) {
+                                          setState(() {
+                                            _character2 = value;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                )
                               : Container(),
                           widget.department == "السيارات"
                               ? Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      right: 10, left: 10),
-                                  child: Text(
-                                    "نوع الوقود؟",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            right: 10, left: 10),
+                                        child: Text(
+                                          "نوع الوقود؟",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18,
 //                                            fontFamily: 'Estedad-Black',
-                                    ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ],
-                            ),
-                          )
+                                )
                               : Container(),
                           widget.department == "السيارات"
                               ? Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              ListTile(
-                                title: const Text(
-                                  'بنزين',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: <Widget>[
+                                    ListTile(
+                                      title: const Text(
+                                        'بنزين',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
 //                                          fontFamily: 'Estedad-Black',
-                                  ),
-                                  textAlign: TextAlign.right,
-                                ),
-                                trailing: Radio(
-                                  value: SingingCharacter3.oil,
-                                  groupValue: _character3,
-                                  onChanged: (SingingCharacter3 value) {
-                                    setState(() {
-                                      _character3 = value;
-                                    });
-                                  },
-                                ),
-                              ),
-                              ListTile(
-                                title: const Text(
-                                  'هايبرد-هجين',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
+                                        ),
+                                        textAlign: TextAlign.right,
+                                      ),
+                                      trailing: Radio(
+                                        value: SingingCharacter3.oil,
+                                        groupValue: _character3,
+                                        onChanged: (SingingCharacter3 value) {
+                                          setState(() {
+                                            _character3 = value;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                    ListTile(
+                                      title: const Text(
+                                        'هايبرد-هجين',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
 //                                          fontFamily: 'Estedad-Black',
-                                  ),
-                                  textAlign: TextAlign.right,
-                                ),
-                                trailing: Radio(
-                                  value: SingingCharacter3.haiprd,
-                                  groupValue: _character3,
-                                  onChanged: (SingingCharacter3 value) {
-                                    setState(() {
-                                      _character3 = value;
-                                    });
-                                  },
-                                ),
-                              ),
-                              ListTile(
-                                title: const Text(
-                                  'ديزل',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
+                                        ),
+                                        textAlign: TextAlign.right,
+                                      ),
+                                      trailing: Radio(
+                                        value: SingingCharacter3.haiprd,
+                                        groupValue: _character3,
+                                        onChanged: (SingingCharacter3 value) {
+                                          setState(() {
+                                            _character3 = value;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                    ListTile(
+                                      title: const Text(
+                                        'ديزل',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
 //                                          fontFamily: 'Estedad-Black',
-                                  ),
-                                  textAlign: TextAlign.right,
-                                ),
-                                trailing: Radio(
-                                  value: SingingCharacter3.solar,
-                                  groupValue: _character3,
-                                  onChanged: (SingingCharacter3 value) {
-                                    setState(() {
-                                      _character3 = value;
-                                    });
-                                  },
-                                ),
-                              ),
-                            ],
-                          )
+                                        ),
+                                        textAlign: TextAlign.right,
+                                      ),
+                                      trailing: Radio(
+                                        value: SingingCharacter3.solar,
+                                        groupValue: _character3,
+                                        onChanged: (SingingCharacter3 value) {
+                                          setState(() {
+                                            _character3 = value;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                )
                               : Container(),
                           widget.department == "السيارات"
                               ? Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      right: 10, left: 10),
-                                  child: Text(
-                                    "حالة السيارة؟",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            right: 10, left: 10),
+                                        child: Text(
+                                          "حالة السيارة؟",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18,
 //                                            fontFamily: 'Estedad-Black',
-                                    ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ],
-                            ),
-                          )
+                                )
                               : Container(),
                           widget.department == "السيارات"
                               ? Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              ListTile(
-                                title: const Text(
-                                  'مستعملة',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: <Widget>[
+                                    ListTile(
+                                      title: const Text(
+                                        'مستعملة',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
 //                                          fontFamily: 'Estedad-Black',
-                                  ),
-                                  textAlign: TextAlign.right,
-                                ),
-                                trailing: Radio(
-                                  value: SingingCharacter4.used,
-                                  groupValue: _character4,
-                                  onChanged: (SingingCharacter4 value) {
-                                    setState(() {
-                                      _character4 = value;
-                                    });
-                                  },
-                                ),
-                              ),
-                              ListTile(
-                                title: const Text(
-                                  'جديدة وكالة',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
+                                        ),
+                                        textAlign: TextAlign.right,
+                                      ),
+                                      trailing: Radio(
+                                        value: SingingCharacter4.used,
+                                        groupValue: _character4,
+                                        onChanged: (SingingCharacter4 value) {
+                                          setState(() {
+                                            _character4 = value;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                    ListTile(
+                                      title: const Text(
+                                        'جديدة وكالة',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
 //                                          fontFamily: 'Estedad-Black',
-                                  ),
-                                  textAlign: TextAlign.right,
-                                ),
-                                trailing: Radio(
-                                  value: SingingCharacter4.New,
-                                  groupValue: _character4,
-                                  onChanged: (SingingCharacter4 value) {
-                                    setState(() {
-                                      _character4 = value;
-                                    });
-                                  },
-                                ),
-                              ),
-                              ListTile(
-                                title: const Text(
-                                  'مصدومة',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
+                                        ),
+                                        textAlign: TextAlign.right,
+                                      ),
+                                      trailing: Radio(
+                                        value: SingingCharacter4.New,
+                                        groupValue: _character4,
+                                        onChanged: (SingingCharacter4 value) {
+                                          setState(() {
+                                            _character4 = value;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                    ListTile(
+                                      title: const Text(
+                                        'مصدومة',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
 //                                          fontFamily: 'Estedad-Black',
-                                  ),
-                                  textAlign: TextAlign.right,
-                                ),
-                                trailing: Radio(
-                                  value: SingingCharacter4.crashed,
-                                  groupValue: _character4,
-                                  onChanged: (SingingCharacter4 value) {
-                                    setState(() {
-                                      _character4 = value;
-                                    });
-                                  },
-                                ),
-                              ),
-                            ],
-                          )
+                                        ),
+                                        textAlign: TextAlign.right,
+                                      ),
+                                      trailing: Radio(
+                                        value: SingingCharacter4.crashed,
+                                        groupValue: _character4,
+                                        onChanged: (SingingCharacter4 value) {
+                                          setState(() {
+                                            _character4 = value;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                )
                               : Container(),
                           widget.department == "السيارات"
                               ? Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      right: 10, left: 10),
-                                  child: Text(
-                                    "الدبل؟",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            right: 10, left: 10),
+                                        child: Text(
+                                          "الدبل؟",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18,
 //                                            fontFamily: 'Estedad-Black',
-                                    ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ],
-                            ),
-                          )
+                                )
                               : Container(),
                           widget.department == "السيارات"
                               ? Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              ListTile(
-                                title: const Text(
-                                  'نعم',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: <Widget>[
+                                    ListTile(
+                                      title: const Text(
+                                        'نعم',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
 //                                          fontFamily: 'Estedad-Black',
-                                  ),
-                                  textAlign: TextAlign.right,
-                                ),
-                                trailing: Radio(
-                                  value: SingingCharacter5.yes,
-                                  groupValue: _character5,
-                                  onChanged: (SingingCharacter5 value) {
-                                    setState(() {
-                                      _character5 = value;
-                                    });
-                                  },
-                                ),
-                              ),
-                              ListTile(
-                                title: const Text(
-                                  'لا',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
+                                        ),
+                                        textAlign: TextAlign.right,
+                                      ),
+                                      trailing: Radio(
+                                        value: SingingCharacter5.yes,
+                                        groupValue: _character5,
+                                        onChanged: (SingingCharacter5 value) {
+                                          setState(() {
+                                            _character5 = value;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                    ListTile(
+                                      title: const Text(
+                                        'لا',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
 //                                          fontFamily: 'Estedad-Black',
-                                  ),
-                                  textAlign: TextAlign.right,
-                                ),
-                                trailing: Radio(
-                                  value: SingingCharacter5.no,
-                                  groupValue: _character5,
-                                  onChanged: (SingingCharacter5 value) {
-                                    setState(() {
-                                      _character5 = value;
-                                    });
-                                  },
-                                ),
-                              ),
-                            ],
-                          )
+                                        ),
+                                        textAlign: TextAlign.right,
+                                      ),
+                                      trailing: Radio(
+                                        value: SingingCharacter5.no,
+                                        groupValue: _character5,
+                                        onChanged: (SingingCharacter5 value) {
+                                          setState(() {
+                                            _character5 = value;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                )
                               : Container(),
                           widget.department == "السيارات"
                               ? Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      right: 10, left: 10),
-                                  child: Text(
-                                    "العداد:  ${(_value * 500000).round()}   الف كم",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            right: 10, left: 10),
+                                        child: Text(
+                                          "العداد:  ${(_value * 500000).round()}   الف كم",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18,
 //                                            fontFamily: 'Estedad-Black',
-                                    ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ],
-                            ),
-                          )
+                                )
                               : Container(),
                           widget.department == "السيارات"
                               ? Row(
-                            textDirection: TextDirection.rtl,
-                            children: <Widget>[
-                              Expanded(
-                                  child: new Slider(
-                                      value: _value,
-                                      onChanged: _setvalue)),
-                              Text(
-                                ' كم${(_value * 500000).round()} ',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
+                                  textDirection: TextDirection.rtl,
+                                  children: <Widget>[
+                                    Expanded(
+                                        child: new Slider(
+                                            value: _value,
+                                            onChanged: _setvalue)),
+                                    Text(
+                                      ' كم${(_value * 500000).round()} ',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
 //                                        fontFamily: 'Estedad-Black',
-                                ),
-                              ),
-                            ],
-                          )
+                                      ),
+                                    ),
+                                  ],
+                                )
                               : Container(),
                           !_isCheckedPrice
-                              ?Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      right: 10, left: 10),
-                                  child: Text(
-                                    "حدد السعر",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
+                              ? Padding(
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            right: 10, left: 10),
+                                        child: Text(
+                                          "حدد السعر",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18,
 //                                      fontFamily: 'Estedad-Black',
-                                    ),
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            right: 10, left: 10),
+                                        child: Icon(
+                                          Icons.monetization_on,
+                                          color: const Color(0xff171732),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      right: 10, left: 10),
-                                  child: Icon(
-                                    Icons.monetization_on,
-                                    color: const Color(0xff171732),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                              :Container(),
+                                )
+                              : Container(),
                           !_isCheckedPrice
-                              ?Container(
-                            height: 80,
-                            child: Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Card(
-                                elevation: 0.0,
-                                color: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: Directionality(
-                                  textDirection: TextDirection.rtl,
-                                  child: TextFormField(
-                                    textAlign: TextAlign.right,
-                                    keyboardType: TextInputType.multiline,
-                                    textDirection: TextDirection.rtl,
-                                    controller: _priceController,
+                              ? Container(
+                                  height: 80,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Card(
+                                      elevation: 0.0,
+                                      color: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      child: Directionality(
+                                        textDirection: TextDirection.rtl,
+                                        child: TextFormField(
+                                          textAlign: TextAlign.right,
+                                          keyboardType: TextInputType.multiline,
+                                          textDirection: TextDirection.rtl,
+                                          controller: _priceController,
 //                                    validator: (String value) {
 ////                                      if ((value.isEmpty)) {
 ////                                        return "اكتب السعر حق إعلانك طال عمرك";
 ////                                      }
 ////                                    },
-                                    decoration: InputDecoration(
-                                        errorStyle: TextStyle(
-                                            color: Colors.red, fontSize: 15.0),
-                                        labelText: "ادخل السعر....",
-                                        hintText: "ادخل السعر....",
-                                        border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(5.0)))),
+                                          decoration: InputDecoration(
+                                              errorStyle: TextStyle(
+                                                  color: Colors.red,
+                                                  fontSize: 15.0),
+                                              labelText: "ادخل السعر....",
+                                              hintText: "ادخل السعر....",
+                                              border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(
+                                                              5.0)))),
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                            ),
-                          )
-                              :Container(),
+                                )
+                              : Container(),
                           Padding(
-                            padding: const EdgeInsets.only(top: 2,bottom: 20),
+                            padding: const EdgeInsets.only(top: 2, bottom: 20),
                             child: Container(
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
@@ -1316,8 +1331,8 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
                                     maxLines: 2,
                                     decoration: InputDecoration(
                                         contentPadding:
-                                        new EdgeInsets.symmetric(
-                                            vertical: 100.0),
+                                            new EdgeInsets.symmetric(
+                                                vertical: 100.0),
                                         errorStyle: TextStyle(
                                             color: Colors.red, fontSize: 15.0),
                                         labelText: "ادخل نص الاعلان....",
@@ -1358,13 +1373,13 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
                               color: const Color(0xff171732),
                               onPressed: () async {
                                 if (_formKey.currentState.validate()) {
-                                  if (//sampleImage1 != null &&
+                                  if ( images.length != 0 &&
                                       (dep1 != null || dep1 != "") &&
-                                      (dep2 != null || dep2 != "")) {
+                                          (dep2 != null || dep2 != "")) {
                                     try {
                                       final result =
-                                      await InternetAddress.lookup(
-                                          'google.com');
+                                          await InternetAddress.lookup(
+                                              'google.com');
                                       if (result.isNotEmpty &&
                                           result[0].rawAddress.isNotEmpty) {
                                         uploadpp0();
@@ -1392,7 +1407,7 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
                               },
                               shape: new RoundedRectangleBorder(
                                   borderRadius:
-                                  new BorderRadius.circular(10.0)),
+                                      new BorderRadius.circular(10.0)),
                             ),
                           ),
                         ],
@@ -1589,21 +1604,22 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
 //      // Toast.show(sampleImage1.toString(),context,duration: Toast.LENGTH_SHORT,gravity:  Toast.BOTTOM);
 //    });
 //  }
-   uploadpp0()  {
-   // String url1;
+  uploadpp0() {
+    // String url1;
     final StorageReference storageRef =
-    FirebaseStorage.instance.ref().child('myimage');
-int i=0;
+        FirebaseStorage.instance.ref().child('myimage');
+    int i = 0;
     images.forEach((f) async {
-      var byteData= await f.getByteData(quality: 50);
+      var byteData = await f.getByteData(quality: 50);
 //      final String path1 = await getApplicationDocumentsDirectory().path;
 //      var file=await getImageFileFromAssets(path);
-     // final byteData = await rootBundle.load('$f');
+      // final byteData = await rootBundle.load('$f');
       DateTime now = DateTime.now();
       final file = File('${(await getTemporaryDirectory()).path}/$f');
-      await file.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+      await file.writeAsBytes(byteData.buffer
+          .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
       final StorageUploadTask uploadTask =
-      storageRef.child('$now.jpg').putFile(file);
+          storageRef.child('$now.jpg').putFile(file);
       var Imageurl = await (await uploadTask.onComplete).ref.getDownloadURL();
 
       Toast.show("تم تحميل صورة طال عمرك", context,
@@ -1611,16 +1627,16 @@ int i=0;
       setState(() {
         url1 = Imageurl.toString();
         urlList.add(url1);
-      //  print('URL Is${images.length} ///$url1///$urlList');
+        //  print('URL Is${images.length} ///$url1///$urlList');
         i++;
 
-       // _load2 = false;
+        // _load2 = false;
       });
-if(i==images.length){
- // print('gggg${images.length} ///$i');
+      if (i == images.length) {
+        // print('gggg${images.length} ///$i');
 
-  createRecord(urlList);}
-
+        createRecord(urlList);
+      }
     });
 
     setState(() {
@@ -1634,8 +1650,8 @@ if(i==images.length){
 //    } else if (picno == 1) {
 //      createRecord(url1);
 //    }
-
   }
+
 //
 //  Future uploadpp1() async {
 //    // Toast.show("22222",context,duration: Toast.LENGTH_SHORT,gravity:  Toast.BOTTOM);
@@ -1856,107 +1872,107 @@ if(i==images.length){
     FirebaseAuth.instance.currentUser().then((user) => user == null
         ? null
         : setState(() {
-      _userId = user.uid;
-      DateTime now = DateTime.now();
-      String date =
-          '${now.year}-${now.month}-${now.day}-${now.hour}-${now.minute}-00-000';
+            _userId = user.uid;
+            DateTime now = DateTime.now();
+            String date =
+                '${now.year}-${now.month}-${now.day}-${now.hour}-${now.minute}-00-000';
 
-      String b = now.month.toString();
-      if (b.length < 2) {
-        b = "0" + b;
-      }
-      String c = now.day.toString();
-      if (c.length < 2) {
-        c = "0" + c;
-      }
-      String d = now.hour.toString();
-      if (d.length < 2) {
-        d = "0" + d;
-      }
-      String e = now.minute.toString();
-      if (e.length < 2) {
-        e = "0" + e;
-      }
-      String date1 = '${now.year}-${b}-${c} ${d}:${e}:00';
-      int arrange = int.parse('${now.year}${b}${c}${d}${e}');
+            String b = now.month.toString();
+            if (b.length < 2) {
+              b = "0" + b;
+            }
+            String c = now.day.toString();
+            if (c.length < 2) {
+              c = "0" + c;
+            }
+            String d = now.hour.toString();
+            if (d.length < 2) {
+              d = "0" + d;
+            }
+            String e = now.minute.toString();
+            if (e.length < 2) {
+              e = "0" + e;
+            }
+            String date1 = '${now.year}-${b}-${c} ${d}:${e}:00';
+            int arrange = int.parse('${now.year}${b}${c}${d}${e}');
 
-      advdatabaseReference.child(_userId).child(date).set({
-        'carrange': arrange,
-        'consoome': _isCheckedPrice,
-        'cId': _userId,
-        'cdate': date1,
-        'chead': date,
-        'ctitle': _titleController.text,
-        'cdepart': _departcurrentItemSelected,
-        'cregion': _regioncurrentItemSelected,
-        'cphone': _phoneController.text,
-        'cprice':_isCheckedPrice?"على السوم" :_priceController.text,
-        'cdetail': _detailController.text,
-        'cpublished': false,
-        'curi': urlList[0],
-        'curilist': urlList.toString(),
-        //////////////////////////
-        'cagekm': widget.department == "السيارات"
-            ? '${(_value * 500000).round()}'
-            : "0",
-        'csale': widget.department == "السيارات"
-            ? (_character1.toString().contains("sale") ? "بيع" : "تنازل")
-            : "",
-        'cauto': widget.department == "السيارات"
-            ? _character2.toString().contains("outo")
-            ? "أتوماتيك"
-            : "عادى"
-            : "",
-        'coil': widget.department == "السيارات"
-            ? _character3.toString().contains("oil")
-            ? "بنزين"
-            : _character3.toString().contains("solar")
-            ? "ديزل"
-            : "هايبرد-هجين"
-            : "",
-        'cNew': widget.department == "السيارات"
-            ? _character4.toString().contains("used")
-            ? "مستعملة"
-            : _character4.toString().contains("New")
-            ? "جديدة وكالة"
-            : "مصدومة"
-            : "",
-        'cno': widget.department == "السيارات"
-            ? _character5.toString().contains("yes") ? "نعم" : "لا"
-            : "",
-        'cdep11': dep1,
-        'cdep22': dep2,
-      }).whenComplete(() {
-        //   Toast.show("تم إرسال طلبك للمراجعه بنجاح",context,duration: Toast.LENGTH_LONG,gravity:  Toast.BOTTOM);
+            advdatabaseReference.child(_userId).child(date).set({
+              'carrange': arrange,
+              'consoome': _isCheckedPrice,
+              'cId': _userId,
+              'cdate': date1,
+              'chead': date,
+              'ctitle': _titleController.text,
+              'cdepart': _departcurrentItemSelected,
+              'cregion': _regioncurrentItemSelected,
+              'cphone': _phoneController.text,
+              'cprice': _isCheckedPrice ? "على السوم" : _priceController.text,
+              'cdetail': _detailController.text,
+              'cpublished': false,
+              'curi': urlList[0],
+              'curilist': urlList.toString(),
+              //////////////////////////
+              'cagekm': widget.department == "السيارات"
+                  ? '${(_value * 500000).round()}'
+                  : "0",
+              'csale': widget.department == "السيارات"
+                  ? (_character1.toString().contains("sale") ? "بيع" : "تنازل")
+                  : "",
+              'cauto': widget.department == "السيارات"
+                  ? _character2.toString().contains("outo")
+                      ? "أتوماتيك"
+                      : "عادى"
+                  : "",
+              'coil': widget.department == "السيارات"
+                  ? _character3.toString().contains("oil")
+                      ? "بنزين"
+                      : _character3.toString().contains("solar")
+                          ? "ديزل"
+                          : "هايبرد-هجين"
+                  : "",
+              'cNew': widget.department == "السيارات"
+                  ? _character4.toString().contains("used")
+                      ? "مستعملة"
+                      : _character4.toString().contains("New")
+                          ? "جديدة وكالة"
+                          : "مصدومة"
+                  : "",
+              'cno': widget.department == "السيارات"
+                  ? _character5.toString().contains("yes") ? "نعم" : "لا"
+                  : "",
+              'cdep11': dep1,
+              'cdep22': dep2,
+            }).whenComplete(() {
+              //   Toast.show("تم إرسال طلبك للمراجعه بنجاح",context,duration: Toast.LENGTH_LONG,gravity:  Toast.BOTTOM);
 
-        //showInSnackBar("تم إرسال طلبك للمراجعه بنجاح");
-        setState(() {
-          _load2 = false;
-          urlList.clear();
-          _titleController.text = "";
-          _phoneController.text = "";
-          _priceController.text = "";
-          _detailController.text = "";
-          _departcurrentItemSelected = widget.departlist[widget.index];
-          _regioncurrentItemSelected = widget.regionlist[0];
-          _character2 = SingingCharacter2.outo;
-          _character3 = SingingCharacter3.oil;
-          _character4 = SingingCharacter4.New;
-          _character5 = SingingCharacter5.no;
-          _value = 0;
-        });
-        showNotification(
-            date1, _titleController.text, _userId, date, _cName);
+              //showInSnackBar("تم إرسال طلبك للمراجعه بنجاح");
+              setState(() {
+                _load2 = false;
+                urlList.clear();
+                _titleController.text = "";
+                _phoneController.text = "";
+                _priceController.text = "";
+                _detailController.text = "";
+                _departcurrentItemSelected = widget.departlist[widget.index];
+                _regioncurrentItemSelected = widget.regionlist[0];
+                _character2 = SingingCharacter2.outo;
+                _character3 = SingingCharacter3.oil;
+                _character4 = SingingCharacter4.New;
+                _character5 = SingingCharacter5.no;
+                _value = 0;
+              });
+              showNotification(
+                  date1, _titleController.text, _userId, date, _cName);
 
-        showAlertDialog(context);
-      }).catchError((e) {
-        Toast.show(e, context,
-            duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-        setState(() {
-          _load2 = false;
-        });
-      });
-    }));
+              showAlertDialog(context);
+            }).catchError((e) {
+              Toast.show(e, context,
+                  duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+              setState(() {
+                _load2 = false;
+              });
+            });
+          }));
   }
 
   showAlertDialog(BuildContext context) {
@@ -1983,23 +1999,23 @@ if(i==images.length){
     showDialog(
         context: context,
         builder: (BuildContext context) => new CupertinoAlertDialog(
-            title: new Text("تهاننا"),
-            content: new Text("إعلانك موجود الحين ضمن شبكة بوابة نجران"),
-            actions: [
-              CupertinoDialogAction(
-                isDefaultAction: false,
-                child: new FlatButton(
-                  child: Text("تم"),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                FragmentSouq1(widget.regionlist)));
-                  },
-                ),
-              )
-            ]));
+                title: new Text("تهاننا"),
+                content: new Text("إعلانك موجود الحين ضمن شبكة بوابة نجران"),
+                actions: [
+                  CupertinoDialogAction(
+                    isDefaultAction: false,
+                    child: new FlatButton(
+                      child: Text("تم"),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    FragmentSouq1(widget.regionlist)));
+                      },
+                    ),
+                  )
+                ]));
   }
 
   void onSubmit3(String result) {
@@ -2087,7 +2103,10 @@ class _MyForm3State extends State<MyForm3> {
   @override
   Widget build(BuildContext context) {
     Widget cancelButton = FlatButton(
-      child: Text("إلغاء"),
+      child: Text(
+        "إلغاء",
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+      ),
       onPressed: () {
         setState(() {
           Navigator.pop(context);
@@ -2095,7 +2114,10 @@ class _MyForm3State extends State<MyForm3> {
       },
     );
     Widget continueButton = FlatButton(
-      child: Text("حفظ"),
+      child: Text(
+        "حفظ",
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+      ),
       onPressed: () {
         setState(() {
           Navigator.pop(context);
@@ -2104,13 +2126,18 @@ class _MyForm3State extends State<MyForm3> {
         });
       },
     );
-    return AlertDialog(
-      title: Text(
-        widget.dep,
-        style: TextStyle(fontWeight: FontWeight.bold),
-        textDirection: TextDirection.rtl,
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xff171732),
+        centerTitle:true ,
+        title: Text(
+          widget.dep,
+          style: TextStyle(fontWeight: FontWeight.bold),
+          textDirection: TextDirection.rtl,
+        ),
+
       ),
-      content: new ListView.builder(
+      body: new ListView.builder(
         itemCount: departlist1.length,
         itemBuilder: (context, i) {
           return new ExpansionTile(
@@ -2126,56 +2153,59 @@ class _MyForm3State extends State<MyForm3> {
                 // padding: EdgeInsets.all(8.0),
                 children: departlist1[i].subtitle != null
                     ? departlist1[i]
-                    .subtitle
-                    .split(",")
-                    .map((value) => RadioListTile(
-                  groupValue: _currentValue,
-                  title: Text(
-                    value,
-                    textDirection: TextDirection.rtl,
-                  ),
-                  value: value,
-                  onChanged: (val) {
-                    setState(() {
-                      debugPrint('VAL = $val');
-                      _currentValue = val;
-                      _currentValue1 = departlist1[i].title;
-                    });
-                  },
-                ))
-                    .toList()
+                        .subtitle
+                        .split(",")
+                        .map((value) => RadioListTile(
+                              groupValue: _currentValue,
+                              title: Text(
+                                value,
+                                textDirection: TextDirection.rtl,
+                              ),
+                              value: value,
+                              onChanged: (val) {
+                                setState(() {
+                                  debugPrint('VAL = $val');
+                                  _currentValue = val;
+                                  _currentValue1 = departlist1[i].title;
+                                });
+                              },
+                            ))
+                        .toList()
                     : departlist1[i]
-                    .title
-                    .split(",")
-                    .map((value) => RadioListTile(
-                  groupValue: _currentValue,
-                  title: Text(
-                    value,
-                    textDirection: TextDirection.rtl,
-                  ),
-                  value: value,
-                  onChanged: (val) {
-                    setState(() {
-                      debugPrint('VAL = $val');
-                      _currentValue = val;
-                      _currentValue1 = departlist1[i].title;
-                    });
-                  },
-                ))
-                    .toList(),
+                        .title
+                        .split(",")
+                        .map((value) => RadioListTile(
+                              groupValue: _currentValue,
+                              title: Text(
+                                value,
+                                textDirection: TextDirection.rtl,
+                              ),
+                              value: value,
+                              onChanged: (val) {
+                                setState(() {
+                                  debugPrint('VAL = $val');
+                                  _currentValue = val;
+                                  _currentValue1 = departlist1[i].title;
+                                });
+                              },
+                            ))
+                        .toList(),
               ),
 //              new Column(
 //                children:
 //                _buildExpandableContent(regionlist[i]),
 //              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  cancelButton,
+                  continueButton,
+                ],
+              )
             ],
           );
         },
       ),
-      actions: [
-        cancelButton,
-        continueButton,
-      ],
     );
   }
 }

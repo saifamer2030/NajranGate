@@ -570,12 +570,19 @@ class _EditAdsForCarsState extends State<EditAdsForCars> {
                                 color: Colors.grey,
                                 child: InkWell(
                                   onTap: () {
-                                    setState(() {
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) => MyForm3(widget.cdepart,widget.cdep22,
-                                              onSubmit3: onSubmit3));
-                                    });
+
+
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => MyForm3(widget.cdepart,widget.cdep22,
+                                                onSubmit3: onSubmit3)));
+//                                    setState(() {
+//                                      showDialog(
+//                                          context: context,
+//                                          builder: (context) => MyForm3(widget.cdepart,widget.cdep22,
+//                                              onSubmit3: onSubmit3));
+//                                    });
 //showBottomSheet();
                                   },
                                   child:  Card(
@@ -1723,7 +1730,9 @@ class _MyForm3State extends State<MyForm3> {
   @override
   Widget build(BuildContext context) {
     Widget cancelButton = FlatButton(
-      child: Text("إلغاء"),
+      child: Text("إلغاء",
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+      ),
       onPressed: () {
         setState(() {
           Navigator.pop(context);
@@ -1731,7 +1740,9 @@ class _MyForm3State extends State<MyForm3> {
       },
     );
     Widget continueButton = FlatButton(
-      child: Text("حفظ"),
+      child: Text("حفظ",
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+      ),
       onPressed: () {
         setState(() {
           Navigator.pop(context);
@@ -1739,13 +1750,19 @@ class _MyForm3State extends State<MyForm3> {
         });
       },
     );
-    return AlertDialog(
-      title: Text(
-        widget.dep,
-        style: TextStyle(fontWeight: FontWeight.bold),
-        textDirection: TextDirection.rtl,
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xff171732),
+        centerTitle:true ,
+        title: Text(
+          widget.dep,
+          style: TextStyle(fontWeight: FontWeight.bold),
+          textDirection: TextDirection.rtl,
+        ),
+
       ),
-      content:new ListView.builder(
+
+      body:new ListView.builder(
         itemCount: departlist1.length,
         itemBuilder: (context, i) {
           return new ExpansionTile(
@@ -1791,15 +1808,18 @@ class _MyForm3State extends State<MyForm3> {
 //                children:
 //                _buildExpandableContent(regionlist[i]),
 //              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  cancelButton,
+                  continueButton,
+                ],
+              )
             ],
           );
         },
       ),
 
-      actions: [
-        cancelButton,
-        continueButton,
-      ],
     );
   }
 }

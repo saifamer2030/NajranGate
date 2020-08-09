@@ -53,6 +53,7 @@ dependencies:
   multi_image_picker: ^4.6.6
   http: ^0.12.2
   file_picker: ^1.13.2
+  firebase_in_app_messaging: ^0.1.2
 
 dev_dependencies:
   flutter_test:
