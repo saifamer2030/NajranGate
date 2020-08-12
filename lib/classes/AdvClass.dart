@@ -19,8 +19,10 @@ class AdvClass {
   String cno;
   String cdep11;
   String cdep22;
+
 int carrange;
   bool consoome;
+  String cmodel;
   AdvClass(
   this.cId,
   this.cdate,
@@ -42,8 +44,10 @@ int carrange;
       this.cno,
       this.cdep11,
       this.cdep22,
+
       this.carrange,
       this.consoome,
+      this.cmodel,
       );
 
 

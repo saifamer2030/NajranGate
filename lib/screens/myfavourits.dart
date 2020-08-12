@@ -140,6 +140,7 @@ class _MyFavState extends State<MyFav> {
 
                           DATA['carrange'],
                           DATA['consoome'],
+                          DATA['cmodel'],
                         );
                         /////////////////////////////////////
                         DateTime now = DateTime.now();
@@ -188,6 +189,7 @@ class _MyFavState extends State<MyFav> {
 
                                   DATA['carrange'],
                                   DATA['consoome'],
+                                  DATA['cmodel'],
                                 );
                                 setState(() {
                                   advlist.add(advnameclass);

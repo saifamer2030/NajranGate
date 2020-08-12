@@ -197,8 +197,10 @@ class _AdvProlileState extends State<AdvProlile> {
                   DATA['cdep22'],
                   DATA['cname'],
                   DATA['cType'],
+
                   DATA['carrange'],
                   DATA['consoome'],
+                  DATA['cmodel'],
                 );
                 _imageUrls = DATA['curilist']
                     .replaceAll(" ", "")
@@ -285,8 +287,10 @@ class _AdvProlileState extends State<AdvProlile> {
                   DATA['cdep22'],
                   DATA['cname'],
                   DATA['cType'],
+
                   DATA['carrange'],
                   DATA['consoome'],
+                  DATA['cmodel'],
                 );
                 _imageUrls = DATA['curilist']
                     .replaceAll(" ", "")
@@ -524,11 +528,15 @@ class _AdvProlileState extends State<AdvProlile> {
                                                 'arrange': int.parse(
                                                     "${now.year.toString()}${b}${c}${d}${e}${f}")
                                               });
-                                              Toast.show(
-                                                  "${widget.cName}تم اضافتة فى المفضلة ",
-                                                  context,
-                                                  duration: Toast.LENGTH_SHORT,
-                                                  gravity: Toast.BOTTOM);
+                                              if (widget.cName == null) {
+                                                widget.cName = " اسم غير معلوم ";
+                                                Toast.show(
+                                                    "${widget.cName} تم اضافتة فى المفضلة  ",
+                                                    context,
+                                                    duration:
+                                                        Toast.LENGTH_LONG,
+                                                    gravity: Toast.BOTTOM);
+                                              }
                                             } else {
                                               databaseFav.set(null);
 

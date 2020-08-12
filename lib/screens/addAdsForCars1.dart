@@ -77,6 +77,7 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
   TextEditingController _titleController = TextEditingController();
   TextEditingController _phoneController = TextEditingController();
   TextEditingController _priceController = TextEditingController();
+  TextEditingController _modelController = TextEditingController();
   TextEditingController _detailController = TextEditingController();
   var _departcurrentItemSelected = '';
   var _regioncurrentItemSelected = '';
@@ -1187,6 +1188,76 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
                                   ],
                                 )
                               : Container(),
+                          widget.department == "السيارات"
+                              ? Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      right: 10, left: 10),
+                                  child: Text(
+                                    "موديل سنة السيارة",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+//                                      fontFamily: 'Estedad-Black',
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      right: 10, left: 10),
+                                  child: Icon(
+                                    Icons.directions_car,
+                                    color: const Color(0xff171732),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                              : Container(),
+                          widget.department == "السيارات"
+                              ? Container(
+                            height: 80,
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Card(
+                                elevation: 0.0,
+                                color: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Directionality(
+                                  textDirection: TextDirection.rtl,
+                                  child: TextFormField(
+                                    textAlign: TextAlign.right,
+                                    keyboardType: TextInputType.number,
+                                    textDirection: TextDirection.rtl,
+                                    controller: _modelController,
+//                                    validator: (String value) {
+////                                      if ((value.isEmpty)) {
+////                                        return "اكتب السعر حق إعلانك طال عمرك";
+////                                      }
+////                                    },
+                                    decoration: InputDecoration(
+                                        errorStyle: TextStyle(
+                                            color: Colors.red,
+                                            fontSize: 15.0),
+                                        labelText: "ادخل سنة الصنع....",
+                                        hintText: "ادخل موديل السيارة....",
+                                        border: OutlineInputBorder(
+                                            borderRadius:
+                                            BorderRadius.all(
+                                                Radius.circular(
+                                                    5.0)))),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                              : Container(),
                           !_isCheckedPrice
                               ? Padding(
                                   padding: const EdgeInsets.only(top: 10),
@@ -1604,12 +1675,14 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
 //      // Toast.show(sampleImage1.toString(),context,duration: Toast.LENGTH_SHORT,gravity:  Toast.BOTTOM);
 //    });
 //  }
-  uploadpp0() {
+
+  Future uploadpp0() async {
     // String url1;
     final StorageReference storageRef =
-        FirebaseStorage.instance.ref().child('myimage');
+    FirebaseStorage.instance.ref().child('myimage');
     int i = 0;
-    images.forEach((f) async {
+    for(var f in images){
+      //  images.forEach((f) async {
       var byteData = await f.getByteData(quality: 50);
 //      final String path1 = await getApplicationDocumentsDirectory().path;
 //      var file=await getImageFileFromAssets(path);
@@ -1619,9 +1692,8 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
       await file.writeAsBytes(byteData.buffer
           .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
       final StorageUploadTask uploadTask =
-          storageRef.child('$now.jpg').putFile(file);
+      storageRef.child('$now.jpg').putFile(file);
       var Imageurl = await (await uploadTask.onComplete).ref.getDownloadURL();
-
       Toast.show("تم تحميل صورة طال عمرك", context,
           duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
       setState(() {
@@ -1629,28 +1701,70 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
         urlList.add(url1);
         //  print('URL Is${images.length} ///$url1///$urlList');
         i++;
-
         // _load2 = false;
       });
       if (i == images.length) {
         // print('gggg${images.length} ///$i');
-
         createRecord(urlList);
       }
-    });
-
+    }
     setState(() {
       _load2 = true;
     });
-
 //    String currentTime = new DateTime(now.year, now.month, now.day, now.hour, now.minute) as String;
-
 //    if (picno >= 2) {
 //      uploadpp2(url1);
 //    } else if (picno == 1) {
 //      createRecord(url1);
 //    }
   }
+//  uploadpp0() {
+//    // String url1;
+//    final StorageReference storageRef =
+//        FirebaseStorage.instance.ref().child('myimage');
+//    int i = 0;
+//    images.forEach((f) async {
+//      var byteData = await f.getByteData(quality: 50);
+////      final String path1 = await getApplicationDocumentsDirectory().path;
+////      var file=await getImageFileFromAssets(path);
+//      // final byteData = await rootBundle.load('$f');
+//      DateTime now = DateTime.now();
+//      final file = File('${(await getTemporaryDirectory()).path}/$f');
+//      await file.writeAsBytes(byteData.buffer
+//          .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+//      final StorageUploadTask uploadTask =
+//          storageRef.child('$now.jpg').putFile(file);
+//      var Imageurl = await (await uploadTask.onComplete).ref.getDownloadURL();
+//
+//      Toast.show("تم تحميل صورة طال عمرك", context,
+//          duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+//      setState(() {
+//        url1 = Imageurl.toString();
+//        urlList.add(url1);
+//        //  print('URL Is${images.length} ///$url1///$urlList');
+//        i++;
+//
+//        // _load2 = false;
+//      });
+//      if (i == images.length) {
+//        // print('gggg${images.length} ///$i');
+//
+//        createRecord(urlList);
+//      }
+//    });
+//
+//    setState(() {
+//      _load2 = true;
+//    });
+//
+////    String currentTime = new DateTime(now.year, now.month, now.day, now.hour, now.minute) as String;
+//
+////    if (picno >= 2) {
+////      uploadpp2(url1);
+////    } else if (picno == 1) {
+////      createRecord(url1);
+////    }
+//  }
 
 //
 //  Future uploadpp1() async {
@@ -1942,6 +2056,7 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
                   : "",
               'cdep11': dep1,
               'cdep22': dep2,
+              'cmodel': _modelController.text,
             }).whenComplete(() {
               //   Toast.show("تم إرسال طلبك للمراجعه بنجاح",context,duration: Toast.LENGTH_LONG,gravity:  Toast.BOTTOM);
 
@@ -1952,6 +2067,7 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
                 _titleController.text = "";
                 _phoneController.text = "";
                 _priceController.text = "";
+                _modelController.text = "";
                 _detailController.text = "";
                 _departcurrentItemSelected = widget.departlist[widget.index];
                 _regioncurrentItemSelected = widget.regionlist[0];
@@ -1966,8 +2082,8 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
 
               showAlertDialog(context);
             }).catchError((e) {
-              Toast.show(e, context,
-                  duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+//              Toast.show(e, context,
+//                  duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
               setState(() {
                 _load2 = false;
               });

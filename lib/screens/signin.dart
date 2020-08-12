@@ -9,9 +9,9 @@ import 'package:toast/toast.dart';
 
 import '../FragmentSouqNajran.dart';
 
-
 class SignIn extends StatefulWidget {
   List<String> regionlist = [];
+
   SignIn(this.regionlist);
 
   @override
@@ -21,7 +21,6 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   var _formKey = GlobalKey<FormState>();
   final double _minimumPadding = 5.0;
-
 
 //  TextEditingController _nameController = TextEditingController();
 //  TextEditingController _emailController = TextEditingController();
@@ -33,20 +32,23 @@ class _SignInState extends State<SignIn> {
 //  var _initpassword = '';
 //  var _initpasswordconf = '';
   bool _load = false;
+
 //  final userdatabaseReference =
 //  FirebaseDatabase.instance.reference().child("userdata");
 
   @override
   void initState() {
     super.initState();
-
   }
+
   @override
   Widget build(BuildContext context) {
     Widget loadingIndicator = _load
         ? new Container(
-      child: SpinKitCircle(color: const Color(0xff171732),),
-    )
+            child: SpinKitCircle(
+              color: const Color(0xff171732),
+            ),
+          )
         : new Container();
     TextStyle textStyle = Theme.of(context).textTheme.subtitle;
 
@@ -55,27 +57,24 @@ class _SignInState extends State<SignIn> {
       body: Container(
         child: Stack(
           children: <Widget>[
-
             Column(
               children: <Widget>[
                 Container(
-                  width:  MediaQuery.of(context).size.width,
+                  width: MediaQuery.of(context).size.width,
                   height: 65.0,
                   decoration: BoxDecoration(
-
                     color: const Color(0xff171732),
                   ),
                 ),
                 Transform.translate(
                   offset: Offset(0.0, -42.0),
                   child:
-                  // Adobe XD layer: 'logoBox' (shape)
-                  Center(
+                      // Adobe XD layer: 'logoBox' (shape)
+                      Center(
                     child: Container(
                       width: 166.0,
                       height: 60.0,
-                      child:
-                      Padding(
+                      child: Padding(
                         padding: const EdgeInsets.only(top: 20.0),
                         child: Text(
                           'بوابة نجران',
@@ -98,15 +97,18 @@ class _SignInState extends State<SignIn> {
               ],
             ),
 
-
             Form(
               key: _formKey,
               child: Padding(
-                  padding: EdgeInsets.only(top:_minimumPadding * 50,bottom: _minimumPadding * 2, right: _minimumPadding * 2,left: _minimumPadding * 2),
+                  padding: EdgeInsets.only(
+                      top: _minimumPadding * 50,
+                      bottom: _minimumPadding * 2,
+                      right: _minimumPadding * 2,
+                      left: _minimumPadding * 2),
                   child: ListView(
                     physics: BouncingScrollPhysics(),
                     children: <Widget>[
-                               Padding(
+                      Padding(
                           padding: EdgeInsets.only(
                               top: _minimumPadding, bottom: _minimumPadding),
                           child: Directionality(
@@ -119,14 +121,15 @@ class _SignInState extends State<SignIn> {
                               controller: _phoneController,
                               validator: (String value) {
                                 if (value.isEmpty) {
-                                  return "برجاء إدخال رقم الجوال";//Translations.of(context).translate('please_enter_the_phone_number');
+                                  return "برجاء إدخال رقم الجوال"; //Translations.of(context).translate('please_enter_the_phone_number');
                                 }
                                 if (value.length < 9) {
-                                  return "رقم هاتف غير صحيح";//Translations.of(context).translate('phone_number_is_incorrect');
+                                  return "رقم هاتف غير صحيح"; //Translations.of(context).translate('phone_number_is_incorrect');
                                 }
                               },
                               decoration: InputDecoration(
-                                labelText: "رقم الجوال",//Translations.of(context).translate('telephone_number'),
+                                labelText: "رقم الجوال",
+                                //Translations.of(context).translate('telephone_number'),
                                 hintText: 'مثل:512345678',
                                 prefixIcon: Icon(Icons.phone_android),
                                 labelStyle: textStyle,
@@ -136,9 +139,6 @@ class _SignInState extends State<SignIn> {
                               ),
                             ),
                           )),
-
-
-
                       Padding(
                         padding: const EdgeInsets.all(30.0),
                         child: Container(
@@ -153,27 +153,34 @@ class _SignInState extends State<SignIn> {
                                   height: _minimumPadding,
                                   width: _minimumPadding,
                                 ),
-                                Icon(Icons.check,color: Colors.white,),
+                                Icon(
+                                  Icons.check,
+                                  color: Colors.white,
+                                ),
                               ],
                             ),
                             textColor: Colors.white,
                             color: const Color(0xff171732),
                             onPressed: () async {
-
                               if (_formKey.currentState.validate()) {
                                 try {
-                                  final result = await InternetAddress.lookup('google.com');
-                                  if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                                  final result = await InternetAddress.lookup(
+                                      'google.com');
+                                  if (result.isNotEmpty &&
+                                      result[0].rawAddress.isNotEmpty) {
                                     //  print('connected');
-                                    loginUserphone(_phoneController.text.trim(), context);
+                                    loginUserphone(
+                                        _phoneController.text.trim(), context);
                                     setState(() {
                                       _load = true;
                                     });
                                   }
                                 } on SocketException catch (_) {
                                   //  print('not connected');
-                                  Toast.show("برجاء مراجعة الاتصال بالشبكة",context,duration: Toast.LENGTH_LONG,gravity:  Toast.BOTTOM);
-
+                                  Toast.show(
+                                      "برجاء مراجعة الاتصال بالشبكة", context,
+                                      duration: Toast.LENGTH_LONG,
+                                      gravity: Toast.BOTTOM);
                                 }
                                 //loginUserphone(_phoneController.text.trim(), context);
 
@@ -186,8 +193,6 @@ class _SignInState extends State<SignIn> {
                           ),
                         ),
                       ),
-
-
                     ],
                   )),
             ),
@@ -195,28 +200,28 @@ class _SignInState extends State<SignIn> {
               child: loadingIndicator,
               alignment: FractionalOffset.center,
             ),
-           // new Align(child: loadingIndicator,alignment: FractionalOffset.center,),
-
+            // new Align(child: loadingIndicator,alignment: FractionalOffset.center,),
           ],
         ),
       ),
     );
   }
-  Future<bool> loginUserphone(String phone, BuildContext context) async{
+
+  Future<bool> loginUserphone(String phone, BuildContext context) async {
     FirebaseAuth _auth = FirebaseAuth.instance;
 
     _auth.verifyPhoneNumber(
         phoneNumber: "+966$phone",
-   //    phoneNumber: "+2$phone",
-    timeout: Duration(seconds: 60),
-        verificationCompleted: (AuthCredential credential) async{
+        //    phoneNumber: "+2$phone",
+        timeout: Duration(seconds: 60),
+        verificationCompleted: (AuthCredential credential) async {
           Navigator.of(context).pop();
 
           AuthResult result = await _auth.signInWithCredential(credential);
           createRecord(result.user.uid);
 
           //FirebaseUser user = result.user;
-         // Navigator.of(context).pushReplacementNamed('/fragmentsouq');
+          // Navigator.of(context).pushReplacementNamed('/fragmentsouq');
 
 //          if(user != null){
 //            Navigator.push(context, MaterialPageRoute(
@@ -228,10 +233,10 @@ class _SignInState extends State<SignIn> {
 
           //This callback would gets called when verification is done auto maticlly
         },
-        verificationFailed: (AuthException exception){
+        verificationFailed: (AuthException exception) {
           print(exception);
         },
-        codeSent: (String verificationId, [int forceResendingToken]){
+        codeSent: (String verificationId, [int forceResendingToken]) {
           showDialog(
               context: context,
               barrierDismissible: false,
@@ -247,14 +252,15 @@ class _SignInState extends State<SignIn> {
                             alignment: Alignment.center,
                             matchTextDirection: true,
                             repeat: ImageRepeat.noRepeat,
-                            image: AssetImage("assets/images/ic_confirmephone.png"),
+                            image: AssetImage(
+                                "assets/images/ic_confirmephone.png"),
                           ),
                           borderRadius: BorderRadius.circular(21.0),
                           //color: const Color(0xff4fc3f7),
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top:5.0),
+                        padding: const EdgeInsets.only(top: 5.0),
                         child: Text("تحقق من الكود المرسل؟"),
                       ),
                     ],
@@ -266,7 +272,7 @@ class _SignInState extends State<SignIn> {
                     children: <Widget>[
                       Container(
                         color: Colors.grey[300],
-                          width: 150,
+                        width: 150,
                         child: TextField(
                           keyboardType: TextInputType.number,
                           controller: _codeController,
@@ -279,53 +285,59 @@ class _SignInState extends State<SignIn> {
                       child: Text("تأكيد"),
                       textColor: Colors.white,
                       color: Colors.black,
-                      onPressed: () async{
+                      onPressed: () async {
                         final code = _codeController.text.trim();
-                        AuthCredential credential = PhoneAuthProvider.getCredential(verificationId: verificationId, smsCode: code);
+                        AuthCredential credential =
+                            PhoneAuthProvider.getCredential(
+                                verificationId: verificationId, smsCode: code);
 
-                        AuthResult result = await _auth.signInWithCredential(credential);
+                        AuthResult result =
+                            await _auth.signInWithCredential(credential);
 
                         //FirebaseUser user = result.user;
                         createRecord(result.user.uid);
-                       // Navigator.of(context).pushReplacementNamed('/fragmentsouq');
-
+                        // Navigator.of(context).pushReplacementNamed('/fragmentsouq');
                       },
                     )
                   ],
                 );
-              }
-          );
+              });
         },
-        codeAutoRetrievalTimeout: null
-    );
+        codeAutoRetrievalTimeout: null);
   }
 
-
-  void createRecord( signedInUserid) {
+  void createRecord(signedInUserid) {
     setState(() {
       _load = false;
     });
     final userdatabaseReference =
-    FirebaseDatabase.instance.reference().child("userdata");
+        FirebaseDatabase.instance.reference().child("userdata");
 
-    userdatabaseReference.child(signedInUserid).update({
-      "cPhone":_phoneController.text,
 
-    }).then((_) {
-      setState(() {
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    FragmentSouq1(widget.regionlist)));
+    if ("cPhone" != null) {
+      userdatabaseReference.child(signedInUserid).update({
+        "cPhone": _phoneController.text,
+      }).then((_) {
+        setState(() {
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => FragmentSouq1(widget.regionlist)));
+        });
       });
-
+    } else {
+      userdatabaseReference.child(signedInUserid).update({
+        "cPhone": _phoneController.text,
+        'rating': "0",
+        'custRate': 0,
+      }).then((_) {
+        setState(() {
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => FragmentSouq1(widget.regionlist)));
+        });
       });
-
+    }
   }
-
-
-
-
-
 }

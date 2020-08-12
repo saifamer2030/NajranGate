@@ -123,8 +123,10 @@ class _MyAdvertisementState extends State<MyAdvertisement> {
                       DATA[individualkey]['cno'],
                       DATA[individualkey]['cdep11'],
                       DATA[individualkey]['cdep22'],
+
                       DATA[individualkey]['carrange'],
                       DATA[individualkey]['consoome'],
+                      DATA['cmodel'],
                     );
                     ///
                     userdatabaseReference = FirebaseDatabase.instance;
@@ -166,10 +168,12 @@ class _MyAdvertisementState extends State<MyAdvertisement> {
                             DATA[individualkey]['cno'],
                             DATA[individualkey]['cdep11'],
                             DATA[individualkey]['cdep22'],
+
                             DATA5['cName'],
                             DATA5['cType'],
                             DATA[individualkey]['carrange'],
                             DATA[individualkey]['consoome'],
+                            DATA['cmodel'],
                           );
                           setState(() {
                             advlist.add(advnameclass);
@@ -318,7 +322,7 @@ class _MyAdvertisementState extends State<MyAdvertisement> {
                         Container(
                         padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                         child: IconSlideAction(
-                        caption: 'Edit',
+                        caption: 'تعديل',
                         color: Colors.green,
                         icon: Icons.edit,
                         onTap: () {
@@ -352,6 +356,7 @@ class _MyAdvertisementState extends State<MyAdvertisement> {
                                   widget.regionlist,
                                   advlist[index].cdep11,
                                   advlist[index].cdep22,
+                                  advlist[index].cmodel,
 
                                 )),
                           );

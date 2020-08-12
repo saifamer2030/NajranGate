@@ -30,6 +30,7 @@ class EditAdsForCars extends StatefulWidget {
       String cregion;
   String cphone;
       String cprice;
+      String cmodel;
   String cdetail;
       bool cpublished;
   String curi;
@@ -69,6 +70,7 @@ class EditAdsForCars extends StatefulWidget {
       this.regionlist,
       this.cdep11,
       this.cdep22,
+      this.cmodel,
   );
 
   @override
@@ -111,6 +113,7 @@ class _EditAdsForCarsState extends State<EditAdsForCars> {
   TextEditingController _titleController = TextEditingController();
   TextEditingController _phoneController = TextEditingController();
   TextEditingController _priceController = TextEditingController();
+  TextEditingController _modelController = TextEditingController();
   TextEditingController _detailController = TextEditingController();
   var _departcurrentItemSelected = '';
   var _regioncurrentItemSelected = '';
@@ -145,6 +148,7 @@ class _EditAdsForCarsState extends State<EditAdsForCars> {
       _titleController = TextEditingController(text: widget.ctitle);
        _phoneController = TextEditingController(text: widget.cphone);
        _priceController = TextEditingController(text: widget.cprice);
+      _modelController = TextEditingController(text: widget.cmodel);
        _detailController = TextEditingController(text: widget.cdetail);
        dep1=widget.cdep11;
        dep2==widget.cdep22;
@@ -1135,6 +1139,46 @@ class _EditAdsForCarsState extends State<EditAdsForCars> {
                                 ),
                               ),
                             ],
+                          )
+                              : Container(),
+                          widget.cdepart == "السيارات"
+                              ? Container(
+                            height: 80,
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Card(
+                                elevation: 0.0,
+                                color: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Directionality(
+                                  textDirection: TextDirection.rtl,
+                                  child: TextFormField(
+                                    textAlign: TextAlign.right,
+                                    keyboardType: TextInputType.number,
+                                    textDirection: TextDirection.rtl,
+                                    controller: _modelController,
+//                                    validator: (String value) {
+////                                      if ((value.isEmpty)) {
+////                                        return "اكتب السعر حق إعلانك طال عمرك";
+////                                      }
+////                                    },
+                                    decoration: InputDecoration(
+                                        errorStyle: TextStyle(
+                                            color: Colors.red,
+                                            fontSize: 15.0),
+                                        labelText: "ادخل سنة الصنع....",
+                                        hintText: "ادخل موديل السيارة....",
+                                        border: OutlineInputBorder(
+                                            borderRadius:
+                                            BorderRadius.all(
+                                                Radius.circular(
+                                                    5.0)))),
+                                  ),
+                                ),
+                              ),
+                            ),
                           )
                               : Container(),
                           Padding(

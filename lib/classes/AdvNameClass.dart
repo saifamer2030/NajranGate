@@ -23,7 +23,7 @@ class AdvNameClass {
   String cType;
   int carrange;
   bool consoome;
-
+  String cmodel;
   AdvNameClass(
   this.cId,
   this.cdate,
@@ -49,6 +49,7 @@ class AdvNameClass {
       this.cType,
       this.carrange,
       this.consoome,
+      this.cmodel,
       );
 
 
