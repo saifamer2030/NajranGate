@@ -54,6 +54,7 @@ dependencies:
   http: ^0.12.2
   file_picker: ^1.13.2
   firebase_in_app_messaging: ^0.1.2
+  persian_number_utility: ^0.1.2
 
 dev_dependencies:
   flutter_test:

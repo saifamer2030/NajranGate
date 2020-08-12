@@ -212,7 +212,7 @@ class _SignInState extends State<SignIn> {
 
     _auth.verifyPhoneNumber(
         phoneNumber: "+966$phone",
-        //    phoneNumber: "+2$phone",
+        //phoneNumber: "+2$phone",
         timeout: Duration(seconds: 60),
         verificationCompleted: (AuthCredential credential) async {
           Navigator.of(context).pop();

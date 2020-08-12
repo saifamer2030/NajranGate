@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+
 import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
 
 //import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:souqnagran/classes/DepartmentClass.dart';
@@ -77,10 +79,11 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
   TextEditingController _titleController = TextEditingController();
   TextEditingController _phoneController = TextEditingController();
   TextEditingController _priceController = TextEditingController();
-  TextEditingController _modelController = TextEditingController();
+//  TextEditingController _modelController = TextEditingController();
   TextEditingController _detailController = TextEditingController();
   var _departcurrentItemSelected = '';
   var _regioncurrentItemSelected = '';
+ var _indyearcurrentItemSelected="";
   List<Asset> images = List<Asset>();
   String _error = 'No Error Dectected';
 
@@ -91,6 +94,7 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
   bool _multiPick = true;
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   List<StorageUploadTask> _tasks = <StorageUploadTask>[];
+  List<String> indyearlist = [];
 
   void _setvalue(double value) => setState(() => _value = value);
 
@@ -110,10 +114,28 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
 //          new Splash()),
 //    );
   }
+  Widget buildGridView() {
+    return GridView.count(
+      crossAxisCount: 3,
+      children: List.generate(images.length, (index) {
+        Asset asset = images[index];
+        return AssetThumb(
+          asset: asset,
+          width: 300,
+          height: 300,
+        );
+      }),
+    );
+  }
 
   @override
   void initState() {
     super.initState();
+
+    DateTime now = DateTime.now();
+    indyearlist=new List<String>.generate(50, (i) =>  NumberUtility.changeDigit((now.year -i).toString(), NumStrLanguage.English));
+    _indyearcurrentItemSelected=indyearlist[0];
+
     _pickType = FileType.image;
     _departcurrentItemSelected =
         widget.department; //widget.departlist[widget.index];
@@ -156,7 +178,7 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
       onSelectNotification: onSelectNotification,
     );
   }
-
+/**
   void openFileExplorer() async {
     try {
       // _path = null;
@@ -191,7 +213,7 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
       String filePath = _path;
       upload(fileName, filePath);
     }
-  }
+  }**/
 
 //  final StorageUploadTask uploadTask =
 //  storageRef.child('$now.jpg').putFile(file);
@@ -205,7 +227,7 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
 //  urlList.add(url1);
 //  _load2 = false;
 //  });
-  upload(fileName, filePath) {
+ /** upload(fileName, filePath) {
     _extension = fileName.toString().split('.').last;
     StorageReference storageRef =
         FirebaseStorage.instance.ref().child(fileName);
@@ -223,7 +245,7 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
 
       //   final String url = await uploadTask.lastSnapshot.ref.getDownloadURL();
     });
-  }
+  }**/
 
   Future<void> loadAssets() async {
     List<Asset> resultList = List<Asset>();
@@ -403,7 +425,7 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
                                 width: 200,
                                 height: 150,
                                 color: Colors.grey[300],
-                                child: Padding(
+                                child:images.length==0? Padding(
                                   padding: const EdgeInsets.only(top: 25.0),
                                   child: Column(
                                     children: <Widget>[
@@ -422,7 +444,7 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
                                       ),
                                       Padding(
                                         padding:
-                                            const EdgeInsets.only(top: 10.0),
+                                        const EdgeInsets.only(top: 10.0),
                                         child: Icon(
                                           Icons.add_circle,
                                           color: Colors.grey,
@@ -433,29 +455,58 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
                                             top: 10.0, left: 160.0),
                                         child: (picno > 0)
                                             ? Container(
-                                                width: 30,
-                                                height: 30,
-                                                decoration: new BoxDecoration(
-                                                    color: Colors.green,
-                                                    shape: BoxShape.circle),
-                                                child: Center(
-                                                  child: Text(
-                                                    "$picno",
-                                                    textDirection:
-                                                        TextDirection.rtl,
-                                                    style: TextStyle(
-                                                        color: const Color(
-                                                            0xff171732),
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                ),
-                                              )
+                                          width: 30,
+                                          height: 30,
+                                          decoration: new BoxDecoration(
+                                              color: Colors.green,
+                                              shape: BoxShape.circle),
+                                          child: Center(
+                                            child: Text(
+                                              "$picno",
+                                              textDirection:
+                                              TextDirection.rtl,
+                                              style: TextStyle(
+                                                  color: const Color(
+                                                      0xff171732),
+                                                  fontSize: 15,
+                                                  fontWeight:
+                                                  FontWeight.bold),
+                                            ),
+                                          ),
+                                        )
                                             : null,
                                       ),
                                     ],
                                   ),
+                                ):Stack(
+                                  children: <Widget>[
+                                    buildGridView(),
+                                    Center(
+                                      child: (picno > 0)
+                                          ? Container(
+                                        width: 30,
+                                        height: 30,
+                                        decoration: new BoxDecoration(
+                                            color: Colors.green,
+                                            shape: BoxShape.circle),
+                                        child: Center(
+                                          child: Text(
+                                            "$picno",
+                                            textDirection:
+                                            TextDirection.rtl,
+                                            style: TextStyle(
+                                                color: const Color(
+                                                    0xff171732),
+                                                fontSize: 15,
+                                                fontWeight:
+                                                FontWeight.bold),
+                                          ),
+                                        ),
+                                      )
+                                          : null,
+                                    ),
+
+                                  ],
                                 ),
                               ),
                             ),
@@ -762,6 +813,71 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
                               ),
                             ),
                           ),
+                          widget.department == "السيارات"? Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                Padding(
+                                  padding:
+                                  const EdgeInsets.only(right: 1, left: 1),
+                                  child: Text(
+                                    " موديل سنة السيارة",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+//                                      fontFamily: 'Estedad-Black',
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      right: 10, left: 10),
+                                  child: Icon(
+                                    Icons.calendar_today,
+                                    color: const Color(0xff171732),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ): Container(),
+                          widget.department == "السيارات"?Container(
+                            width: 250,
+                            height: 50,
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Card(
+                                elevation: 0.0,
+                                color: const Color(0xff171732),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: DropdownButtonHideUnderline(
+                                    child: ButtonTheme(
+                                      alignedDropdown: true,
+                                      child: DropdownButton<String>(
+                                        items:
+                                        indyearlist.map((String value) {
+                                          return new DropdownMenuItem<String>(
+                                            value: value,
+                                            child: new Text(value),
+                                          );
+                                        }).toList(),
+                                        value: _indyearcurrentItemSelected,
+                                        onChanged: (String newValueSelected) {
+                                          // Your code to execute, when a menu item is selected from dropdown
+                                          _onDropDownItemSelectedindyear(
+                                              newValueSelected);
+                                        },
+                                        style: new TextStyle(
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    )),
+                              ),
+                            ),
+                          ): Container(),
+
                           widget.department == "السيارات"
                               ? Padding(
                                   padding: const EdgeInsets.only(top: 10),
@@ -1188,76 +1304,76 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
                                   ],
                                 )
                               : Container(),
-                          widget.department == "السيارات"
-                              ? Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      right: 10, left: 10),
-                                  child: Text(
-                                    "موديل سنة السيارة",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
-//                                      fontFamily: 'Estedad-Black',
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      right: 10, left: 10),
-                                  child: Icon(
-                                    Icons.directions_car,
-                                    color: const Color(0xff171732),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                              : Container(),
-                          widget.department == "السيارات"
-                              ? Container(
-                            height: 80,
-                            child: Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Card(
-                                elevation: 0.0,
-                                color: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: Directionality(
-                                  textDirection: TextDirection.rtl,
-                                  child: TextFormField(
-                                    textAlign: TextAlign.right,
-                                    keyboardType: TextInputType.number,
-                                    textDirection: TextDirection.rtl,
-                                    controller: _modelController,
-//                                    validator: (String value) {
-////                                      if ((value.isEmpty)) {
-////                                        return "اكتب السعر حق إعلانك طال عمرك";
-////                                      }
-////                                    },
-                                    decoration: InputDecoration(
-                                        errorStyle: TextStyle(
-                                            color: Colors.red,
-                                            fontSize: 15.0),
-                                        labelText: "ادخل سنة الصنع....",
-                                        hintText: "ادخل موديل السيارة....",
-                                        border: OutlineInputBorder(
-                                            borderRadius:
-                                            BorderRadius.all(
-                                                Radius.circular(
-                                                    5.0)))),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          )
-                              : Container(),
+//                          widget.department == "السيارات"
+//                              ? Padding(
+//                            padding: const EdgeInsets.only(top: 10),
+//                            child: Row(
+//                              mainAxisAlignment: MainAxisAlignment.end,
+//                              children: <Widget>[
+//                                Padding(
+//                                  padding: const EdgeInsets.only(
+//                                      right: 10, left: 10),
+//                                  child: Text(
+//                                    "موديل سنة السيارة",
+//                                    style: TextStyle(
+//                                      fontWeight: FontWeight.bold,
+//                                      fontSize: 18,
+////                                      fontFamily: 'Estedad-Black',
+//                                    ),
+//                                  ),
+//                                ),
+//                                Padding(
+//                                  padding: const EdgeInsets.only(
+//                                      right: 10, left: 10),
+//                                  child: Icon(
+//                                    Icons.directions_car,
+//                                    color: const Color(0xff171732),
+//                                  ),
+//                                ),
+//                              ],
+//                            ),
+//                          )
+//                              : Container(),
+//                          widget.department == "السيارات"
+//                              ? Container(
+//                            height: 80,
+//                            child: Padding(
+//                              padding: const EdgeInsets.all(5.0),
+//                              child: Card(
+//                                elevation: 0.0,
+//                                color: Colors.white,
+//                                shape: RoundedRectangleBorder(
+//                                  borderRadius: BorderRadius.circular(5),
+//                                ),
+//                                child: Directionality(
+//                                  textDirection: TextDirection.rtl,
+//                                  child: TextFormField(
+//                                    textAlign: TextAlign.right,
+//                                    keyboardType: TextInputType.number,
+//                                    textDirection: TextDirection.rtl,
+//                                    controller: _modelController,
+////                                    validator: (String value) {
+//////                                      if ((value.isEmpty)) {
+//////                                        return "اكتب السعر حق إعلانك طال عمرك";
+//////                                      }
+//////                                    },
+//                                    decoration: InputDecoration(
+//                                        errorStyle: TextStyle(
+//                                            color: Colors.red,
+//                                            fontSize: 15.0),
+//                                        labelText: "ادخل سنة الصنع....",
+//                                        hintText: "ادخل موديل السيارة....",
+//                                        border: OutlineInputBorder(
+//                                            borderRadius:
+//                                            BorderRadius.all(
+//                                                Radius.circular(
+//                                                    5.0)))),
+//                                  ),
+//                                ),
+//                              ),
+//                            ),
+//                          )
+//                              : Container(),
                           !_isCheckedPrice
                               ? Padding(
                                   padding: const EdgeInsets.only(top: 10),
@@ -1500,6 +1616,11 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
     });
   }
 
+  void _onDropDownItemSelectedindyear(String newValueSelected) {
+    setState(() {
+      this._indyearcurrentItemSelected = newValueSelected;
+    });
+  }
   void _onDropDownItemSelecteddep(String newValueSelected) {
     setState(() {
       this._departcurrentItemSelected = newValueSelected;
@@ -2056,7 +2177,8 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
                   : "",
               'cdep11': dep1,
               'cdep22': dep2,
-              'cmodel': _modelController.text,
+              'cmodel': widget.department == "السيارات"
+                  ?_indyearcurrentItemSelected:null,
             }).whenComplete(() {
               //   Toast.show("تم إرسال طلبك للمراجعه بنجاح",context,duration: Toast.LENGTH_LONG,gravity:  Toast.BOTTOM);
 
@@ -2067,7 +2189,7 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
                 _titleController.text = "";
                 _phoneController.text = "";
                 _priceController.text = "";
-                _modelController.text = "";
+              //  _modelController.text = "";
                 _detailController.text = "";
                 _departcurrentItemSelected = widget.departlist[widget.index];
                 _regioncurrentItemSelected = widget.regionlist[0];
@@ -2076,6 +2198,7 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
                 _character4 = SingingCharacter4.New;
                 _character5 = SingingCharacter5.no;
                 _value = 0;
+
               });
               showNotification(
                   date1, _titleController.text, _userId, date, _cName);
@@ -2173,12 +2296,12 @@ class _MyForm3State extends State<MyForm3> {
         .reference()
         .child("Departments1")
         .child(widget.dep);
-    print("##########${widget.dep}");
+   // print("##########${widget.dep}");
     departments1databaseReference.once().then((DataSnapshot snapshot) {
       var KEYS = snapshot.value.keys;
       var DATA = snapshot.value;
       //Toast.show("${snapshot.value.keys}",context,duration: Toast.LENGTH_LONG,gravity:  Toast.BOTTOM);
-      print("kkkk${DATA.toString()}");
+    //  print("kkkk${DATA.toString()}");
 
       departlist1.clear();
       for (var individualkey in KEYS) {
@@ -2206,7 +2329,7 @@ class _MyForm3State extends State<MyForm3> {
             );
           departlist1.add(departmentclass);
           setState(() {
-            print("size of list : 5");
+//            print("size of list : 5");
             departlist1.sort((depart1, depart2) =>
                 depart1.arrange.compareTo(depart2.arrange));
           });
@@ -2280,7 +2403,7 @@ class _MyForm3State extends State<MyForm3> {
                               value: value,
                               onChanged: (val) {
                                 setState(() {
-                                  debugPrint('VAL = $val');
+                                 // debugPrint('VAL = $val');
                                   _currentValue = val;
                                   _currentValue1 = departlist1[i].title;
                                 });

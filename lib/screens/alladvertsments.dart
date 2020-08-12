@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:souqnagran/classes/AdvClass.dart';
 import 'package:souqnagran/classes/AdvNameClass.dart';
 import 'package:souqnagran/classes/DepartmentClass.dart';
@@ -32,11 +33,15 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
   List<DepartmentClass> departlist1 = [];
   List<DepartmentClass> departlist2 = [];
   bool depart1 = false;
+  bool carcheck=false;
   bool depart2 = false;
   bool scolorcheck = false;
   bool _load = false;
   var _typecurrentItemSelected = '';
   var _regioncurrentItemSelected = '';
+  var _indyearcurrentItemSelected="";
+  //String mod = "الموديل";
+
   String dep = "الكل";
   String filt = "";
   List<String> _imageUrls;
@@ -63,8 +68,9 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
 
   List<AdvNameClass> SearchList = [];
   List<AdvNameClass> costantList = [];
+  List<String> indyearlist = [];
 
-  void filterSearchResults(String filtter, String reg, String typ, String dep) {
+  void filterSearchResults(String filtter, String reg, String typ, String dep,String model) {
     print("mmmm222$filtter//reg$reg//typ$typ//dep$dep");
 
 //     filtter="kkk";
@@ -76,7 +82,9 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
     if ((filtter == '') &&
         (reg == 'الحى') &&
         (typ == 'النوع') &&
-        (dep == 'الكل')) {
+        (dep == 'الكل')&&
+        (model == 'الموديل')
+    ) {
       setState(() {
         advlist.clear();
         advlist.addAll(costantList);
@@ -94,19 +102,25 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
           typ = '';
         });
       }
+      if (model == 'الموديل') {
+        setState(() {
+          model = '';
+        });
+      }
       if (dep == 'الكل') {
         setState(() {
           dep = '';
         });
       }
-      print("mmmm$filtter//reg$reg//typ$typ//dep$dep");
+    //  print("mmmm$filtter//reg$reg//typ$typ//dep$dep");
 
       setState(() {
         List<AdvNameClass> ListData = [];
         SearchList.forEach((item) {
           if (((item.cname.toString().contains(filtter)) ||
-                  (item.ctitle.toString().contains(filtter)) ||
-                  (item.cmodel.toString().contains(filtter))) &&
+                  (item.ctitle.toString().contains(filtter))) &&
+              (item.cmodel.toString().contains(model))&&
+
               (item.cregion.toString().contains(reg)) &&
               (item.cType.toString().contains(typ)) &&
               ((item.cdepart.toString().contains(dep)) ||
@@ -127,7 +141,12 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
   @override
   void initState() {
     super.initState();
-    setState(() {});
+    DateTime now = DateTime.now();
+    indyearlist=new List<String>.generate(50, (i) =>  NumberUtility.changeDigit((now.year+1 -i).toString(), NumStrLanguage.English));
+    indyearlist[0]=("الموديل");
+    _indyearcurrentItemSelected=indyearlist[0];
+
+   // setState(() {    _indyearcurrentItemSelected="الموديل";    });
     filt == null ? filt = "" : filt = searchcontroller.text.toString();
     _regioncurrentItemSelected = widget.regionlist[0];
     _typecurrentItemSelected = _typearray[0];
@@ -471,7 +490,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
                             icon: Icon(Icons.refresh),
                             tooltip: 'إعاده تهيأة البحث',
                             onPressed: () {
-                              filterSearchResults('', 'الحى', 'النوع', 'الكل');
+                              filterSearchResults('', 'الحى', 'النوع', 'الكل','الموديل');
                               _depcontroller.animateTo(0.0,
                                   curve: Curves.easeInOut,
                                   duration: Duration(seconds: 1));
@@ -479,6 +498,8 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
                                 _regioncurrentItemSelected =
                                     widget.regionlist[0];
                                 _typecurrentItemSelected = _typearray[0];
+                                _indyearcurrentItemSelected = indyearlist[0];
+
                                 dep = "الكل";
                                 filt = "";
                                 depart1 = false;
@@ -533,7 +554,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
                                             filt,
                                             _regioncurrentItemSelected,
                                             _typecurrentItemSelected,
-                                            dep);
+                                            dep,_indyearcurrentItemSelected);
                                       });
                                     },
                                     controller: searchcontroller,
@@ -563,7 +584,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
                                                             filt,
                                                             _regioncurrentItemSelected,
                                                             _typecurrentItemSelected,
-                                                            dep);
+                                                            dep,_indyearcurrentItemSelected);
                                                       });
                                                     });
                                                   },
@@ -630,6 +651,42 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceAround,
                                           children: [
+                                            carcheck?  DropdownButtonHideUnderline(
+                                                child: ButtonTheme(
+                                                  alignedDropdown: true,
+                                                  child: DropdownButton<String>(
+                                                    items:
+                                                    indyearlist.map((String value) {
+                                                      return new DropdownMenuItem<String>(
+                                                        value: value,
+                                                        child: new Text(value),
+                                                      );
+                                                    }).toList(),
+                                                    hint: Text(
+                                                      "الموديل",
+                                                    style: TextStyle(color: Colors.black,fontSize: 5),
+//                                                      textAlign: TextAlign.end,
+                                                    ),
+                                                    value: _indyearcurrentItemSelected,
+                                                    onChanged: (String newValueSelected) {
+                                                      // Your code to execute, when a menu item is selected from dropdown
+                                                      _onDropDownItemSelectedindyear(
+                                                          newValueSelected);
+                                                    },
+                                                    style: new TextStyle(
+                                                      color: Colors.black,fontSize: 13
+                                                    ),
+                                                  ),
+                                                )):Container(),
+                                            carcheck?Container(
+                                              width: 1,
+                                              height: 20,
+                                              color: Colors.grey,
+                                            ):Container(),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+
                                             DropdownButtonHideUnderline(
                                                 child: ButtonTheme(
                                               alignedDropdown: true,
@@ -650,7 +707,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
                                                       newValueSelected);
                                                 },
                                                 style: new TextStyle(
-                                                  color: Colors.grey,
+                                                  color: Colors.black,
                                                 ),
                                               ),
                                             )),
@@ -683,7 +740,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
                                                       newValueSelected);
                                                 },
                                                 style: new TextStyle(
-                                                  color: Colors.grey,
+                                                  color: Colors.black,
                                                 ),
                                               ),
                                             )),
@@ -764,7 +821,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
                                         filt,
                                         _regioncurrentItemSelected,
                                         _typecurrentItemSelected,
-                                        dep);
+                                        dep,_indyearcurrentItemSelected);
                                   });
                                 } else {
                                   advlist.clear();
@@ -776,7 +833,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
                                         filt,
                                         _regioncurrentItemSelected,
                                         _typecurrentItemSelected,
-                                        dep);
+                                        dep,_indyearcurrentItemSelected);
                                   });
                                 }
                                 //      print("lllllll${departlist[index].title.toString()}");
@@ -845,6 +902,8 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
                                       departlist1.length == 0) {
                                     setState(() {
                                       depart1 = false;
+                                      carcheck=false;
+_indyearcurrentItemSelected="الموديل";
                                     });
                                   } else {
                                     setState(() {
@@ -858,6 +917,16 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
                                         100,
                                       ));
                                       depart1 = true;
+                                      if(departlist[index].title == 'السيارات'){
+                                        setState(() {
+                                          carcheck=true;
+                                        });
+                                      }else{
+                                        setState(() {
+                                          carcheck=false;
+                                          _indyearcurrentItemSelected="الموديل";
+                                        });
+                                      }
                                     });
                                   }
                                 }).catchError(() {
@@ -865,10 +934,22 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
                                       departlist1.length == 0) {
                                     setState(() {
                                       depart1 = false;
+                                      carcheck=false;
+                                      _indyearcurrentItemSelected="الموديل";
                                     });
                                   } else {
                                     setState(() {
                                       depart1 = true;
+                                      if(departlist[index].title == 'السيارات'){
+                                        setState(() {
+                                          carcheck=true;
+                                        });
+                                      }else{
+                                        setState(() {
+                                          carcheck=false;
+                                          _indyearcurrentItemSelected="الموديل";
+                                        });
+                                      }
                                     });
                                   }
                                 });
@@ -993,7 +1074,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
                                                 filt,
                                                 _regioncurrentItemSelected,
                                                 _typecurrentItemSelected,
-                                                dep);
+                                                dep,_indyearcurrentItemSelected);
                                           });
                                           //  filterSearchResults('');
                                         } else {
@@ -1006,7 +1087,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
                                                 filt,
                                                 _regioncurrentItemSelected,
                                                 _typecurrentItemSelected,
-                                                dep);
+                                                dep,_indyearcurrentItemSelected);
                                           });
 
                                           //  filterSearchResults(departlist1[index].title);
@@ -1177,7 +1258,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
                                               filt,
                                               _regioncurrentItemSelected,
                                               _typecurrentItemSelected,
-                                              dep);
+                                              dep,_indyearcurrentItemSelected);
                                         });
                                       } else {
                                         advlist.clear();
@@ -1189,7 +1270,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
                                               filt,
                                               _regioncurrentItemSelected,
                                               _typecurrentItemSelected,
-                                              dep);
+                                              dep,_indyearcurrentItemSelected);
                                         });
                                       }
                                     },
@@ -1545,7 +1626,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
               setState(() {
                 dep = 'الكل';
                 filterSearchResults(filt, _regioncurrentItemSelected,
-                    _typecurrentItemSelected, dep);
+                    _typecurrentItemSelected, dep,_indyearcurrentItemSelected);
               });
             } else {
               advlist.clear();
@@ -1554,7 +1635,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
               setState(() {
                 dep = ctitle;
                 filterSearchResults(filt, _regioncurrentItemSelected,
-                    _typecurrentItemSelected, dep);
+                    _typecurrentItemSelected, dep,_indyearcurrentItemSelected);
               });
             }
             print("lllllll${ctitle.toString()}");
@@ -1602,20 +1683,46 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
               if (ctitle == 'الكل' || departlist1.length == 0) {
                 setState(() {
                   depart1 = false;
+                  setState(() {
+                    carcheck=false;
+                    _indyearcurrentItemSelected="الموديل";
+                  });
                 });
               } else {
                 setState(() {
                   depart1 = true;
+                  if(departlist[index].title == 'السيارات'){
+                    setState(() {
+                      carcheck=true;
+                    });
+                  }else{
+                    setState(() {
+                      carcheck=false;
+                      _indyearcurrentItemSelected="الموديل";
+                    });
+                  }
                 });
               }
             }).catchError(() {
               if (ctitle == 'الكل' || departlist1.length == 0) {
                 setState(() {
                   depart1 = false;
+                  carcheck=false;
+                  _indyearcurrentItemSelected="الموديل";
                 });
               } else {
                 setState(() {
                   depart1 = true;
+                  if(departlist[index].title == 'السيارات'){
+                    setState(() {
+                      carcheck=true;
+                    });
+                  }else{
+                    setState(() {
+                      carcheck=false;
+                      _indyearcurrentItemSelected="الموديل";
+                    });
+                  }
                 });
               }
             });
@@ -1689,7 +1796,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
               setState(() {
                 dep = 'الكل';
                 filterSearchResults(filt, _regioncurrentItemSelected,
-                    _typecurrentItemSelected, dep);
+                    _typecurrentItemSelected, dep,_indyearcurrentItemSelected);
               });
             } else {
               advlist.clear();
@@ -1698,7 +1805,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
               setState(() {
                 dep = ctitle;
                 filterSearchResults(filt, _regioncurrentItemSelected,
-                    _typecurrentItemSelected, dep);
+                    _typecurrentItemSelected, dep,_indyearcurrentItemSelected);
               });
             }
             setState(() {
@@ -1784,7 +1891,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
               setState(() {
                 dep = 'الكل';
                 filterSearchResults(filt, _regioncurrentItemSelected,
-                    _typecurrentItemSelected, dep);
+                    _typecurrentItemSelected, dep,_indyearcurrentItemSelected);
               });
             } else {
               advlist.clear();
@@ -1793,7 +1900,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
               setState(() {
                 dep = ctitle;
                 filterSearchResults(filt, _regioncurrentItemSelected,
-                    _typecurrentItemSelected, dep);
+                    _typecurrentItemSelected, dep,_indyearcurrentItemSelected);
               });
             }
           },
@@ -1829,6 +1936,27 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
     );
   }
 
+  void _onDropDownItemSelectedindyear(String newValueSelected) {
+    setState(() {
+      this._indyearcurrentItemSelected = newValueSelected;
+    });
+    if (newValueSelected == 'الموديل') {
+      setState(() {
+        // dep= 'الكل';
+        filterSearchResults(
+            filt, _regioncurrentItemSelected, _typecurrentItemSelected, dep,_indyearcurrentItemSelected);
+      });
+    } else {
+      advlist.clear();
+      advlist.addAll(costantList);
+
+      setState(() {
+        // dep= 'الكل';
+        filterSearchResults(
+            filt, _regioncurrentItemSelected, _typecurrentItemSelected, dep,_indyearcurrentItemSelected);
+      });
+    }
+  }
   //_onDropDownItemSelectedtype
   void _onDropDownItemSelectedtype(String newValueSelected) {
     setState(() {
@@ -1838,7 +1966,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
       setState(() {
         // dep= 'الكل';
         filterSearchResults(
-            filt, _regioncurrentItemSelected, _typecurrentItemSelected, dep);
+            filt, _regioncurrentItemSelected, _typecurrentItemSelected, dep,_indyearcurrentItemSelected);
       });
     } else {
       advlist.clear();
@@ -1847,7 +1975,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
       setState(() {
         // dep= 'الكل';
         filterSearchResults(
-            filt, _regioncurrentItemSelected, _typecurrentItemSelected, dep);
+            filt, _regioncurrentItemSelected, _typecurrentItemSelected, dep,_indyearcurrentItemSelected);
       });
     }
   }
@@ -1860,7 +1988,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
       setState(() {
         // dep= 'الكل';
         filterSearchResults(
-            filt, _regioncurrentItemSelected, _typecurrentItemSelected, dep);
+            filt, _regioncurrentItemSelected, _typecurrentItemSelected, dep,_indyearcurrentItemSelected);
       });
     } else {
       advlist.clear();
@@ -1869,7 +1997,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
       setState(() {
         // dep= 'الكل';
         filterSearchResults(
-            filt, _regioncurrentItemSelected, _typecurrentItemSelected, dep);
+            filt, _regioncurrentItemSelected, _typecurrentItemSelected, dep,_indyearcurrentItemSelected);
       });
     }
   }
