@@ -314,9 +314,11 @@ class _SignInState extends State<SignIn> {
         FirebaseDatabase.instance.reference().child("userdata");
 
 
-    if ("cPhone" != null) {
-      userdatabaseReference.child(signedInUserid).update({
+    if (signedInUserid == null) {
+      userdatabaseReference.child(signedInUserid).set({
         "cPhone": _phoneController.text,
+        'rating': "0",
+        'custRate': 0,
       }).then((_) {
         setState(() {
           Navigator.pushReplacement(
@@ -328,8 +330,6 @@ class _SignInState extends State<SignIn> {
     } else {
       userdatabaseReference.child(signedInUserid).update({
         "cPhone": _phoneController.text,
-        'rating': "0",
-        'custRate': 0,
       }).then((_) {
         setState(() {
           Navigator.pushReplacement(

@@ -302,7 +302,12 @@ class _AdvProlileState extends State<AdvProlile> {
             });
           }));
   }
-
+  final    ReferenceNotice =
+  FirebaseDatabase
+      .instance
+      .reference()
+      .child(
+      'ADVNotice');
   @override
   Widget build(BuildContext context) {
 //    Widget loadingIndicator = _load
@@ -401,40 +406,109 @@ class _AdvProlileState extends State<AdvProlile> {
                                     size: 35,
                                     color: const Color(0xff171732),
                                   )
-                                : Swiper(
-                                    loop: false,
-                                    duration: 1000,
-                                    autoplay: true,
-                                    autoplayDelay: 15000,
-                                    itemCount: _imageUrls.length,
-                                    pagination: new SwiperPagination(
-                                      margin: new EdgeInsets.fromLTRB(
-                                          0.0, 0.0, 0.0, 0.0),
-                                      builder: new DotSwiperPaginationBuilder(
-                                          color: Colors.grey,
-                                          activeColor: const Color(0xff171732),
-                                          size: 8.0,
-                                          activeSize: 8.0),
-                                    ),
-                                    control: new SwiperControl(),
-                                    viewportFraction: 1,
-                                    scale: 0.1,
-                                    outer: true,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return Image.network(_imageUrls[index],
-                                          fit: BoxFit.fill,
-                                          loadingBuilder: (BuildContext context,
-                                              Widget child,
-                                              ImageChunkEvent loadingProgress) {
-                                        if (loadingProgress == null)
-                                          return child;
-                                        return SpinKitThreeBounce(
-                                          color: const Color(0xff171732),
-                                          size: 35,
-                                        );
-                                      });
-                                    },
+                                : Stack(
+                                    children: <Widget>[
+                                      Swiper(
+                                        loop: false,
+                                        duration: 1000,
+                                        autoplay: true,
+                                        autoplayDelay: 15000,
+                                        itemCount: _imageUrls.length,
+                                        pagination: new SwiperPagination(
+                                          margin: new EdgeInsets.fromLTRB(
+                                              0.0, 0.0, 0.0, 0.0),
+                                          builder:
+                                              new DotSwiperPaginationBuilder(
+                                                  color: Colors.grey,
+                                                  activeColor:
+                                                      const Color(0xff171732),
+                                                  size: 8.0,
+                                                  activeSize: 8.0),
+                                        ),
+                                        control: new SwiperControl(),
+                                        viewportFraction: 1,
+                                        scale: 0.1,
+                                        outer: true,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          return Image.network(
+                                              _imageUrls[index],
+                                              fit: BoxFit.fill, loadingBuilder:
+                                                  (BuildContext context,
+                                                      Widget child,
+                                                      ImageChunkEvent
+                                                          loadingProgress) {
+                                            if (loadingProgress == null)
+                                              return child;
+                                            return SpinKitThreeBounce(
+                                              color: const Color(0xff171732),
+                                              size: 35,
+                                            );
+                                          });
+                                        },
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          if(_userId != null){
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) =>
+                                              new CupertinoAlertDialog(
+                                                title: new Text("تنبية"),
+                                                content: new Text(
+                                                    "تبغي ترسل بلاغ إساءة لهذا الاعلان"),
+                                                actions: [
+                                                  CupertinoDialogAction(
+                                                      isDefaultAction: false,
+                                                      child: new FlatButton(
+                                                        onPressed: () {
+                                                          ReferenceNotice.child(widget.cId).child(_userId).set({
+                                                            'idUserNotice': _userId,
+                                                            'NameForAdv':widget.cName,
+                                                            'DateForAdv':widget.cDateID,
+
+                                                          }).then((_) {
+                                                            Toast.show(
+                                                                "ابشر ... سيتم مراجعة بلاغك",
+                                                                context,
+                                                                duration: Toast.LENGTH_LONG,
+                                                                gravity: Toast.BOTTOM);
+                                                            Navigator.of(context).pop();
+
+                                                          });
+                                                        },
+                                                        child: Text("موافق"),
+                                                      )),
+                                                  CupertinoDialogAction(
+                                                      isDefaultAction: false,
+                                                      child: new FlatButton(
+                                                        onPressed: () =>
+                                                            Navigator.pop(
+                                                                context),
+                                                        child: Text("إلغاء"),
+                                                      )),
+                                                ],
+                                              ),
+                                            );
+                                          }else{
+                                            Toast.show(
+                                                "ابشر .. سجل دخول الاول طال عمرك",
+                                                context,
+                                                duration: Toast.LENGTH_LONG,
+                                                gravity: Toast.BOTTOM);
+                                          }
+
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Icon(
+                                            Icons.error_outline,
+                                            color: Colors.red,
+                                            size: 30,
+                                          ),
+                                        ),
+                                      )
+                                    ],
                                   )),
                       ),
                       Card(
@@ -529,12 +603,12 @@ class _AdvProlileState extends State<AdvProlile> {
                                                     "${now.year.toString()}${b}${c}${d}${e}${f}")
                                               });
                                               if (widget.cName == null) {
-                                                widget.cName = " اسم غير معلوم ";
+                                                widget.cName =
+                                                    " اسم غير معلوم ";
                                                 Toast.show(
                                                     "${widget.cName} تم اضافتة فى المفضلة  ",
                                                     context,
-                                                    duration:
-                                                        Toast.LENGTH_LONG,
+                                                    duration: Toast.LENGTH_LONG,
                                                     gravity: Toast.BOTTOM);
                                               }
                                             } else {
@@ -1154,35 +1228,43 @@ class _AdvProlileState extends State<AdvProlile> {
                                       ),
                                       InkWell(
                                         onTap: () async {
-                                          if (_formKey1.currentState
-                                              .validate()) {
-                                            try {
-                                              final result =
-                                                  await InternetAddress.lookup(
-                                                      'google.com');
-                                              if (result.isNotEmpty &&
-                                                  result[0]
-                                                      .rawAddress
-                                                      .isNotEmpty) {
-                                                createRecord(_username);
+                                          if (_userId != null) {
+                                            if (_formKey1.currentState
+                                                .validate()) {
+                                              try {
+                                                final result =
+                                                    await InternetAddress
+                                                        .lookup('google.com');
+                                                if (result.isNotEmpty &&
+                                                    result[0]
+                                                        .rawAddress
+                                                        .isNotEmpty) {
+                                                  createRecord(_username);
+                                                }
+                                              } on SocketException catch (_) {
+                                                //  print('not connected');
+                                                Toast.show(
+                                                    "انت غير متصل بشبكة إنترنت طال عمرك",
+                                                    context,
+                                                    duration: Toast.LENGTH_LONG,
+                                                    gravity: Toast.BOTTOM);
                                               }
-                                            } on SocketException catch (_) {
-                                              //  print('not connected');
-                                              Toast.show(
-                                                  "انت غير متصل بشبكة إنترنت طال عمرك",
-                                                  context,
-                                                  duration: Toast.LENGTH_LONG,
-                                                  gravity: Toast.BOTTOM);
-                                            }
 
 //                                                setState(() {
 //                                                  _load2 = true;
 //                                                });
 
+                                            }
+                                          } else {
+                                            Toast.show(
+                                                "سجل دخول الاول طال عمرك",
+                                                context,
+                                                duration: Toast.LENGTH_LONG,
+                                                gravity: Toast.BOTTOM);
                                           }
                                         },
                                         child: Icon(
-                                          Icons.add_comment,
+                                          Icons.send,
                                           color: Colors.grey,
                                         ),
                                       ),

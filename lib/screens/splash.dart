@@ -103,10 +103,10 @@ class _SplashState extends State<Splash > {
               DATA[individualkey]['ccity'],
 
             );
-            setState(() {
+
               regionlist.add(DATA[individualkey]['ccity']);
 
-            });
+
 
           }
           Navigator.pushReplacement(
@@ -114,10 +114,9 @@ class _SplashState extends State<Splash > {
               MaterialPageRoute(
                   builder: (context) =>
                       FragmentSouq1(regionlist)));
-          print("llllllll"+regionlist.toString());
 
         }).timeout(Duration(seconds: 1), onTimeout: () {
-          setState(() {
+
 
             regionlist.length==0? Navigator.pushReplacement(
                 context,
@@ -129,7 +128,7 @@ class _SplashState extends State<Splash > {
                 MaterialPageRoute(
                     builder: (context) =>
                         FragmentSouq1(regionlist)));
-          });
+
         });
         
         
