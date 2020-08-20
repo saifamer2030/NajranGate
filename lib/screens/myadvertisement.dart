@@ -6,12 +6,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
-import 'package:souqnagran/classes/AdvClass.dart';
-import 'package:souqnagran/classes/AdvNameClass.dart';
-import 'package:souqnagran/classes/DepartmentClass.dart';
+import 'package:NajranGate/classes/AdvClass.dart';
+import 'package:NajranGate/classes/AdvNameClass.dart';
+import 'package:NajranGate/classes/DepartmentClass.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:souqnagran/classes/UserDataClass.dart';
-import 'package:souqnagran/screens/signin.dart';
+import 'package:NajranGate/classes/UserDataClass.dart';
+import 'package:NajranGate/screens/loginphone.dart';
 
 import 'package:toast/toast.dart';
 
@@ -489,7 +489,6 @@ class _MyAdvertisementState extends State<MyAdvertisement> {
 
           },
           child: Container(
-              padding: EdgeInsets.all(0),
               child: Row(
                 children: <Widget>[
                   Column(
@@ -512,11 +511,6 @@ class _MyAdvertisementState extends State<MyAdvertisement> {
                                 borderRadius: BorderRadius.circular(2.0),
                                 color:const Color(0xff444460),
                               ),
-
-                              child: Positioned(
-                                bottom: 80,
-                                right: 0,
-
                                 child: Padding(
                                     padding: const EdgeInsets.all(5.0),
                                     child:  Text(
@@ -525,12 +519,12 @@ class _MyAdvertisementState extends State<MyAdvertisement> {
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
                                           color: Colors.white,
-                                          fontSize: 8,
+                                          fontSize: 12,
 //                                          fontFamily: 'Estedad-Black',
                                           fontStyle: FontStyle.normal),
                                     )
                                 ),
-                              ),
+
                             ),
 
 

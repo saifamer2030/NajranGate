@@ -8,7 +8,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart' as intl;
-import 'package:souqnagran/screens/ModelsForChating/state.dart';
+import "package:NajranGate/screens/ModelsForChating/state.dart";
 
 class ChatPage extends StatefulWidget {
   ChatPage({Key key, this.url, this.name, this.uid}) : super(key: key);

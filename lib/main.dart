@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:souqnagran/FragmentSouqNajran.dart';
-import 'package:souqnagran/screens/network_connection.dart';
-import 'package:souqnagran/screens/signin.dart';
-import 'package:souqnagran/screens/splash.dart';
+import 'package:NajranGate/FragmentSouqNajran.dart';
+import 'package:NajranGate/screens/network_connection.dart';
+import 'package:NajranGate/screens/loginphone.dart';
+import 'package:NajranGate/screens/splash.dart';
 
 void main() {
   runApp(MyApp());
@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
       800: const Color(0xFF000000),
       900: const Color(0xFF000000),
     },
+
   );
   @override
   Widget build(BuildContext context) {

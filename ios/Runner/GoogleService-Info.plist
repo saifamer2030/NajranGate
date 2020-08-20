@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>381457442905-i8lts881a05bavf1jk287ock40godg55.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.381457442905-i8lts881a05bavf1jk287ock40godg55</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>381457442905-4cfjgpama8033e9srqd24idhmibfev7h.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyA2vHG2S8j6zqlvcN0c5y-4UU_jub_F554</string>
+	<key>GCM_SENDER_ID</key>
+	<string>381457442905</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.arabdevelopers.souqnagran</string>
+	<key>PROJECT_ID</key>
+	<string>souqnagran-49abe</string>
+	<key>STORAGE_BUCKET</key>
+	<string>souqnagran-49abe.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:381457442905:ios:574f89eca913c70b192948</string>
+	<key>DATABASE_URL</key>
+	<string>https://souqnagran-49abe.firebaseio.com</string>
+</dict>
+</plist>

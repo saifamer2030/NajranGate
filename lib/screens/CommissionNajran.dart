@@ -3,7 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:souqnagran/classes/BankAccount.dart';
+import 'package:NajranGate/classes/BankAccount.dart';
 
 class CommissionNajran extends StatefulWidget {
   @override

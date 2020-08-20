@@ -5,9 +5,9 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:souqnagran/classes/AdvNameClass.dart';
-import 'package:souqnagran/classes/CommentClass.dart';
-import 'package:souqnagran/screens/splash.dart';
+import 'package:NajranGate/classes/AdvNameClass.dart';
+import 'package:NajranGate/classes/CommentClass.dart';
+import 'package:NajranGate/screens/splash.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 //import 'package:simple_slider/simple_slider.dart';

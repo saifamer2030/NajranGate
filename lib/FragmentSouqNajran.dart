@@ -1,18 +1,20 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:NajranGate/screens/loginmail.dart';
 import 'package:fimber/fimber_base.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:souqnagran/screens/MoreSouqNajran.dart';
-import 'package:souqnagran/screens/alladvertsments.dart';
-import 'package:souqnagran/screens/bottomsheet_widget.dart';
-import 'package:souqnagran/screens/myalarms.dart';
-import 'package:souqnagran/screens/myfavourits.dart';
-import 'package:souqnagran/screens/personal_page.dart';
-import 'package:souqnagran/screens/signin.dart';
+import 'package:NajranGate/classes/FavClass.dart';
+import 'package:NajranGate/screens/MoreSouqNajran.dart';
+import 'package:NajranGate/screens/alladvertsments.dart';
+import 'package:NajranGate/screens/bottomsheet_widget.dart';
+import 'package:NajranGate/screens/myalarms.dart';
+import 'package:NajranGate/screens/myfavourits.dart';
+import 'package:NajranGate/screens/personal_page.dart';
+import 'package:NajranGate/screens/loginphone.dart';
 
 class FragmentSouq1 extends StatefulWidget {
   List<String> regionlist = [];
@@ -369,7 +371,7 @@ class _MyFloatingButtonState extends State<MyFloatingButton> {
               FirebaseAuth.instance.currentUser().then((user) => user == null
                   ? Navigator.of(context, rootNavigator: false).push(
                       MaterialPageRoute(
-                          builder: (context) => SignIn(widget.regionlist),
+                          builder: (context) => LoginScreen2(widget.regionlist),
                           maintainState: false))
                   : setState(() {
                       var sheetController = showBottomSheet(

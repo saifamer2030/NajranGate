@@ -7,9 +7,9 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
 //import 'package:multi_image_picker/multi_image_picker.dart';
-import 'package:souqnagran/classes/DepartmentClass.dart';
-import 'package:souqnagran/screens/alladvertsments.dart';
-import 'package:souqnagran/screens/splash.dart';
+import 'package:NajranGate/classes/DepartmentClass.dart';
+import 'package:NajranGate/screens/alladvertsments.dart';
+import 'package:NajranGate/screens/splash.dart';
 import 'package:toast/toast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';

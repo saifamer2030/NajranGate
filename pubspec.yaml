@@ -1,4 +1,4 @@
-name: souqnagran
+name: NajranGate
 description: A new Flutter application.
 
 # The following line prevents the package from being accidentally published to
@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+1
+version: 2.0.0+2
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -53,7 +53,6 @@ dependencies:
   multi_image_picker: ^4.6.6
   http: ^0.12.2
   file_picker: ^1.13.2
-  firebase_in_app_messaging: ^0.1.2
   persian_number_utility: ^0.1.2
   image:
 
@@ -78,11 +77,7 @@ flutter:
      #- images/a_dot_burr.jpeg
      - assets/images/ic_confirmephone.png
      - assets/images/ic_ads.png
-     - assets/images/ic_anim.png
-     - assets/images/ic_shpiat.png
-     - assets/images/ic_flower.png
      - assets/images/antenna.png
-     - assets/images/ic_person.png
      - assets/images/image_privcy_policy.png
 
 

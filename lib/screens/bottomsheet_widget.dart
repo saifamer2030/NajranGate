@@ -2,9 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:souqnagran/classes/DepartmentClass.dart';
-import 'package:souqnagran/screens/personal_page.dart';
-import 'package:souqnagran/screens/pledge.dart';
+import 'package:NajranGate/classes/DepartmentClass.dart';
+import 'package:NajranGate/screens/personal_page.dart';
+import 'package:NajranGate/screens/pledge.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class BottomSheetWidget extends StatefulWidget {
@@ -127,12 +127,6 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
     return Container(
       margin: const EdgeInsets.only(top: 5, left: 15, right: 15),
       height: 450,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          Container(
-            height: 450,
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(15),
@@ -140,7 +134,7 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
                   BoxShadow(
                       blurRadius: 10, color: Colors.grey[300], spreadRadius: 5)
                 ]),
-            child: Expanded(
+
                 child: Center(
                   child: departlist.length == 0
                       ? new Text("برجاء الإنتظار")
@@ -161,12 +155,8 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
                           ),
                         );
                       }),
-                )),
+                )
 
-
-          )
-        ],
-      ),
     );
   }
 

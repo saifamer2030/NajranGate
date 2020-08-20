@@ -3,15 +3,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:souqnagran/classes/AdvClass.dart';
-import 'package:souqnagran/classes/AdvNameClass.dart';
-import 'package:souqnagran/classes/FavClass.dart';
-import 'package:souqnagran/classes/UserDataClass.dart';
-import 'package:souqnagran/screens/signin.dart';
+import 'package:NajranGate/classes/AdvClass.dart';
+import 'package:NajranGate/classes/AdvNameClass.dart';
+import 'package:NajranGate/classes/FavClass.dart';
+import 'package:NajranGate/classes/UserDataClass.dart';
+import 'package:NajranGate/screens/loginphone.dart';
 
 import 'package:toast/toast.dart';
 
 import 'advprofile.dart';
+import 'loginmail.dart';
 
 
 class MyFav extends StatefulWidget {
@@ -89,7 +90,7 @@ class _MyFavState extends State<MyFav> {
     FirebaseAuth.instance.currentUser().then((user) => user == null
         ?
     Navigator.of(context, rootNavigator: false).push(MaterialPageRoute(
-                                builder: (context) => SignIn(widget.regionlist), maintainState: false))
+                                builder: (context) => LoginScreen2(widget.regionlist), maintainState: false))
         : setState(() {
             _userId = user.uid;
 
@@ -398,7 +399,6 @@ class _MyFavState extends State<MyFav> {
 
           },
           child: Container(
-              padding: EdgeInsets.all(0),
               child: Row(
                 children: <Widget>[
                   Column(
@@ -421,11 +421,6 @@ class _MyFavState extends State<MyFav> {
                                 borderRadius: BorderRadius.circular(2.0),
                                 color:const Color(0xff444460),
                               ),
-
-                              child: Positioned(
-                                bottom: 80,
-                                right: 0,
-
                                 child: Padding(
                                     padding: const EdgeInsets.all(5.0),
                                     child:  Text(
@@ -434,12 +429,12 @@ class _MyFavState extends State<MyFav> {
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
                                           color: Colors.white,
-                                          fontSize: 8,
+                                          fontSize: 12,
 //                                          fontFamily: 'Estedad-Black',
                                           fontStyle: FontStyle.normal),
                                     )
                                 ),
-                              ),
+
                             ),
 
 

@@ -3,8 +3,9 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:souqnagran/classes/CityClass.dart';
-import 'package:souqnagran/screens/signin.dart';
+import 'package:NajranGate/classes/CityClass.dart';
+import 'package:NajranGate/screens/loginphone.dart';
+import 'package:toast/toast.dart';
 
 import '../FragmentSouqNajran.dart';
 
@@ -40,6 +41,11 @@ class _ConnectionScreenState extends State<ConnectionScreen > {
               });
 
             }
+            Toast.show(
+                "${regionlist.length}",
+                context,
+                duration: Toast.LENGTH_LONG,
+                gravity: Toast.BOTTOM);
             init(regionlist);
             print("llllllll"+regionlist.toString());
 
@@ -57,13 +63,13 @@ class _ConnectionScreenState extends State<ConnectionScreen > {
     // Navigator.of(context).pushNamed('/login');
     FirebaseAuth.instance.currentUser().then((user) => user != null
         ?
-    Navigator.push(
+    Navigator.pushReplacement(
         context,
         MaterialPageRoute(
             builder: (context) =>
                 FragmentSouq1(regionlist)))
         :
-    Navigator.push(
+    Navigator.pushReplacement(
         context,
         MaterialPageRoute(
             builder: (context) =>

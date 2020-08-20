@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:souqnagran/classes/UserRegDataClass.dart';
-import 'package:souqnagran/screens/ModelsForChating/state.dart';
+import 'package:NajranGate/classes/UserRegDataClass.dart';
+import 'package:NajranGate/screens/ModelsForChating/state.dart';
 import 'ChatList.dart';
 import 'chat.dart';
 
@@ -157,6 +157,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
+
         Padding(
           padding: EdgeInsets.only(
               top: _minimumPadding * 22,

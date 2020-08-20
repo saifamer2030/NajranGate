@@ -4,9 +4,9 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:souqnagran/classes/CityClass.dart';
-import 'package:souqnagran/screens/signin.dart';
-
+import 'package:NajranGate/classes/CityClass.dart';
+import 'package:NajranGate/screens/loginphone.dart';
+import 'package:toast/toast.dart';
 import '../FragmentSouqNajran.dart';
 import 'network_connection.dart';
 
@@ -50,7 +50,7 @@ class _SplashState extends State<Splash > {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 1), () async {
+    Future.delayed(Duration(seconds: 0), () async {
       try {
         final result = await InternetAddress.lookup('google.com');
         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
@@ -103,22 +103,25 @@ class _SplashState extends State<Splash > {
               DATA[individualkey]['ccity'],
 
             );
-
+            setState(() {
               regionlist.add(DATA[individualkey]['ccity']);
 
-
+            });
 
           }
+
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                   builder: (context) =>
                       FragmentSouq1(regionlist)));
+          print("llllllll"+regionlist.toString());
 
-        }).timeout(Duration(seconds: 1), onTimeout: () {
+        }).timeout(Duration(seconds: 0), onTimeout: () {
+          setState(() {
 
-
-            regionlist.length==0? Navigator.pushReplacement(
+            regionlist.length==0?
+            Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) =>
@@ -129,10 +132,12 @@ class _SplashState extends State<Splash > {
                     builder: (context) =>
                         FragmentSouq1(regionlist)));
 
+
+          });
         });
-        
-        
-        
+
+
+
 
 
       }

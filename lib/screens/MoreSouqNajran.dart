@@ -4,15 +4,16 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:souqnagran/screens/CommissionNajran.dart';
-import 'package:souqnagran/screens/ModelsForChating/home.dart';
-import 'package:souqnagran/screens/SmsForUser/SmsForUserClass.dart';
-import 'package:souqnagran/screens/SmsForUser/SmsForUserPage.dart';
-import 'package:souqnagran/screens/personal_page.dart';
-import 'package:souqnagran/screens/privcy_policy.dart';
-import 'package:souqnagran/screens/signin.dart';
+import 'package:NajranGate/screens/CommissionNajran.dart';
+import 'package:NajranGate/screens/ModelsForChating/home.dart';
+import 'package:NajranGate/screens/SmsForUser/SmsForUserClass.dart';
+import 'package:NajranGate/screens/SmsForUser/SmsForUserPage.dart';
+import 'package:NajranGate/screens/personal_page.dart';
+import 'package:NajranGate/screens/privcy_policy.dart';
+import 'package:NajranGate/screens/loginphone.dart';
 
 import 'advprofile.dart';
+import 'loginmail.dart';
 import 'myadvertisement.dart';
 
 class MoreSouqNajran extends StatefulWidget {
@@ -174,7 +175,7 @@ class _MoreSouqNajranState extends State<MoreSouqNajran> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        SignIn(widget.regionlist)));
+                                        LoginScreen2(widget.regionlist)));
                           }else{
                             if (_userId != null &&
                                 _cType != null ) {
@@ -279,7 +280,7 @@ class _MoreSouqNajranState extends State<MoreSouqNajran> {
                                   context,
                                   new MaterialPageRoute(
                                       builder: (context) =>
-                                          SignIn(widget.regionlist)));
+                                          LoginScreen2(widget.regionlist)));
                             } else {
                               if (_cType != null) {
                                 Navigator.push(
@@ -388,7 +389,7 @@ class _MoreSouqNajranState extends State<MoreSouqNajran> {
                                   context,
                                   new MaterialPageRoute(
                                       builder: (context) =>
-                                          SignIn(widget.regionlist)));
+                                          LoginScreen2(widget.regionlist)));
                             }
                           },
                           child: Row(
@@ -562,7 +563,7 @@ class _MoreSouqNajranState extends State<MoreSouqNajran> {
                               Navigator.push(
                                   context,
                                   new MaterialPageRoute(
-                                      builder: (context) => SignIn(widget.regionlist)));
+                                      builder: (context) => LoginScreen2(widget.regionlist)));
                             }else{
                               Navigator.push(
                                   context,
@@ -643,7 +644,7 @@ class _MoreSouqNajranState extends State<MoreSouqNajran> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        SignIn(widget.regionlist)));
+                                        LoginScreen2(widget.regionlist)));
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,

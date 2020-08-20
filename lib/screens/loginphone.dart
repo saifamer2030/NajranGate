@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:NajranGate/screens/loginmail.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -54,6 +55,18 @@ class _SignInState extends State<SignIn> {
 
     return Scaffold(
       backgroundColor: const Color(0xffffffff),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color(0xff171732),
+        child: Icon(Icons.mail,color: Colors.white,),
+        heroTag: "unique3",
+        onPressed: () {
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      LoginScreen2(widget.regionlist)));
+        },
+      ),
       body: Container(
         child: Stack(
           children: <Widget>[
@@ -130,7 +143,7 @@ class _SignInState extends State<SignIn> {
                               decoration: InputDecoration(
                                 labelText: "رقم الجوال",
                                 //Translations.of(context).translate('telephone_number'),
-                                hintText: 'مثل:512345678',
+                                hintText: 'مثل:966512345678+',
                                 prefixIcon: Icon(Icons.phone_android),
                                 labelStyle: textStyle,
                                 errorStyle: TextStyle(
@@ -211,7 +224,7 @@ class _SignInState extends State<SignIn> {
     FirebaseAuth _auth = FirebaseAuth.instance;
 
     _auth.verifyPhoneNumber(
-        phoneNumber: "+966$phone",
+        phoneNumber: "$phone",
         //phoneNumber: "+2$phone",
         timeout: Duration(seconds: 60),
         verificationCompleted: (AuthCredential credential) async {
@@ -316,6 +329,7 @@ class _SignInState extends State<SignIn> {
 
     if (signedInUserid == null) {
       userdatabaseReference.child(signedInUserid).set({
+        "cId":signedInUserid,
         "cPhone": _phoneController.text,
         'rating': "0",
         'custRate': 0,
@@ -330,6 +344,7 @@ class _SignInState extends State<SignIn> {
     } else {
       userdatabaseReference.child(signedInUserid).update({
         "cPhone": _phoneController.text,
+        "cId":signedInUserid,
       }).then((_) {
         setState(() {
           Navigator.pushReplacement(

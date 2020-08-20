@@ -5,10 +5,10 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
-import 'package:souqnagran/classes/AdvClass.dart';
-import 'package:souqnagran/classes/AdvNameClass.dart';
-import 'package:souqnagran/classes/DepartmentClass.dart';
-import 'package:souqnagran/classes/UserDataClass.dart';
+import 'package:NajranGate/classes/AdvClass.dart';
+import 'package:NajranGate/classes/AdvNameClass.dart';
+import 'package:NajranGate/classes/DepartmentClass.dart';
+import 'package:NajranGate/classes/UserDataClass.dart';
 
 import 'package:toast/toast.dart';
 
@@ -438,8 +438,6 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Column(
-            children: <Widget>[
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: 40.0,
@@ -535,12 +533,9 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10)),
                             ),
-                            child: Container(
-                              // width: 72,
-                              height: 13,
-                              padding: EdgeInsets.only(right: 2),
-                              child: Expanded(
+
                                 child: Container(
+                                    height: 13,
                                     child: Directionality(
                                   textDirection: TextDirection.rtl,
                                   child: TextField(
@@ -596,10 +591,9 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
                                     ),
                                   ),
                                 )),
-                              ),
+
                             ),
                           ),
-                        ),
                       ],
                     ),
                   ),
@@ -623,7 +617,6 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
                               // width: 258,
 
                               height: 35,
-                              margin: EdgeInsets.only(right: 25, left: 25),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
@@ -643,10 +636,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(10)),
                                       ),
-                                      child: Container(
-                                        // width: 72,
-                                        height: 13,
-                                        padding: EdgeInsets.only(right: 2),
+
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceAround,
@@ -753,7 +743,6 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
                                         ),
                                       ),
                                     ),
-                                  )
                                 ],
                               ),
                             ),
@@ -764,12 +753,10 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
                   ],
                 ),
               ),
-            ],
-          ),
+
           Container(
             height: 70,
-            child: Expanded(
-                child: Center(
+
               child: departlist.length == 0
                   ? new Text("برجاء الإنتظار")
                   : new ListView.builder(
@@ -1014,13 +1001,12 @@ _indyearcurrentItemSelected="الموديل";
                               ),**/
                             );
                       }),
-            )),
-          ),
+            ),
+
           depart1
               ? Container(
                   height: 30,
-                  child: Expanded(
-                      child: Center(
+
                     child: departlist1.length == 0
                         ? new Text("برجاء الإنتظار")
                         : new ListView.builder(
@@ -1198,14 +1184,13 @@ _indyearcurrentItemSelected="الموديل";
                               ),**/
                               );
                             }),
-                  )),
+
                 )
               : Container(),
           depart2
               ? Container(
                   height: 30,
-                  child: Expanded(
-                      child: Center(
+
                     child: departlist2.length == 0
                         ? new Text("برجاء الإنتظار")
                         : new ListView.builder(
@@ -1315,7 +1300,7 @@ _indyearcurrentItemSelected="الموديل";
 //                                    ),
                                   );
                             }),
-                  )),
+
                 )
               : Container(),
           Expanded(
@@ -1410,7 +1395,6 @@ _indyearcurrentItemSelected="الموديل";
             }
           },
           child: Container(
-              padding: EdgeInsets.all(0),
               child: Row(
                 children: <Widget>[
                   Column(
@@ -1434,22 +1418,16 @@ _indyearcurrentItemSelected="الموديل";
                                 borderRadius: BorderRadius.circular(2.0),
                                 color: const Color(0xff444460),
                               ),
-                              child: Positioned(
-                                bottom: 80,
-                                right: 0,
-                                child: Padding(
-                                    padding: const EdgeInsets.all(5.0),
                                     child: Text(
                                       cdepart,
                                       textDirection: TextDirection.rtl,
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
                                           color: Colors.white,
-                                          fontSize: 8,
-                                          fontFamily: 'Estedad-Black',
+                                          fontSize: 12,
+//                                          fontFamily: 'Estedad-Black',
                                           fontStyle: FontStyle.normal),
-                                    )),
-                              ),
+                                    ),
                             ),
                           ],
                         ),

@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:souqnagran/classes/CityClass.dart';
-import 'package:souqnagran/screens/signin.dart';
+import 'package:NajranGate/classes/CityClass.dart';
+import 'package:NajranGate/screens/loginphone.dart';
 
 import '../FragmentSouqNajran.dart';
 

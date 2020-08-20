@@ -5,7 +5,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:souqnagran/FragmentSouqNajran.dart';
+import 'package:NajranGate/FragmentSouqNajran.dart';
 
 import 'RatingClass.dart';
 

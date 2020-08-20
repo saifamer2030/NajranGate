@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "381457442905-4cfjgpama8033e9srqd24idhmibfev7h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.arabdevelopers.souqnagran",
+            "certificate_hash": "c065fc9f3ddedf409e9ccf06e139599a16a62574"
+          }
+        },
+        {
+          "client_id": "381457442905-dgnj9iil7un542vt105bk8ithq9gaovk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.arabdevelopers.souqnagran",
+            "certificate_hash": "8a272be655cb0ba460f26c6532c2b351b1ff3d59"
+          }
+        },
+        {
           "client_id": "381457442905-64aqhn2ibuugmhrj58q1dkqi37dpbgg5.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -38,6 +54,13 @@
             {
               "client_id": "381457442905-6p8argqoqre1066kan1h05jvn10sch3j.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "381457442905-i8lts881a05bavf1jk287ock40godg55.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.arabdevelopers.souqnagran"
+              }
             }
           ]
         }

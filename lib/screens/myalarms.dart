@@ -3,10 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:souqnagran/classes/AlarmaClass.dart';
-import 'package:souqnagran/screens/advprofile.dart';
-import 'package:souqnagran/screens/signin.dart';
+import 'package:NajranGate/classes/AlarmaClass.dart';
+import 'package:NajranGate/screens/advprofile.dart';
+import 'package:NajranGate/screens/loginphone.dart';
 import 'package:toast/toast.dart';
+
+import 'loginmail.dart';
 
 class MyAlarms extends StatefulWidget {
   List<String> regionlist = [];
@@ -32,7 +34,7 @@ class _MyAlarmsState extends State<MyAlarms> {
 
     FirebaseAuth.instance.currentUser().then((user) => user == null
         ? Navigator.of(context, rootNavigator: false).push(MaterialPageRoute(
-        builder: (context) => SignIn(widget.regionlist), maintainState: false))
+        builder: (context) => LoginScreen2(widget.regionlist), maintainState: false))
 
         : setState(() {
             _userId = user.uid;

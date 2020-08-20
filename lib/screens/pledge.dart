@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:souqnagran/classes/DepartmentClass.dart';
-import 'package:souqnagran/screens/splash.dart';
+import 'package:NajranGate/classes/DepartmentClass.dart';
+import 'package:NajranGate/screens/splash.dart';
 
 import 'addAdsForCars1.dart';
 
