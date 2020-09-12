@@ -133,7 +133,7 @@ class _ChatState extends State<ChatPage> {
                 child: InkWell(
                   onTap: () => Navigator.pop(context),
                   child: Container(
-                    alignment: Alignment.centerLeft,
+                    alignment: Alignment.bottomLeft,
                     width: 20,
                     height: 20,
                     child: InkWell(

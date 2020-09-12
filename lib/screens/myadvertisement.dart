@@ -89,8 +89,8 @@ class _MyAdvertisementState extends State<MyAdvertisement> {
             _userId = user.uid;
             //    FirebaseDatabase database;
             advdatabaseReference = FirebaseDatabase.instance;
-            advdatabaseReference.setPersistenceEnabled(true);
-            advdatabaseReference.setPersistenceCacheSizeBytes(10000000);
+//            advdatabaseReference.setPersistenceEnabled(true);
+//            advdatabaseReference.setPersistenceCacheSizeBytes(10000000);
 
       // advdatabaseReference =FirebaseDatabase.instance.reference().child("advdata");
 
@@ -130,8 +130,8 @@ class _MyAdvertisementState extends State<MyAdvertisement> {
                     );
                     ///
                     userdatabaseReference = FirebaseDatabase.instance;
-                    userdatabaseReference.setPersistenceEnabled(true);
-                    userdatabaseReference.setPersistenceCacheSizeBytes(10000000);
+//                    userdatabaseReference.setPersistenceEnabled(true);
+//                    userdatabaseReference.setPersistenceCacheSizeBytes(10000000);
 
 //                    final userdatabaseReference =
 //                    FirebaseDatabase.instance.reference().child("userdata");
@@ -210,7 +210,7 @@ class _MyAdvertisementState extends State<MyAdvertisement> {
         : new Container();
     TextStyle textStyle = Theme.of(context).textTheme.subtitle;
     return Scaffold(
-      backgroundColor: const Color(0xffffffff),
+//      backgroundColor: const Color(0xffffffff),
       floatingActionButton: Container(
         height: 30.0,
         width: 30.0,
@@ -231,213 +231,240 @@ class _MyAdvertisementState extends State<MyAdvertisement> {
           ),
         ),
       ),
-      body: Stack(
-        children: <Widget>[
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        decoration: new BoxDecoration(
+          image: new DecorationImage(
+            image: new AssetImage("assets/images/ic_background.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Stack(
+          children: <Widget>[
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
 
-              Column(
-                children: <Widget>[
-                  Container(
-                    width:  MediaQuery.of(context).size.width,
-                    height: 65.0,
-                    decoration: BoxDecoration(
-
-                      color: const Color(0xff171732),
-                    ),
-                  ),
-                  Transform.translate(
-                    offset: Offset(0.0, -42.0),
-                    child:
-                    // Adobe XD layer: 'logoBox' (shape)
-                    Center(
-                      child: Container(
-                        width: 166.0,
-                        height: 60.0,
-                        child:
-                        Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
-                          child: Text(
-                            'بوابة نجران',
-                            style: TextStyle(
-                              fontFamily: 'Estedad-Black',
-                              fontSize: 40,
-                              color: const Color(0xffffffff),
-                              height: 0.7471466064453125,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
+                Column(
+                  children: <Widget>[
+                    Container(
+                      width:  MediaQuery.of(context).size.width,
+                      height: 65.0,
+                      child: InkWell(
+                        onTap: () => Navigator.pop(context),
+                        child: Container(
+                          alignment: Alignment.bottomLeft,
+                          width: 20,
+                          height: 20,
+                          child: InkWell(
+                              onTap: () => Navigator.pop(context),
+                              child: Icon(
+                                Icons.arrow_back,
+                                color: Colors.white,
+                              )),
                         ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100.0),
-                          color: const Color(0xff171732),
+                      ),
+                      decoration: BoxDecoration(
+
+                        color: const Color(0xff171732),
+                      ),
+                    ),
+                    Transform.translate(
+                      offset: Offset(0.0, -42.0),
+                      child:
+                      // Adobe XD layer: 'logoBox' (shape)
+                      Center(
+                        child: Container(
+                          width: 166.0,
+                          height: 60.0,
+                          child:
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20.0),
+                            child: Text(
+                              'بوابة نجران',
+                              style: TextStyle(
+                                fontFamily: 'Estedad-Black',
+                                fontSize: 40,
+                                color: const Color(0xffffffff),
+                                height: 0.7471466064453125,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100.0),
+                            color: const Color(0xff171732),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
 
 
-              Expanded(
-                  child: advlist.length == 0
-                      ? Center(
-                    child: loadingIndicator,
-                  )
-                      : new ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      controller: _controller,
-                      itemCount: advlist.length,
-                      itemBuilder: (BuildContext ctxt, int index) {
-                        return  Slidable(
-                        actionPane: SlidableDrawerDismissal(),
-                        child:   firebasedata(
-                          index,
-                          advlist.length,
-                          advlist[index].cId,
-                          advlist[index].cdate,
-                          advlist[index].chead,
-                          advlist[index].ctitle,
-                          advlist[index].cdepart,
-                          advlist[index].cregion,
-                          advlist[index].cphone,
-                          advlist[index].cprice,
-                          advlist[index].cdetail,
-                          advlist[index].cpublished,
-                          advlist[index].curi,
-                          advlist[index].curilist,
-                          advlist[index].cagekm,
-                          advlist[index].csale,
-                          advlist[index].cauto,
-                          advlist[index].coil,
-                          advlist[index].cNew,
-                          advlist[index].cno,
-                          advlist[index].cname,
-                          advlist[index].cdep11,
-                          advlist[index].cdep22,
+                Expanded(
+                    child: advlist.length == 0
+                        ? Center(
+                      child: Text("لا يوجد بيانات")
 
-                        ),
-                        actions: <Widget>[
-                        Container(
-                        padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                        child: IconSlideAction(
-                        caption: 'تعديل',
-                        color: Colors.green,
-                        icon: Icons.edit,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            new MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                new EditAdsForCars(
-                                  index,
-                                  advlist.length,
-                                  advlist[index].cId,
-                                  advlist[index].cdate,
-                                  advlist[index].chead,
-                                  advlist[index].ctitle,
-                                  advlist[index].cdepart,
-                                  advlist[index].cregion,
-                                  advlist[index].cphone,
-                                  advlist[index].cprice,
-                                  advlist[index].cdetail,
-                                  advlist[index].cpublished,
-                                  advlist[index].curi,
-                                  advlist[index].curilist,
-                                  advlist[index].cagekm,
-                                  advlist[index].csale,
-                                  advlist[index].cauto,
-                                  advlist[index].coil,
-                                  advlist[index].cNew,
-                                  advlist[index].cno,
-                                  advlist[index].cname,
-                                  departlist1,
-                                  widget.regionlist,
-                                  advlist[index].cdep11,
-                                  advlist[index].cdep22,
-                                  advlist[index].cmodel,
 
-                                )),
-                          );
-                          },
-                        ),
-                        )
-                        ],
-                        secondaryActions: <Widget>[
-                        Container(
-                        padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                        child: IconSlideAction(
-                        caption: 'Delete',
-                        color: Colors.red,
-                        icon: Icons.delete,
-                        onTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) =>
-                            new CupertinoAlertDialog(
-                              title: new Text("تنبية"),
-                              content: new Text("تبغي تحذف اعلانك؟"),
-                              actions: [
-                                CupertinoDialogAction(
-                                    isDefaultAction: false,
-                                    child: new FlatButton(
-                                      onPressed: () {
+                      //loadingIndicator,
+                    )
+                        : new ListView.builder(
+                        physics: BouncingScrollPhysics(),
+                        controller: _controller,
+                        itemCount: advlist.length,
+                        itemBuilder: (BuildContext ctxt, int index) {
+                          return  Slidable(
+                          actionPane: SlidableDrawerDismissal(),
+                          child:   firebasedata(
+                            index,
+                            advlist.length,
+                            advlist[index].cId,
+                            advlist[index].cdate,
+                            advlist[index].chead,
+                            advlist[index].ctitle,
+                            advlist[index].cdepart,
+                            advlist[index].cregion,
+                            advlist[index].cphone,
+                            advlist[index].cprice,
+                            advlist[index].cdetail,
+                            advlist[index].cpublished,
+                            advlist[index].curi,
+                            advlist[index].curilist,
+                            advlist[index].cagekm,
+                            advlist[index].csale,
+                            advlist[index].cauto,
+                            advlist[index].coil,
+                            advlist[index].cNew,
+                            advlist[index].cno,
+                            advlist[index].cname,
+                            advlist[index].cdep11,
+                            advlist[index].cdep22,
 
-                                        setState(() {
-                                          FirebaseDatabase.instance.reference()
-                                              .child("advdata").child(_userId).child(advlist[index].chead)
-                                              .remove().whenComplete(() =>
-                                              Toast.show("تم الحذف فى المفضلة", context,
-                                                  duration: Toast.LENGTH_SHORT,
-                                                  gravity: Toast.BOTTOM));
-                                          setState(() async {
-                                            advlist.removeAt(index);
-                                            Navigator.pop(context);
+                          ),
+                          actions: <Widget>[
+                          Container(
+                          padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                          child: IconSlideAction(
+                          caption: 'تعديل',
+                          color: Colors.green,
+                          icon: Icons.edit,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                  new EditAdsForCars(
+                                    index,
+                                    advlist.length,
+                                    advlist[index].cId,
+                                    advlist[index].cdate,
+                                    advlist[index].chead,
+                                    advlist[index].ctitle,
+                                    advlist[index].cdepart,
+                                    advlist[index].cregion,
+                                    advlist[index].cphone,
+                                    advlist[index].cprice,
+                                    advlist[index].cdetail,
+                                    advlist[index].cpublished,
+                                    advlist[index].curi,
+                                    advlist[index].curilist,
+                                    advlist[index].cagekm,
+                                    advlist[index].csale,
+                                    advlist[index].cauto,
+                                    advlist[index].coil,
+                                    advlist[index].cNew,
+                                    advlist[index].cno,
+                                    advlist[index].cname,
+                                    departlist1,
+                                    widget.regionlist,
+                                    advlist[index].cdep11,
+                                    advlist[index].cdep22,
+                                    advlist[index].cmodel,
 
-                                            _imageUrls = advlist[index].curilist
-                                                .replaceAll(" ", "")
-                                                .replaceAll("[", "")
-                                                .replaceAll("]", "")
-                                                .split(",");
+                                  )),
+                            );
+                            },
+                          ),
+                          )
+                          ],
+                          secondaryActions: <Widget>[
+                          Container(
+                          padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                          child: IconSlideAction(
+                          caption: 'حذف',
+                          color: Colors.red,
+                          icon: Icons.delete,
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) =>
+                              new CupertinoAlertDialog(
+                                title: new Text("تنبية"),
+                                content: new Text("تبغي تحذف اعلانك؟"),
+                                actions: [
+                                  CupertinoDialogAction(
+                                      isDefaultAction: false,
+                                      child: new FlatButton(
+                                        onPressed: () {
+
+                                          setState(() {
+                                            FirebaseDatabase.instance.reference()
+                                                .child("advdata").child(_userId).child(advlist[index].chead)
+                                                .remove().whenComplete(() =>
+                                                Toast.show("تم الحذف", context,
+                                                    duration: Toast.LENGTH_SHORT,
+                                                    gravity: Toast.BOTTOM));
+                                            setState(() async {
+                                              advlist.removeAt(index);
+                                              Navigator.pop(context);
+
+                                              _imageUrls = advlist[index].curilist
+                                                  .replaceAll(" ", "")
+                                                  .replaceAll("[", "")
+                                                  .replaceAll("]", "")
+                                                  .split(",");
 
 //                                            final StorageReference storageRef =
 //                                            FirebaseStorage.instance.ref().child('myimage');
-                                            for(String imge in _imageUrls){
+                                              for(String imge in _imageUrls){
 
-                                              final StorageReference storageRef =
-                                              await FirebaseStorage.instance.getReferenceFromUrl(imge);
-                                           //   print("hhhhhhhhhhhhhhh${storageRef.path}");
-                                              await storageRef.delete().whenComplete(() {
-                                               // print("hhhhhhhhhhhhhhh$imge");
-                                              });
-                                            }
+                                                final StorageReference storageRef =
+                                                await FirebaseStorage.instance.getReferenceFromUrl(imge);
+                                             //   print("hhhhhhhhhhhhhhh${storageRef.path}");
+                                                await storageRef.delete().whenComplete(() {
+                                                 // print("hhhhhhhhhhhhhhh$imge");
+                                                });
+                                              }
 
+                                            });
                                           });
-                                        });
-                                      }
-                                      ,
-                                      child: Text("موافق"),
-                                    )),
-                                CupertinoDialogAction(
-                                    isDefaultAction: false,
-                                    child: new FlatButton(
-                                      onPressed: () =>
-                                          Navigator.pop(context),
-                                      child: Text("إلغاء"),
-                                    )),
-                              ],
-                            ),
+                                        }
+                                        ,
+                                        child: Text("موافق"),
+                                      )),
+                                  CupertinoDialogAction(
+                                      isDefaultAction: false,
+                                      child: new FlatButton(
+                                        onPressed: () =>
+                                            Navigator.pop(context),
+                                        child: Text("إلغاء"),
+                                      )),
+                                ],
+                              ),
+                            );
+                            },
+                          )),
+                          ],
                           );
-                          },
-                        )),
-                        ],
-                        );
 
-                      }))
-            ],
-          ),
-        ],
+                        }))
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

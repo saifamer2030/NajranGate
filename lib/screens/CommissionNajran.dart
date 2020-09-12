@@ -70,236 +70,261 @@ class _CommissionNajranState extends State<CommissionNajran> {
           )
         : new Container();
     return Scaffold(
-        backgroundColor: const Color(0xffffffff),
-        body: Stack(
-          children: <Widget>[
-            Column(
-              children: <Widget>[
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 65.0,
-                  decoration: BoxDecoration(
-                    color: const Color(0xff171732),
-                  ),
-                ),
-                Transform.translate(
-                  offset: Offset(0.0, -42.0),
-                  child:
-                      // Adobe XD layer: 'logoBox' (shape)
-                      Center(
-                    child: Container(
-                      width: 166.0,
-                      height: 60.0,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 20.0),
-                        child: Text(
-                          'بوابة نجران',
-                          style: TextStyle(
-                            fontFamily: 'Estedad-Black',
-                            fontSize: 40,
-                            color: const Color(0xffffffff),
-                            height: 0.7471466064453125,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
+//        backgroundColor: const Color(0xffffffff),
+        body: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          decoration: new BoxDecoration(
+            image: new DecorationImage(
+              image: new AssetImage("assets/images/ic_background.png"),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Stack(
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 65.0,
+                    child: InkWell(
+                      onTap: () => Navigator.pop(context),
+                      child: Container(
+                        alignment: Alignment.bottomLeft,
+                        width: 20,
+                        height: 20,
+                        child: InkWell(
+                            onTap: () => Navigator.pop(context),
+                            child: Icon(
+                              Icons.arrow_back,
+                              color: Colors.white,
+                            )),
                       ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100.0),
-                        color: const Color(0xff171732),
+                    ),
+                    decoration: BoxDecoration(
+                      color: const Color(0xff171732),
+                    ),
+                  ),
+                  Transform.translate(
+                    offset: Offset(0.0, -42.0),
+                    child:
+                        // Adobe XD layer: 'logoBox' (shape)
+                        Center(
+                      child: Container(
+                        width: 166.0,
+                        height: 60.0,
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 20.0),
+                          child: Text(
+                            'بوابة نجران',
+                            style: TextStyle(
+                              fontFamily: 'Estedad-Black',
+                              fontSize: 40,
+                              color: const Color(0xffffffff),
+                              height: 0.7471466064453125,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100.0),
+                          color: const Color(0xff171732),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            Form(
-                child: Padding(
-                    padding: EdgeInsets.only(
-                        top: _minimumPadding * 23,
-                        bottom: _minimumPadding * 2,
-                        right: _minimumPadding * 2,
-                        left: _minimumPadding * 2),
-                    child: Column(
+                ],
+              ),
+              Form(
+                  child: Padding(
+                      padding: EdgeInsets.only(
+                          top: _minimumPadding * 23,
+                          bottom: _minimumPadding * 2,
+                          right: _minimumPadding * 2,
+                          left: _minimumPadding * 2),
+                      child: Column(
 //                      physics: BouncingScrollPhysics(),
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(right: 10, left: 10),
-                                child: Text(
-                                  "حساب العمولة",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(right: 10, left: 10),
+                                  child: Text(
+                                    "حساب العمولة",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
 //                                    fontFamily: 'Estedad-Black',
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(right: 10, left: 10),
-                                child: Icon(
-                                  Icons.monetization_on,
-                                  color: const Color(0xff171732),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(right: 10, left: 10),
+                                  child: Icon(
+                                    Icons.monetization_on,
+                                    color: const Color(0xff171732),
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                        Container(
-                          height: 80,
-                          child: Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Card(
-                              elevation: 0.0,
-                              color: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: Directionality(
-                                textDirection: TextDirection.rtl,
-                                child: TextFormField(
-                                  textAlign: TextAlign.right,
-                                  keyboardType: TextInputType.number,
+                          Container(
+                            height: 80,
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Card(
+                                elevation: 0.0,
+                                color: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Directionality(
                                   textDirection: TextDirection.rtl,
-                                  controller: _priceController,
-                                  validator: (String value) {
-                                    if ((value.isEmpty)) {
-                                      return "اكتب السعر حق إعلانك طال عمرك";
-                                    }
-                                  },
-                                  decoration: InputDecoration(
-                                      errorStyle: TextStyle(
-                                          color: Colors.red, fontSize: 15.0),
-                                      labelText: "إذا تم بيع السلعة بسعر",
-                                      hintText: "ادخل السعر....",
-                                      border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(5.0)))),
+                                  child: TextFormField(
+                                    textAlign: TextAlign.right,
+                                    keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
+                                    textDirection: TextDirection.rtl,
+                                    controller: _priceController,
+                                    validator: (String value) {
+                                      if ((value.isEmpty)) {
+                                        return "اكتب السعر حق إعلانك طال عمرك";
+                                      }
+                                    },
+                                    decoration: InputDecoration(
+                                        errorStyle: TextStyle(
+                                            color: Colors.red, fontSize: 15.0),
+                                        labelText: "إذا تم بيع السلعة بسعر",
+                                        hintText: "ادخل السعر....",
+                                        border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(5.0)))),
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  ". ريال",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    ". ريال",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
 //                                    fontFamily: 'Estedad-Black',
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Container(
-                                color: Colors.green,
-                                child: Padding(
+                                Container(
+                                  color: Colors.green,
+                                  child: Padding(
+                                    padding:
+                                        const EdgeInsets.only(right: 1, left: 1),
+                                    child: Container(
+                                        child: _priceController.text.isEmpty
+                                            ? Text(
+                                                "0.0",
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20,
+//                                    fontFamily: 'Estedad-Black',
+                                                ),
+                                              )
+                                            : Text(
+                                                getNewPrice(
+                                                  _priceController.text,
+                                                ),
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20,
+//                                    fontFamily: 'Estedad-Black',
+                                                ),
+                                              )),
+                                  ),
+                                ),
+
+                                Padding(
                                   padding:
-                                      const EdgeInsets.only(right: 1, left: 1),
-                                  child: Container(
-                                      child: _priceController.text.isEmpty
-                                          ? Text(
-                                              "0.0",
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
+                                      const EdgeInsets.only(right: 30, left: 1),
+                                  child: Text(
+                                    "عمولة التطبيق هي ",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
 //                                    fontFamily: 'Estedad-Black',
-                                              ),
-                                            )
-                                          : Text(
-                                              getNewPrice(
-                                                _priceController.text,
-                                              ),
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
-//                                    fontFamily: 'Estedad-Black',
-                                              ),
-                                            )),
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(right: 30, left: 1),
-                                child: Text(
-                                  "عمولة التطبيق هي ",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-//                                    fontFamily: 'Estedad-Black',
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(right: 10, left: 10),
-                                child: Text(
-                                  "طريقة التحويل",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(right: 10, left: 10),
+                                  child: Text(
+                                    "طريقة التحويل",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
 //                                    color: Colors.black,
 //                                    fontFamily: 'Estedad-Black',
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(right: 10, left: 10),
-                                child: Icon(
-                                  Icons.transfer_within_a_station,
-                                  color: const Color(0xff171732),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(right: 10, left: 10),
+                                  child: Icon(
+                                    Icons.transfer_within_a_station,
+                                    color: const Color(0xff171732),
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                        Expanded(
-                            child: Center(
-                          child: bankaccountlist.length == 0
-                              ? new Center(child: Text("لا يوجد بيانات")
+                          Expanded(
+                              child: Center(
+                            child: bankaccountlist.length == 0
+                                ? new Center(child: Text("لا يوجد بيانات")
 
 //                                  loadingIndicator,
-                                  )
-                              : new ListView.builder(
-                                  physics: BouncingScrollPhysics(),
-                                  // reverse: true,
-                                  itemCount: bankaccountlist.length,
-                                  itemBuilder: (BuildContext ctxt, int index) {
-                                    return InkWell(
-                                      child: _firebasedata(
-                                        index,
-                                        bankaccountlist.length,
-                                        bankaccountlist[index].id,
-                                        bankaccountlist[index].AccountName,
-                                        bankaccountlist[index].NameCompany,
-                                        bankaccountlist[index].AccountNum,
-                                        bankaccountlist[index].AccountIBAN,
-                                      ),
-                                    );
-                                  }),
-                        )),
-                      ],
-                    )))
-          ],
+                                    )
+                                : new ListView.builder(
+                                    physics: BouncingScrollPhysics(),
+                                    // reverse: true,
+                                    itemCount: bankaccountlist.length,
+                                    itemBuilder: (BuildContext ctxt, int index) {
+                                      return InkWell(
+                                        child: _firebasedata(
+                                          index,
+                                          bankaccountlist.length,
+                                          bankaccountlist[index].id,
+                                          bankaccountlist[index].AccountName,
+                                          bankaccountlist[index].NameCompany,
+                                          bankaccountlist[index].AccountNum,
+                                          bankaccountlist[index].AccountIBAN,
+                                        ),
+                                      );
+                                    }),
+                          )),
+                        ],
+                      )))
+            ],
+          ),
         ));
   }
 

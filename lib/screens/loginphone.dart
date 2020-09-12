@@ -68,6 +68,14 @@ class _SignInState extends State<SignIn> {
         },
       ),
       body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        decoration: new BoxDecoration(
+          image: new DecorationImage(
+            image: new AssetImage("assets/images/ic_background.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Stack(
           children: <Widget>[
             Column(
@@ -75,6 +83,20 @@ class _SignInState extends State<SignIn> {
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: 65.0,
+                  child: InkWell(
+                    onTap: () => Navigator.pop(context),
+                    child: Container(
+                      alignment: Alignment.bottomLeft,
+                      width: 20,
+                      height: 20,
+                      child: InkWell(
+                          onTap: () => Navigator.pop(context),
+                          child: Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                          )),
+                    ),
+                  ),
                   decoration: BoxDecoration(
                     color: const Color(0xff171732),
                   ),
@@ -143,7 +165,7 @@ class _SignInState extends State<SignIn> {
                               decoration: InputDecoration(
                                 labelText: "رقم الجوال",
                                 //Translations.of(context).translate('telephone_number'),
-                                hintText: 'مثل:966512345678+',
+                                hintText: 'مثل:512345678',
                                 prefixIcon: Icon(Icons.phone_android),
                                 labelStyle: textStyle,
                                 errorStyle: TextStyle(
@@ -224,7 +246,7 @@ class _SignInState extends State<SignIn> {
     FirebaseAuth _auth = FirebaseAuth.instance;
 
     _auth.verifyPhoneNumber(
-        phoneNumber: "$phone",
+        phoneNumber: "+966$phone",
         //phoneNumber: "+2$phone",
         timeout: Duration(seconds: 60),
         verificationCompleted: (AuthCredential credential) async {

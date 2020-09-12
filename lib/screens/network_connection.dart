@@ -84,6 +84,14 @@ class _ConnectionScreenState extends State<ConnectionScreen > {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        decoration: new BoxDecoration(
+          image: new DecorationImage(
+            image: new AssetImage("assets/images/ic_background.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
         padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

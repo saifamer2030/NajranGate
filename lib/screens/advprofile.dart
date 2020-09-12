@@ -302,12 +302,10 @@ class _AdvProlileState extends State<AdvProlile> {
             });
           }));
   }
-  final    ReferenceNotice =
-  FirebaseDatabase
-      .instance
-      .reference()
-      .child(
-      'ADVNotice');
+
+  final ReferenceNotice =
+      FirebaseDatabase.instance.reference().child('ADVNotice');
+
   @override
   Widget build(BuildContext context) {
 //    Widget loadingIndicator = _load
@@ -330,15 +328,14 @@ class _AdvProlileState extends State<AdvProlile> {
                   child: InkWell(
                     onTap: () => Navigator.pop(context),
                     child: Container(
-                      alignment: Alignment.centerLeft,
                       width: 20,
                       height: 20,
-                      child: InkWell(
-                          onTap: () => Navigator.pop(context),
-                          child: Icon(
-                            Icons.arrow_back,
-                            color: Colors.white,
-                          )),
+                      alignment: Alignment.bottomLeft,
+                            child: Icon(
+                              Icons.arrow_back,
+                              color: Colors.white,
+                            ),
+
                     ),
                   ),
                   decoration: BoxDecoration(
@@ -346,7 +343,7 @@ class _AdvProlileState extends State<AdvProlile> {
                   ),
                 ),
                 Transform.translate(
-                  offset: Offset(0.0, -42.0),
+                  offset: Offset(0.0, -43.0),
                   child:
                       // Adobe XD layer: 'logoBox' (shape)
                       Center(
@@ -447,67 +444,6 @@ class _AdvProlileState extends State<AdvProlile> {
                                           });
                                         },
                                       ),
-                                      InkWell(
-                                        onTap: () {
-                                          if(_userId != null){
-                                            showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) =>
-                                              new CupertinoAlertDialog(
-                                                title: new Text("تنبية"),
-                                                content: new Text(
-                                                    "تبغي ترسل بلاغ إساءة لهذا الاعلان"),
-                                                actions: [
-                                                  CupertinoDialogAction(
-                                                      isDefaultAction: false,
-                                                      child: new FlatButton(
-                                                        onPressed: () {
-                                                          ReferenceNotice.child(widget.cId).child(_userId).set({
-                                                            'idUserNotice': _userId,
-                                                            'NameForAdv':widget.cName,
-                                                            'DateForAdv':widget.cDateID,
-
-                                                          }).then((_) {
-                                                            Toast.show(
-                                                                "ابشر ... سيتم مراجعة بلاغك",
-                                                                context,
-                                                                duration: Toast.LENGTH_LONG,
-                                                                gravity: Toast.BOTTOM);
-                                                            Navigator.of(context).pop();
-
-                                                          });
-                                                        },
-                                                        child: Text("موافق"),
-                                                      )),
-                                                  CupertinoDialogAction(
-                                                      isDefaultAction: false,
-                                                      child: new FlatButton(
-                                                        onPressed: () =>
-                                                            Navigator.pop(
-                                                                context),
-                                                        child: Text("إلغاء"),
-                                                      )),
-                                                ],
-                                              ),
-                                            );
-                                          }else{
-                                            Toast.show(
-                                                "ابشر .. سجل دخول الاول طال عمرك",
-                                                context,
-                                                duration: Toast.LENGTH_LONG,
-                                                gravity: Toast.BOTTOM);
-                                          }
-
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Icon(
-                                            Icons.error_outline,
-                                            color: Colors.red,
-                                            size: 30,
-                                          ),
-                                        ),
-                                      )
                                     ],
                                   )),
                       ),
@@ -807,29 +743,44 @@ class _AdvProlileState extends State<AdvProlile> {
                                   top: 70,
                                   right: 5,
                                   child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.all(15.0),
                                     child: Container(
-                                      height: 25,
-                                      child: advnNameclass == null
-                                          ? Text("")
-                                          : Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 8.0),
-                                              child: AutoSizeText(
-                                                "${advnNameclass.cdetail}",
-                                                textDirection:
-                                                    TextDirection.rtl,
-                                                minFontSize: 8,
-                                                maxLines: 3,
-                                                textAlign: TextAlign.right,
-                                                style: TextStyle(
-                                                    fontSize: 15.0,
-//                                                          fontFamily:
-//                                                              'Gamja Flower',
-                                                    fontStyle:
-                                                        FontStyle.normal),
-                                              ),
-                                            ),
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(5.0),
+                                        color: const Color(0xff171732),
+                                      ),
+                                      width: 100,
+                                      child: InkWell(
+                                          onTap: () {
+                                            _showMyDialog();
+                                          },
+                                          child: Center(
+                                              child: Text(
+                                            "إظهار التفاصيل",
+                                            style: TextStyle(color: Colors.red),
+                                          ))),
+//                                      child: advnNameclass == null
+//                                          ? Text("")
+//                                          : Padding(
+//                                              padding: const EdgeInsets.only(
+//                                                  top: 8.0),
+//                                              child: AutoSizeText(
+//                                                "${advnNameclass.cdetail}",
+//                                                textDirection:
+//                                                    TextDirection.rtl,
+//                                                minFontSize: 12,
+//                                                maxLines: 3,
+//                                                maxFontSize: 20,
+//                                                textAlign: TextAlign.right,
+//                                                style: TextStyle(
+//                                                    fontSize: 15.0,
+////                                                          fontFamily:
+////                                                              'Gamja Flower',
+//                                                    fontStyle:
+//                                                        FontStyle.normal),
+//                                              ),
+//                                            ),
                                     ),
                                   ),
                                   /** Icon(
@@ -1099,6 +1050,64 @@ class _AdvProlileState extends State<AdvProlile> {
                               ),
                             ),
                           ),
+                          InkWell(
+                            onTap: () {
+                              if (_userId != null) {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      new CupertinoAlertDialog(
+                                    title: new Text("تنبية"),
+                                    content: new Text(
+                                        "تبغي ترسل بلاغ إساءة لهذا الاعلان"),
+                                    actions: [
+                                      CupertinoDialogAction(
+                                          isDefaultAction: false,
+                                          child: new FlatButton(
+                                            onPressed: () {
+                                              ReferenceNotice.child(widget.cId)
+                                                  .child(_userId)
+                                                  .set({
+                                                'idUserNotice': _userId,
+                                                'NameForAdv': widget.cName,
+                                                'DateForAdv': widget.cDateID,
+                                              }).then((_) {
+                                                Toast.show(
+                                                    "ابشر ... سيتم مراجعة بلاغك",
+                                                    context,
+                                                    duration: Toast.LENGTH_LONG,
+                                                    gravity: Toast.BOTTOM);
+                                                Navigator.of(context).pop();
+                                              });
+                                            },
+                                            child: Text("موافق"),
+                                          )),
+                                      CupertinoDialogAction(
+                                          isDefaultAction: false,
+                                          child: new FlatButton(
+                                            onPressed: () =>
+                                                Navigator.pop(context),
+                                            child: Text("إلغاء"),
+                                          )),
+                                    ],
+                                  ),
+                                );
+                              } else {
+                                Toast.show(
+                                    "ابشر .. سجل دخول الاول طال عمرك", context,
+                                    duration: Toast.LENGTH_LONG,
+                                    gravity: Toast.BOTTOM);
+                              }
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Icon(
+                                Icons.error,
+                                color: Colors.red,
+                                size: 30,
+                              ),
+                            ),
+                          )
                         ],
                       ),
                       SizedBox(
@@ -1175,9 +1184,10 @@ class _AdvProlileState extends State<AdvProlile> {
                                 Padding(
                                   padding: const EdgeInsets.all(5.0),
                                   child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       Container(
-                                        width: 320,
+                                        width: 250,
                                         height: 60,
                                         child: Padding(
                                           padding: const EdgeInsets.all(5.0),
@@ -1360,7 +1370,7 @@ class _AdvProlileState extends State<AdvProlile> {
           'alarmid': databasealarm.push().key,
           'wid': widget.cId,
           'Name': _username == null ? "لا يوجد اسم" : _username,
-          'cType': "profilecomment",
+          'cType': "chat",
           'chead': widget.cDateID,
           'cDate': "${now.year.toString()}-${b}-${c} ${d}:${e}:${f}",
           'arrange': int.parse("${now.year.toString()}${b}${c}${d}${e}${f}")
@@ -1416,6 +1426,109 @@ class _AdvProlileState extends State<AdvProlile> {
 
     // })
     // );
+  }
+
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            'تفاصيل الاعلان',
+            textAlign: TextAlign.right,
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(
+                  '${advnNameclass.cdetail}',
+                  style: TextStyle(fontSize: 20, color: Colors.blue),
+                  textAlign: TextAlign.right,
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: .2,
+                  color: Colors.grey,
+                ),
+                advnNameclass.coil != ""
+                    ? Text('${advnNameclass.coil}',
+                        textAlign: TextAlign.right,
+                        style: TextStyle(fontSize: 20, color: Colors.blue))
+                    : Text(""),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: .2,
+                  color: Colors.grey,
+                ),
+                advnNameclass.cNew != ""
+                    ? Text('${advnNameclass.cNew}',
+                        textAlign: TextAlign.right,
+                        style: TextStyle(fontSize: 20, color: Colors.blue))
+                    : Text(""),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: .2,
+                  color: advnNameclass.cmodel != ""   ?Colors.grey:Colors.white
+                ),
+                advnNameclass.cmodel != null
+                    ? Text('${advnNameclass.cmodel}',
+                        textAlign: TextAlign.right,
+                        style: TextStyle(fontSize: 20, color: Colors.blue))
+                    : Text(""),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: .2,
+                  color: advnNameclass.cmodel != null  ?Colors.grey:Colors.white
+                ),
+                advnNameclass.cauto != ""
+                    ? Text('${advnNameclass.cauto}',
+                        textAlign: TextAlign.right,
+                        style: TextStyle(fontSize: 20, color: Colors.blue))
+                    : Text(""),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: .2,
+                  color: advnNameclass.cauto != null   ?Colors.grey:Colors.white
+                ),
+                advnNameclass.csale != ""
+                    ? Text('${advnNameclass.csale}',
+                        textAlign: TextAlign.right,
+                        style: TextStyle(fontSize: 20, color: Colors.blue))
+                    : Text(""),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: .2,
+                  color: advnNameclass.csale != ""   ?Colors.grey:Colors.white
+                ),
+                advnNameclass.cagekm != "0"
+                    ? Text('كم${advnNameclass.cagekm}',
+                        textAlign: TextAlign.right,
+                        style: TextStyle(fontSize: 20, color: Colors.blue))
+                    : Text(""),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: .2,
+                  color:advnNameclass.cagekm != "0"   ?Colors.grey:Colors.white
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text(
+                'تم',
+                style:
+                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Widget _firebasedata(

@@ -115,7 +115,7 @@ class _HomePageState extends State<HomePage> {
               child: InkWell(
                 onTap: () => Navigator.pop(context),
                 child: Container(
-                  alignment: Alignment.centerLeft,
+                  alignment: Alignment.bottomLeft,
                   width: 20,
                   height: 20,
                   child: InkWell(
@@ -160,12 +160,17 @@ class _HomePageState extends State<HomePage> {
 
         Padding(
           padding: EdgeInsets.only(
-              top: _minimumPadding * 22,
+              top: _minimumPadding * 17,
               left: _minimumPadding,
               right: _minimumPadding),
           child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
               decoration: new BoxDecoration(
-                color: Colors.white,
+                image: new DecorationImage(
+                  image: new AssetImage("assets/images/ic_background.png"),
+                  fit: BoxFit.cover,
+                ),
               ),
               child:
 

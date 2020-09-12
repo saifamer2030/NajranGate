@@ -155,7 +155,7 @@ class _EditAdsForCarsState extends State<EditAdsForCars> {
       _uri=widget.curi;
       _urilist=widget.curilist;
 ////////////////
-      _value =double.parse(widget.cagekm)/500000;
+      _value =double.parse(widget.cagekm)/2000000;
 
       csale=widget.csale;
       cauto=widget.cauto;
@@ -279,6 +279,20 @@ class _EditAdsForCarsState extends State<EditAdsForCars> {
                 Container(
                   width:  MediaQuery.of(context).size.width,
                   height: 65.0,
+                  child: InkWell(
+                    onTap: () => Navigator.pop(context),
+                    child: Container(
+                      alignment: Alignment.bottomLeft,
+                      width: 20,
+                      height: 20,
+                      child: InkWell(
+                          onTap: () => Navigator.pop(context),
+                          child: Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                          )),
+                    ),
+                  ),
                   decoration: BoxDecoration(
 
                     color: const Color(0xff171732),
@@ -453,6 +467,7 @@ class _EditAdsForCarsState extends State<EditAdsForCars> {
                                 child: Directionality(
                                   textDirection: TextDirection.rtl,
                                   child: TextFormField(
+                                    maxLength: 100,
                                     textAlign: TextAlign.right,
                                     keyboardType: TextInputType.text,
                                     textDirection: TextDirection.rtl,
@@ -1110,7 +1125,7 @@ class _EditAdsForCarsState extends State<EditAdsForCars> {
                                   padding: const EdgeInsets.only(
                                       right: 10, left: 10),
                                   child: Text(
-                                    "العداد:  ${(_value * 500000).round()}   الف كم",
+                                    "العداد:  ${(_value * 2000000).round()}   الف كم",
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 18,
@@ -1131,7 +1146,7 @@ class _EditAdsForCarsState extends State<EditAdsForCars> {
                                       value: _value,
                                       onChanged: _setvalue)),
                               Text(
-                                ' كم${(_value * 500000).round()} ',
+                                ' كم${(_value * 2000000).round()} ',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 18,
@@ -1296,12 +1311,12 @@ class _EditAdsForCarsState extends State<EditAdsForCars> {
                                         return "اكتب تفاصيل حق إعلانك طال عمرك";
                                       }
                                     },
-                                    maxLength: 100,
-                                    maxLines: 2,
+//                                    maxLength: 100,
+                                    maxLines: 10,
                                     decoration: InputDecoration(
                                         contentPadding:
                                         new EdgeInsets.symmetric(
-                                            vertical: 100.0),
+                                            vertical: 20.0),
                                         errorStyle: TextStyle(
                                             color: Colors.red, fontSize: 15.0),
                                         labelText: "ادخل نص الاعلان....",
@@ -1604,7 +1619,7 @@ print("jjjjjjjj///$_userId///${widget.chead}");
         'curilist': _urilist.toString(),
       //////////////////////////
         'cagekm': widget.cdepart == "السيارات"
-            ? ' ${(_value * 500000).round()}'
+            ? ' ${(_value * 2000000).round()}'
             : "0",
         'csale': widget.cdepart == "السيارات"
             ? (_character1.toString().contains("sale") ? "بيع" : "تنازل")

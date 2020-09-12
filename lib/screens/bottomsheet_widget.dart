@@ -125,38 +125,66 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(top: 5, left: 15, right: 15),
-      height: 450,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: [
-                  BoxShadow(
-                      blurRadius: 10, color: Colors.grey[300], spreadRadius: 5)
-                ]),
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      decoration: new BoxDecoration(
+        image: new DecorationImage(
+          image: new AssetImage("assets/images/ic_background.png"),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: ListView(
+        children: [
+          InkWell(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(top: 80,bottom: 50),
+              child: Container(
+                  width: 20,
+                  height: 20,
+                  child: Icon(Icons.arrow_downward,color: const Color(0xff171732),)),
+            ),
+          ),
+          Container(
+//          margin: const EdgeInsets.only(top: 5, left: 15, right: 15),
+            height: 550,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15),
+//                    boxShadow: [
+//                      BoxShadow(
+//                          blurRadius: 10, color: Colors.grey[300], spreadRadius: 5)
+//                    ]
+                  ),
 
-                child: Center(
-                  child: departlist.length == 0
-                      ? new Text("برجاء الإنتظار")
-                      : new ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      controller: _controller,
-                      // reverse: true,
-                      itemCount: departlist.length,
-                      itemBuilder: (BuildContext ctxt, int index) {
-                        return InkWell(
-                          child: _firebasedata(
-                            index,
-                            departlist.length,
-                            departlist[index].id,
-                            departlist[index].title,
-                            departlist[index].subtitle,
-                            departlist[index].uri,
-                          ),
-                        );
-                      }),
-                )
+                      child: Center(
+                        child: departlist.length == 0
+                            ? new Text("برجاء الإنتظار")
+                            : new ListView.builder(
+                            physics: BouncingScrollPhysics(),
+                            controller: _controller,
+                            // reverse: true,
+                            itemCount: departlist.length,
+                            itemBuilder: (BuildContext ctxt, int index) {
+                              return InkWell(
+                                child: _firebasedata(
+                                  index,
+                                  departlist.length,
+                                  departlist[index].id,
+                                  departlist[index].title,
+                                  departlist[index].subtitle,
+                                  departlist[index].uri,
+                                ),
+                              );
+                            }),
+                      )
 
+          ),
+
+        ],
+      ),
     );
   }
 
@@ -167,10 +195,10 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
       csubtitle,
       curi,) {
     return Padding(
-      padding: const EdgeInsets.only(top: 5.0, right: 5.0, left: 5.0),
+      padding: const EdgeInsets.only(bottom: 5.0, right: 5.0, left: 5.0,top: 5.0),
       child: Card(
         shape: new RoundedRectangleBorder(
-            side: new BorderSide(color: Colors.grey, width: 3.0),
+            side: new BorderSide(color:const Color(0xff171732), width: 3.0),
             borderRadius: BorderRadius.circular(10.0)),
         //borderOnForeground: true,
         elevation: 10.0,

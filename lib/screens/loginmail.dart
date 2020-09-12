@@ -42,6 +42,14 @@ class _LoginScreen2State extends State<LoginScreen2> {
       key: _scaffoldKey,
       backgroundColor: const Color(0xffffffff),
       body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        decoration: new BoxDecoration(
+          image: new DecorationImage(
+            image: new AssetImage("assets/images/ic_background.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Stack(
           children: <Widget>[
             Column(
@@ -49,6 +57,20 @@ class _LoginScreen2State extends State<LoginScreen2> {
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: 65.0,
+                  child: InkWell(
+                    onTap: () => Navigator.pop(context),
+                    child: Container(
+                      alignment: Alignment.bottomLeft,
+                      width: 20,
+                      height: 20,
+                      child: InkWell(
+                          onTap: () => Navigator.pop(context),
+                          child: Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                          )),
+                    ),
+                  ),
                   decoration: BoxDecoration(
                     color: const Color(0xff171732),
                   ),
@@ -233,8 +255,8 @@ class _LoginScreen2State extends State<LoginScreen2> {
 //                                                Toast.show("برجاء إدخال كلمة السر", context,
 //                                                    duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
                                               }
-                                              if (value.length < 6) {
-                                                return ' كلمة السر لا تقل عن 6';
+                                              if (value.length < 2) {
+                                                return ' كلمة السر لا تقل عن 2';
 //                                                Toast.show("كلمة السر لا تقل عن 6", context,
 //                                                    duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
                                               }

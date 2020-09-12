@@ -152,8 +152,8 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
     _typecurrentItemSelected = _typearray[0];
 
     departmentsdatabaseReference = FirebaseDatabase.instance;
-    departmentsdatabaseReference.setPersistenceEnabled(true);
-    departmentsdatabaseReference.setPersistenceCacheSizeBytes(10000000);
+//    departmentsdatabaseReference.setPersistenceEnabled(true);
+//    departmentsdatabaseReference.setPersistenceCacheSizeBytes(10000000);
 //
 //    final departmentsdatabaseReference =
 //        FirebaseDatabase.instance.reference().child("Departments");
@@ -241,8 +241,8 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
 
     setState(() {
       advdatabaseReference = FirebaseDatabase.instance;
-      advdatabaseReference.setPersistenceEnabled(true);
-      advdatabaseReference.setPersistenceCacheSizeBytes(10000000);
+//      advdatabaseReference.setPersistenceEnabled(true);
+//      advdatabaseReference.setPersistenceCacheSizeBytes(10000000);
 
 //      final advdatabaseReference =
 //          FirebaseDatabase.instance.reference().child("advdata");
@@ -301,8 +301,8 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
               if (deltime.isAfter(now)) {
                 /////////////////////////////////////
                 userdatabaseReference = FirebaseDatabase.instance;
-                userdatabaseReference.setPersistenceEnabled(true);
-                userdatabaseReference.setPersistenceCacheSizeBytes(10000000);
+//                userdatabaseReference.setPersistenceEnabled(true);
+//                userdatabaseReference.setPersistenceCacheSizeBytes(10000000);
 
 //                final userdatabaseReference =
 //                    FirebaseDatabase.instance.reference().child("userdata");
@@ -363,8 +363,8 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
                 });
               } else {
                 advdatabaseReference = FirebaseDatabase.instance;
-                advdatabaseReference.setPersistenceEnabled(true);
-                advdatabaseReference.setPersistenceCacheSizeBytes(10000000);
+//                advdatabaseReference.setPersistenceEnabled(true);
+//                advdatabaseReference.setPersistenceCacheSizeBytes(10000000);
 
 //                final advdatabaseReference =
 //                    FirebaseDatabase.instance.reference().child("advdata");
@@ -440,7 +440,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
         children: <Widget>[
               Container(
                 width: MediaQuery.of(context).size.width,
-                height: 40.0,
+                height: 65.0,
                 decoration: BoxDecoration(
                   color: const Color(0xff171732),
                 ),
@@ -831,10 +831,10 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
 
                                 departments1databaseReference =
                                     FirebaseDatabase.instance;
-                                departments1databaseReference
-                                    .setPersistenceEnabled(true);
-                                departments1databaseReference
-                                    .setPersistenceCacheSizeBytes(10000000);
+//                                departments1databaseReference
+//                                    .setPersistenceEnabled(true);
+//                                departments1databaseReference
+//                                    .setPersistenceCacheSizeBytes(10000000);
 //                                    final departments1databaseReference =
 //                                        FirebaseDatabase.instance
 //                                            .reference()
@@ -1395,7 +1395,9 @@ _indyearcurrentItemSelected="الموديل";
             }
           },
           child: Container(
+//            width: MediaQuery.of(context).size.width,
               child: Row(
+//                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Column(
                     children: <Widget>[
@@ -1562,7 +1564,7 @@ _indyearcurrentItemSelected="الموديل";
                           children: <Widget>[
                             Padding(
                               padding: const EdgeInsets.only(
-                                  left: 10, right: 5, top: 5, bottom: 5),
+                                  left: 0, right: 0, top: 0, bottom: 0),
                               child: Text(
                                 "                                                                    ",
                                 textDirection: TextDirection.rtl,
@@ -1623,9 +1625,9 @@ _indyearcurrentItemSelected="الموديل";
             });
 
             departments1databaseReference = FirebaseDatabase.instance;
-            departments1databaseReference.setPersistenceEnabled(true);
-            departments1databaseReference
-                .setPersistenceCacheSizeBytes(10000000);
+//            departments1databaseReference.setPersistenceEnabled(true);
+//            departments1databaseReference
+//                .setPersistenceCacheSizeBytes(10000000);
 //            final departments1databaseReference = FirebaseDatabase.instance
 //                .reference()
 //                .child("Departments1")

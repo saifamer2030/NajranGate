@@ -388,18 +388,25 @@ class _MyFavState extends State<MyFav> {
         margin: EdgeInsets.only(right: 1, left: 1, bottom: 2),
         child: InkWell(
           onTap: () {
-
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        AdvProlile(cId, chead, cname)));
-
-
-
+//            print('111 payload: ' + cId + chead + cname);
+            if (cname == null) {
+              // ignore: unnecessary_statements
+              cname == "اسم غير معلوم";
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => AdvProlile(cId, chead, cname)));
+            } else {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => AdvProlile(cId, chead, cname)));
+            }
           },
           child: Container(
+//            width: MediaQuery.of(context).size.width,
               child: Row(
+//                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Column(
                     children: <Widget>[
@@ -409,7 +416,8 @@ class _MyFavState extends State<MyFav> {
                           children: <Widget>[
                             Center(
                               child: curi == "a"
-                                  ? new Image.asset("assets/images/ic_bluecar.png",
+                                  ? new Image.asset(
+                                "assets/images/ic_bluecar.png",
                               )
                                   : new Image.network(
                                 curi,
@@ -419,40 +427,31 @@ class _MyFavState extends State<MyFav> {
                             Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(2.0),
-                                color:const Color(0xff444460),
+                                color: const Color(0xff444460),
                               ),
-                                child: Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child:  Text(
-                                      cdepart,
-                                      textDirection: TextDirection.rtl,
-                                      textAlign: TextAlign.right,
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 12,
+                              child: Text(
+                                cdepart,
+                                textDirection: TextDirection.rtl,
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
 //                                          fontFamily: 'Estedad-Black',
-                                          fontStyle: FontStyle.normal),
-                                    )
-                                ),
-
+                                    fontStyle: FontStyle.normal),
+                              ),
                             ),
-
-
-
-
-
                           ],
                         ),
                         width: 100,
-                        height: 130,
+                        height: 90,
                       ),
                       Container(
                           width: 100,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(2.0),
-                            color:Colors.black12,
+                            color: Colors.black12,
                           ),
-                          child:  Padding(
+                          child: Padding(
                             padding: const EdgeInsets.only(right: 5),
                             child: Text(
                               "منذ: $cdate",
@@ -464,9 +463,7 @@ class _MyFavState extends State<MyFav> {
 //                                  fontFamily: 'Estedad-Black',
                                   fontStyle: FontStyle.normal),
                             ),
-                          )
-
-                      ),
+                          )),
                     ],
                   ),
                   Container(
@@ -492,23 +489,37 @@ class _MyFavState extends State<MyFav> {
                             ),
                           ),
                         ),
-
-                        Positioned(
-                          top: 50,
-                          right: 0,
-                          child: Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child:  Text(
-                                "منذ: $cdate",
-                                textDirection: TextDirection.rtl,
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-//                                    fontFamily: 'Estedad-Black',
-                                    fontStyle: FontStyle.normal),
-                              )
-                          ),
-                        ),
-
+//                        cmodel != null
+//                            ? Positioned(
+//                          top: 30,
+//                          right: 0,
+//                          child: Padding(
+//                            padding: const EdgeInsets.all(5.0),
+//                            child: Row(
+//                              children: <Widget>[
+//                                Text(
+//                                  "$cmodel",
+//                                  textDirection: TextDirection.rtl,
+//                                  textAlign: TextAlign.right,
+//                                  style: TextStyle(
+//                                      color: Colors.blue,
+////                                  fontFamily: 'Estedad-Black',
+//                                      fontWeight: FontWeight.bold,
+//                                      fontSize: 12.0,
+//                                      fontStyle: FontStyle.normal),
+//                                ),
+//                                Padding(
+//                                  padding: const EdgeInsets.only(left: 5),
+//                                  child: Icon(
+//                                    Icons.directions_car,
+//                                    size: 15,
+//                                  ),
+//                                ),
+//                              ],
+//                            ),
+//                          ),
+//                        )
+//                            : Container(),
                         Positioned(
                           top: 100,
                           right: 0,
@@ -533,15 +544,14 @@ class _MyFavState extends State<MyFav> {
                                 ),
                                 SizedBox(
                                   height: _minimumPadding,
-                                  width: _minimumPadding*4,
+                                  width: _minimumPadding * 4,
                                 ),
-
                                 SizedBox(
                                   height: _minimumPadding,
                                   width: _minimumPadding,
                                 ),
                                 Text(
-                                  "$cname",
+                                  cname != null ? "$cname" : "اسم غير معلوم",
                                   textDirection: TextDirection.rtl,
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
@@ -563,7 +573,7 @@ class _MyFavState extends State<MyFav> {
                           children: <Widget>[
                             Padding(
                               padding: const EdgeInsets.only(
-                                  left: 10, right: 5, top: 5, bottom: 5),
+                                  left: 0, right: 0, top: 0, bottom: 0),
                               child: Text(
                                 "                                                                    ",
                                 textDirection: TextDirection.rtl,

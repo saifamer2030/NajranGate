@@ -52,16 +52,20 @@ class _ProfilePhotoState extends State<ProfilePhoto> {
                       scale: 0.1,
                       outer: true,
                       itemBuilder: (BuildContext context, int index) {
-                        return Image.network(widget.imageUrls[index],
-                            fit: BoxFit.contain, loadingBuilder:
-                                (BuildContext context, Widget child,
-                                    ImageChunkEvent loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return SpinKitThreeBounce(
-                            color: const Color(0xff171732),
-                            size: 35,
-                          );
-                        });
+                        return InteractiveViewer(
+                          minScale: 0.1,
+                          maxScale: 8.6,
+                          child: Image.network(widget.imageUrls[index],
+                              fit: BoxFit.contain, loadingBuilder:
+                                  (BuildContext context, Widget child,
+                                      ImageChunkEvent loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return SpinKitThreeBounce(
+                              color: const Color(0xff171732),
+                              size: 35,
+                            );
+                          }),
+                        );
                       },
                     )),
           Column(
@@ -72,7 +76,7 @@ class _ProfilePhotoState extends State<ProfilePhoto> {
                 child: InkWell(
                   onTap: () => Navigator.pop(context),
                   child: Container(
-                    alignment: Alignment.centerLeft,
+                    alignment: Alignment.bottomLeft,
                     width: 20,
                     height: 20,
                     child: InkWell(

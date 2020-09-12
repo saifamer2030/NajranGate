@@ -143,70 +143,79 @@ class __PersonalPageState extends State<PersonalPage> {
 
     return Scaffold(
       key: _scaffoldKey,
-      body: Stack(
-        children: <Widget>[
-          Column(
-            children: <Widget>[
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 65.0,
-                decoration: BoxDecoration(
-                  color: const Color(0xff171732),
-                ),
-                child: InkWell(
-                  onTap: () => Navigator.pop(context),
-                  child: Container(
-                    alignment: Alignment.centerLeft,
-                    width: 20,
-                    height: 20,
-                    child: InkWell(
-                        onTap: () => Navigator.pop(context),
-                        child: Icon(
-                          Icons.arrow_back,
-                          color: Colors.white,
-                        )),
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        decoration: new BoxDecoration(
+          image: new DecorationImage(
+            image: new AssetImage("assets/images/ic_background.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Stack(
+          children: <Widget>[
+            Column(
+              children: <Widget>[
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 65.0,
+                  decoration: BoxDecoration(
+                    color: const Color(0xff171732),
+                  ),
+                  child: InkWell(
+                    onTap: () => Navigator.pop(context),
+                    child: Container(
+                      alignment: Alignment.bottomLeft,
+                      width: 20,
+                      height: 20,
+                      child: InkWell(
+                          onTap: () => Navigator.pop(context),
+                          child: Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                          )),
+                    ),
                   ),
                 ),
-              ),
-              Transform.translate(
-                offset: Offset(0.0, -42.0),
-                child:
-                    // Adobe XD layer: 'logoBox' (shape)
-                    Center(
-                  child: Container(
-                    width: 166.0,
-                    height: 60.0,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: Text(
-                        'بوابة نجران',
-                        style: TextStyle(
-                          fontFamily: 'Estedad-Black',
-                          fontSize: 40,
-                          color: const Color(0xffffffff),
-                          height: 0.7471466064453125,
+                Transform.translate(
+                  offset: Offset(0.0, -42.0),
+                  child:
+                      // Adobe XD layer: 'logoBox' (shape)
+                      Center(
+                    child: Container(
+                      width: 166.0,
+                      height: 60.0,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 20.0),
+                        child: Text(
+                          'بوابة نجران',
+                          style: TextStyle(
+                            fontFamily: 'Estedad-Black',
+                            fontSize: 40,
+                            color: const Color(0xffffffff),
+                            height: 0.7471466064453125,
+                          ),
+                          textAlign: TextAlign.center,
                         ),
-                        textAlign: TextAlign.center,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100.0),
+                        color: const Color(0xff171732),
                       ),
                     ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100.0),
-                      color: const Color(0xff171732),
-                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          Form(
-            child: Padding(
-              padding: EdgeInsets.only(
-                  top: _minimumPadding * 23,
-                  bottom: _minimumPadding * 2,
-                  right: _minimumPadding * 2,
-                  left: _minimumPadding * 2),
-              child: ListView(
-                children: <Widget>[
+              ],
+            ),
+            Form(
+              child: Padding(
+                padding: EdgeInsets.only(
+                    top: _minimumPadding * 23,
+                    bottom: _minimumPadding * 2,
+                    right: _minimumPadding * 2,
+                    left: _minimumPadding * 2),
+                child: ListView(
+                  children: <Widget>[
 //                  Container(84848E
 //                    width: 70,
 //                    height: 70,
@@ -219,63 +228,24 @@ class __PersonalPageState extends State<PersonalPage> {
 //                      ),
 //                    ),
 //                  ),
-                  Container(
-                    height: 70,
-                    color: const Color(0xff171732).withOpacity(.4),
-                    child: Center(
-                        child: Text(
-                      "بيانات حسابك الشخصي",
-                      style: TextStyle(
-                          color: const Color(0xff171732),
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    )),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 30, left: 8, right: 8),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Card(
-                          elevation: 2,
-                          shadowColor: Colors.blueAccent,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              Directionality(
-                                textDirection: TextDirection.rtl,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    _cName != null ? _cName : "الاسم",
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 8),
-                                child: Icon(Icons.person),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 8),
-                                child: InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        showAlertDialogname(context, _cName);
-                                      });
-                                    },
-                                    child: Icon(Icons.mode_edit)),
-                              )
-                            ],
-                          ),
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: .2,
-                          color: Colors.grey,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: Card(
+                    Container(
+                      height: 70,
+                      color: const Color(0xff171732).withOpacity(.4),
+                      child: Center(
+                          child: Text(
+                        "بيانات حسابك الشخصي",
+                        style: TextStyle(
+                            color: const Color(0xff171732),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      )),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 30, left: 8, right: 8),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Card(
                             elevation: 2,
                             shadowColor: Colors.blueAccent,
                             child: Row(
@@ -286,23 +256,20 @@ class __PersonalPageState extends State<PersonalPage> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      _cMobile != null
-                                          ? _cMobile
-                                          : "رقم الجوال",
+                                      _cName != null ? _cName : "الاسم",
                                     ),
                                   ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(right: 8),
-                                  child: Icon(Icons.phone_iphone),
+                                  child: Icon(Icons.person),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 8),
                                   child: InkWell(
                                       onTap: () {
                                         setState(() {
-                                          showAlertDialogphone(
-                                              context, _cMobile);
+                                          showAlertDialogname(context, _cName);
                                         });
                                       },
                                       child: Icon(Icons.mode_edit)),
@@ -310,104 +277,147 @@ class __PersonalPageState extends State<PersonalPage> {
                               ],
                             ),
                           ),
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: .2,
-                          color: Colors.grey,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: Card(
-                            elevation: 2,
-                            shadowColor: Colors.blueAccent,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: <Widget>[
-                                InkWell(
-                                    onTap: () {
-                                      return showInSnackBar(
-                                          "يجب الافصاح عن نوع حسابك");
-                                    },
-                                    child: Icon(Icons.help)),
-                                Directionality(
-                                  textDirection: TextDirection.rtl,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      _cType != null ? _cType : "النوع",
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: .2,
+                            color: Colors.grey,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Card(
+                              elevation: 2,
+                              shadowColor: Colors.blueAccent,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: <Widget>[
+                                  Directionality(
+                                    textDirection: TextDirection.rtl,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        _cMobile != null
+                                            ? _cMobile
+                                            : "رقم الجوال",
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 8),
-                                  child: Icon(Icons.title),
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) => MyForm4(_cType,
-                                              onSubmit4: onSubmit4));
-                                    });
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 8),
-                                    child: Icon(Icons.mode_edit),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 8),
+                                    child: Icon(Icons.phone_iphone),
                                   ),
-                                )
-                              ],
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 8),
+                                    child: InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            showAlertDialogphone(
+                                                context, _cMobile);
+                                          });
+                                        },
+                                        child: Icon(Icons.mode_edit)),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: .2,
-                          color: Colors.grey,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(top: 100, left: 50, right: 50),
-                    child: SheetButton(widget.regionlist),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: InkWell(
-                      onTap: (){
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => PrivcyPolicy()));
-                      },
-                      child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Center(
-                              child: Text("إتفاقية الاستخدام",style: TextStyle(
-                                fontSize: 10,
-                                color: Colors.blue,
-                                fontWeight: FontWeight.bold,
-                              ),),
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: .2,
+                            color: Colors.grey,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Card(
+                              elevation: 2,
+                              shadowColor: Colors.blueAccent,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: <Widget>[
+                                  InkWell(
+                                      onTap: () {
+                                        return showInSnackBar(
+                                            "يجب الافصاح عن نوع حسابك");
+                                      },
+                                      child: Icon(Icons.help)),
+                                  Directionality(
+                                    textDirection: TextDirection.rtl,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        _cType != null ? _cType : "النوع",
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 8),
+                                    child: Icon(Icons.title),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) => MyForm4(_cType,
+                                                onSubmit4: onSubmit4));
+                                      });
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 8),
+                                      child: Icon(Icons.mode_edit),
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 5),
-                              child: Text("*",style: TextStyle(color: Colors.red),),
-                            )
-                          ],
-                        ),
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: .2,
+                            color: Colors.grey,
+                          ),
+                        ],
                       ),
                     ),
-                  )
-                ],
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 100, left: 50, right: 50),
+                      child: SheetButton(widget.regionlist),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: InkWell(
+                        onTap: (){
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PrivcyPolicy()));
+                        },
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Center(
+                                child: Text("إتفاقية الاستخدام",style: TextStyle(
+                                  fontSize: 10,
+                                  color: Colors.blue,
+                                  fontWeight: FontWeight.bold,
+                                ),),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 5),
+                                child: Text("*",style: TextStyle(color: Colors.red),),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

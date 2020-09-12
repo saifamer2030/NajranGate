@@ -3,44 +3,52 @@ import 'package:NajranGate/FragmentSouqNajran.dart';
 import 'package:NajranGate/screens/network_connection.dart';
 import 'package:NajranGate/screens/loginphone.dart';
 import 'package:NajranGate/screens/splash.dart';
+import 'package:flutter/services.dart';
 
-void main() {
-  runApp(MyApp());
+
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  Widget homePage = Splash();
+
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(MyApp(homePage));
+//  SystemChrome.setPreferredOrientations([
+//    DeviceOrientation.portraitDown,
+//    DeviceOrientation.portraitUp,
+//  ]);
 }
 
 class MyApp extends StatelessWidget {
+  final Widget homePage;
+  MyApp(this.homePage);
   // This widget is the root of your application.
-   MaterialColor black = const MaterialColor(
-     0xFF000000,
-    const <int, Color>{
-      50: const Color(0xFF000000),
-      100: const Color(0xFF000000),
-      200: const Color(0xFF000000),
-      300: const Color(0xFF000000),
-      400: const Color(0xFF000000),
-      500: const Color(0xFF000000),
-      600: const Color(0xFF000000),
-      700: const Color(0xFF000000),
-      800: const Color(0xFF000000),
-      900: const Color(0xFF000000),
-    },
 
-  );
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+
+      builder: (context, child) {
+        return MediaQuery(
+          child: child,
+          data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+        );
+      },
       debugShowCheckedModeBanner: false,
       title: 'Gate Najran',
       theme: ThemeData(
 
-        primarySwatch: black,
-
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+//        primarySwatch: Colors.white ,
+//        accentColor:  HexColor('#ffd700'),
+//        secondaryHeaderColor: HexColor('#ed0875'),
+//        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: Splash(),/*MyHomePage(title: 'Flutter Demo Home Page'),*/
-      routes: <String,WidgetBuilder>{
+      home: homePage,/*MyHomePage(title: 'Flutter Demo Home Page'),*/
+      routes:{
+        Splash.routeName: (ctx) => Splash(),
 
-//      '/fragmentsouq':(BuildContext context)=>new FragmentSouq1(),
+//      '/splash':(BuildContext context)=>new Splash(),
 //        '/signup':(BuildContext context)=>new SignIn(),
 //      '/conection':(BuildContext context)=>new ConnectionScreen(),
 

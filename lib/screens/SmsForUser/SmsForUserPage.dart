@@ -63,222 +63,246 @@ class _SmsForUserPage extends State<SmsForUserPage> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: Stack(
-          children: <Widget>[
-            Column(
-              children: <Widget>[
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 65.0,
-                  decoration: BoxDecoration(
-                    color: const Color(0xff171732),
-                  ),
-                ),
-                Transform.translate(
-                  offset: Offset(0.0, -42.0),
-                  child:
-                      // Adobe XD layer: 'logoBox' (shape)
-                      Center(
-                    child: Container(
-                      width: 166.0,
-                      height: 60.0,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 20.0),
-                        child: Text(
-                          'بوابة نجران',
-                          style: TextStyle(
-                            fontFamily: 'Estedad-Black',
-                            fontSize: 40,
-                            color: const Color(0xffffffff),
-                            height: 0.7471466064453125,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100.0),
-                        color: const Color(0xff171732),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+//        backgroundColor: Colors.white,
+        body: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          decoration: new BoxDecoration(
+            image: new DecorationImage(
+              image: new AssetImage("assets/images/ic_background.png"),
+              fit: BoxFit.cover,
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 40),
-              child: Center(
-                child: ListView(
-                  physics: BouncingScrollPhysics(),
-                  children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 20.0, left: 5.0, right: 5.0),
-                          child: Card(
-                            elevation: 0.0,
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: TextField(
-                              controller: _Name,
-                              onChanged: (value) {},
-                              //  controller: controller,
-                              decoration: InputDecoration(
-                                  labelText: "اسمك الكامل طال عمرك",
-                                  hintText: "اسمك الكامل طال عمرك",
-                                  prefixIcon: Icon(
-                                    Icons.person,
-                                    color: const Color(0xff171732),
-                                  ),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(5.0)))),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: Card(
-                            elevation: 0.0,
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: TextField(
-                              controller: _Emali,
-                              onChanged: (value) {},
-                              //  controller: controller,
-                              decoration: InputDecoration(
-                                  labelText: "ايميلك طال عمرك",
-                                  hintText: "ايميلك طال عمرك",
-                                  prefixIcon: Icon(
-                                    Icons.alternate_email,
-                                    color:  const Color(0xff171732),
-                                  ),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(5.0)))),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: Card(
-                            elevation: 0.0,
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: TextField(
-                              controller: _City,
-                              onChanged: (value) {},
-                              //  controller: controller,
-                              decoration: InputDecoration(
-                                  labelText: "الحي طال عمرك",
-                                  hintText: "الحي طال عمرك",
-                                  prefixIcon: Icon(
-                                    Icons.location_city,
-                                    color:  const Color(0xff171732),
-                                  ),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(5.0)))),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: Card(
-                            elevation: 0.0,
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: TextField(
-                              keyboardType: TextInputType.number,
-                              controller: _Phone,
-                              onChanged: (value) {},
-                              //  controller: controller,
-                              decoration: InputDecoration(
-                                  labelText: "رقم جوالك طال عمرك",
-                                  hintText: "رقم جوالك طال عمرك",
-                                  prefixIcon: Icon(
-                                    Icons.phone_iphone,
-                                    color:  const Color(0xff171732),
-                                  ),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(5.0)))),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: Card(
-                            elevation: 0.0,
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: TextField(
-                              keyboardType: TextInputType.multiline,
-                              textInputAction: TextInputAction.newline,
-                              maxLines: null,
-                              controller: _SmsText,
-                              onChanged: (value) {},
-                              //  controller: controller,
-                              decoration: InputDecoration(
-                                  labelText:
-                                      "ارسل لنا رايك او اي مشكلة تواجها سواء مشكلة تقنيه او مشكلة مع مزود الخدمة",
-                                  hintText:
-                                      "ارسل لنا رايك او اي مشكلة تواجها سواء مشكلة تقنيه او مشكلة مع مزود الخدمة",
-                                  hintStyle: TextStyle(fontSize: 10.0),
-                                  labelStyle: TextStyle(fontSize: 10.0),
-                                  prefixIcon: Icon(
-                                    Icons.comment,
-                                    color:  const Color(0xff171732),
-                                  ),
-                                  contentPadding:
-                                      new EdgeInsets.symmetric(vertical: 50.0),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(5.0)))),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(30.0),
-                          child: Container(
-                            width: 300 /*MediaQuery.of(context).size.width*/,
-                            height: 50,
-                            child: new RaisedButton(
-                              child: new Text("إرسال الشكوي"),
-                              textColor: Colors.white,
-                              color: Colors.red,
-                              onPressed: () {
-                                User(
-                                    name: _Name.text,
-                                    email: _Emali.text,
-                                    city: _City.text,
-                                    phone: _Phone.text,
-                                    smstext: _SmsText.text);
-                              },
-//
-                              shape: new RoundedRectangleBorder(
-                                  borderRadius: new BorderRadius.circular(10.0)),
-                            ),
-                          ),
-                        ),
-                      ],
+          ),
+          child: Stack(
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 65.0,
+                    child: InkWell(
+                      onTap: () => Navigator.pop(context),
+                      child: Container(
+                        alignment: Alignment.bottomLeft,
+                        width: 20,
+                        height: 20,
+                        child: InkWell(
+                            onTap: () => Navigator.pop(context),
+                            child: Icon(
+                              Icons.arrow_back,
+                              color: Colors.white,
+                            )),
+                      ),
                     ),
-                  ],
+                    decoration: BoxDecoration(
+                      color: const Color(0xff171732),
+                    ),
+                  ),
+                  Transform.translate(
+                    offset: Offset(0.0, -42.0),
+                    child:
+                        // Adobe XD layer: 'logoBox' (shape)
+                        Center(
+                      child: Container(
+                        width: 166.0,
+                        height: 60.0,
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 20.0),
+                          child: Text(
+                            'بوابة نجران',
+                            style: TextStyle(
+                              fontFamily: 'Estedad-Black',
+                              fontSize: 40,
+                              color: const Color(0xffffffff),
+                              height: 0.7471466064453125,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100.0),
+                          color: const Color(0xff171732),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 40),
+                child: Center(
+                  child: ListView(
+                    physics: BouncingScrollPhysics(),
+                    children: <Widget>[
+                      Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 20.0, left: 5.0, right: 5.0),
+                            child: Card(
+                              elevation: 0.0,
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: TextField(
+                                controller: _Name,
+                                onChanged: (value) {},
+                                //  controller: controller,
+                                decoration: InputDecoration(
+                                    labelText: "اسمك الكامل طال عمرك",
+                                    hintText: "اسمك الكامل طال عمرك",
+                                    prefixIcon: Icon(
+                                      Icons.person,
+                                      color: const Color(0xff171732),
+                                    ),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5.0)))),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Card(
+                              elevation: 0.0,
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: TextField(
+                                controller: _Emali,
+                                onChanged: (value) {},
+                                //  controller: controller,
+                                decoration: InputDecoration(
+                                    labelText: "ايميلك طال عمرك",
+                                    hintText: "ايميلك طال عمرك",
+                                    prefixIcon: Icon(
+                                      Icons.alternate_email,
+                                      color:  const Color(0xff171732),
+                                    ),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5.0)))),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Card(
+                              elevation: 0.0,
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: TextField(
+                                controller: _City,
+                                onChanged: (value) {},
+                                //  controller: controller,
+                                decoration: InputDecoration(
+                                    labelText: "الحي طال عمرك",
+                                    hintText: "الحي طال عمرك",
+                                    prefixIcon: Icon(
+                                      Icons.location_city,
+                                      color:  const Color(0xff171732),
+                                    ),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5.0)))),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Card(
+                              elevation: 0.0,
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: TextField(
+                                keyboardType: TextInputType.number,
+                                controller: _Phone,
+                                onChanged: (value) {},
+                                //  controller: controller,
+                                decoration: InputDecoration(
+                                    labelText: "رقم جوالك طال عمرك",
+                                    hintText: "رقم جوالك طال عمرك",
+                                    prefixIcon: Icon(
+                                      Icons.phone_iphone,
+                                      color:  const Color(0xff171732),
+                                    ),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5.0)))),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Card(
+                              elevation: 0.0,
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: TextField(
+                                keyboardType: TextInputType.multiline,
+                                textInputAction: TextInputAction.newline,
+                                maxLines: null,
+                                controller: _SmsText,
+                                onChanged: (value) {},
+                                //  controller: controller,
+                                decoration: InputDecoration(
+                                    labelText:
+                                        "ارسل لنا رايك او اي مشكلة تواجها سواء مشكلة تقنيه او مشكلة مع مزود الخدمة",
+                                    hintText:
+                                        "ارسل لنا رايك او اي مشكلة تواجها سواء مشكلة تقنيه او مشكلة مع مزود الخدمة",
+                                    hintStyle: TextStyle(fontSize: 10.0),
+                                    labelStyle: TextStyle(fontSize: 10.0),
+                                    prefixIcon: Icon(
+                                      Icons.comment,
+                                      color:  const Color(0xff171732),
+                                    ),
+                                    contentPadding:
+                                        new EdgeInsets.symmetric(vertical: 50.0),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5.0)))),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(30.0),
+                            child: Container(
+                              width: 300 /*MediaQuery.of(context).size.width*/,
+                              height: 50,
+                              child: new RaisedButton(
+                                child: new Text("إرسال الشكوي"),
+                                textColor: Colors.white,
+                                color: Colors.red,
+                                onPressed: () {
+                                  User(
+                                      name: _Name.text,
+                                      email: _Emali.text,
+                                      city: _City.text,
+                                      phone: _Phone.text,
+                                      smstext: _SmsText.text);
+                                },
+//
+                                shape: new RoundedRectangleBorder(
+                                    borderRadius: new BorderRadius.circular(10.0)),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ));
   }
 
@@ -310,8 +334,9 @@ class _SmsForUserPage extends State<SmsForUserPage> {
             fontSize: 15.0,
             textColor: Colors.white,
             backgroundColor:  const Color(0xff171732),);
-        Navigator.of(context).pop();
         showNotification();
+        Navigator.of(context).pop();
+
       });
     } else {
       Fluttertoast.showToast(
@@ -327,7 +352,7 @@ class _SmsForUserPage extends State<SmsForUserPage> {
 
   showNotification() async {
     var android = AndroidNotificationDetails(
-        'channel id', 'channel name', 'channel description',
+        'com.arabdevelopers.souqnagran', 'NajranGate', 'channel description',
         importance: Importance.Max);
     var ios = IOSNotificationDetails();
     var platform = NotificationDetails(android, ios);

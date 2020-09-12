@@ -51,7 +51,7 @@ class _Fragment1SouqState extends State<FragmentSouq1> {
     super.initState();
     // Toast.show("kkkkkkkkkkk"+widget.regionlist.toString(),context,duration: Toast.LENGTH_SHORT,gravity:  Toast.BOTTOM);
 //print("kkkkkklllllkkkkk"+FragmentSouq1.regionlist.toString());
-    // registerNotification();
+     registerNotification();
     configLocalNotification();
     setState(() {
       currentScreen = AllAdvertesmenta(widget.regionlist);
@@ -267,9 +267,9 @@ class _Fragment1SouqState extends State<FragmentSouq1> {
   void showNotification(message) async {
     var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
       Platform.isAndroid
-          ? 'ccom.topstylesa.topstyle'
-          : 'com.topstylesa.topstyle',
-      'topstyle',
+          ? 'com.arabdevelopers.souqnagran'
+          : 'com.arabdevelopers.souqnagran',
+      'NajranGate',
       'your channel description',
       playSound: true,
       enableVibration: true,

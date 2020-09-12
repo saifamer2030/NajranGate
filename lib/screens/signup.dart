@@ -9,6 +9,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:toast/toast.dart';
 
+import 'loginmail.dart';
+
 class SignUp extends StatefulWidget {
   List<String> regionlist = [];
 
@@ -55,6 +57,14 @@ class _SignUpState extends State<SignUp> {
       key: _scaffoldKey,
       backgroundColor: const Color(0xffffffff),
       body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        decoration: new BoxDecoration(
+          image: new DecorationImage(
+            image: new AssetImage("assets/images/ic_background.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Stack(
           children: <Widget>[
             Column(
@@ -62,6 +72,20 @@ class _SignUpState extends State<SignUp> {
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: 65.0,
+                  child: InkWell(
+                    onTap: () => Navigator.pop(context),
+                    child: Container(
+                      alignment: Alignment.bottomLeft,
+                      width: 20,
+                      height: 20,
+                      child: InkWell(
+                          onTap: () => Navigator.pop(context),
+                          child: Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                          )),
+                    ),
+                  ),
                   decoration: BoxDecoration(
                     color: const Color(0xff171732),
                   ),
@@ -127,36 +151,36 @@ class _SignUpState extends State<SignUp> {
                         width: _minimumPadding,
                       ),
 
-                      Padding(
-                          padding: EdgeInsets.only(
-                              top: _minimumPadding, bottom: _minimumPadding),
-                          child: Directionality(
-                            textDirection: TextDirection.rtl,
-                            child: TextFormField(
-                              textAlign: TextAlign.right,
-                              keyboardType: TextInputType.text,
-                              style: textStyle,
-                              //textDirection: TextDirection.rtl,
-                              controller: _nameController,
-                              validator: (String value) {
-                                if (value.isEmpty) {
-                                  return "ادخل الاسم كامل";
-                                }
-                              },
-                              decoration: InputDecoration(
-                                labelText: "الاسم كامل",
-                                //hintText: 'Name',
-                                labelStyle: textStyle,
-                                errorStyle: TextStyle(
-                                    color: Colors.red, fontSize: 15.0),
-                                // border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0))
-                              ),
-                            ),
-                          )),
-                      SizedBox(
-                        height: _minimumPadding,
-                        width: _minimumPadding,
-                      ),
+//                      Padding(
+//                          padding: EdgeInsets.only(
+//                              top: _minimumPadding, bottom: _minimumPadding),
+//                          child: Directionality(
+//                            textDirection: TextDirection.rtl,
+//                            child: TextFormField(
+//                              textAlign: TextAlign.right,
+//                              keyboardType: TextInputType.text,
+//                              style: textStyle,
+//                              //textDirection: TextDirection.rtl,
+//                              controller: _nameController,
+//                              validator: (String value) {
+//                                if (value.isEmpty) {
+//                                  return "ادخل الاسم كامل";
+//                                }
+//                              },
+//                              decoration: InputDecoration(
+//                                labelText: "الاسم كامل",
+//                                //hintText: 'Name',
+//                                labelStyle: textStyle,
+//                                errorStyle: TextStyle(
+//                                    color: Colors.red, fontSize: 15.0),
+//                                // border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0))
+//                              ),
+//                            ),
+//                          )),
+//                      SizedBox(
+//                        height: _minimumPadding,
+//                        width: _minimumPadding,
+//                      ),
                       Padding(
                           padding: EdgeInsets.only(
                               top: _minimumPadding, bottom: _minimumPadding),
@@ -208,13 +232,13 @@ class _SignUpState extends State<SignUp> {
                                 if (value.isEmpty) {
                                   return "برجاء إدخال رقم جوالك";
                                 }
-                                if (value.length < 10) {
+                                if (value.length < 9) {
                                   return "برجاء إدخال رقم جوال صالح";
                                 }
                               },
                               decoration: InputDecoration(
                                 labelText: "رقم الجوال",
-                                //hintText: 'Name',
+                                hintText: 'مثال:523456789',
                                 labelStyle: textStyle,
                                 errorStyle: TextStyle(
                                     color: Colors.red, fontSize: 15.0),
@@ -243,7 +267,7 @@ class _SignUpState extends State<SignUp> {
                                 if (value.isEmpty) {
                                   return "برجاء إدخال الرقم السري";
                                 }
-                                if (value.length < 6) {
+                                if (value.length < 2) {
                                   return "الرقم السري غير آمن";
                                 }
                               },
@@ -278,7 +302,7 @@ class _SignUpState extends State<SignUp> {
                                 if (value.isEmpty) {
                                   return "الرجاء إدخال تأكيد الرقم السري";
                                 }
-                                if (value.length < 6) {
+                                if (value.length < 2) {
                                   return "الرقم السري غير آمن او غير مطابق";
                                 }
                                 if (_initpasswordconf != _initpassword) {
@@ -398,7 +422,9 @@ class _SignUpState extends State<SignUp> {
                                           if (result.isNotEmpty &&
                                               result[0].rawAddress.isNotEmpty) {
                                             //  print('connected');
-                                            _uploaddataemail();
+                                            loginUserphone(
+                                                _phoneController.text.trim(),
+                                                context);
                                             setState(() {
                                               _load = true;
                                             });
@@ -496,7 +522,7 @@ class _SignUpState extends State<SignUp> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          SignIn(widget.regionlist)));
+                                          LoginScreen2(widget.regionlist)));
                             },
                           ),
                         ),
@@ -520,7 +546,8 @@ class _SignUpState extends State<SignUp> {
     FirebaseAuth _auth = FirebaseAuth.instance;
 
     _auth.verifyPhoneNumber(
-        phoneNumber: "$phone",
+        phoneNumber: "+966$phone",
+        //phoneNumber: "+2$phone",
         timeout: Duration(seconds: 60),
         verificationCompleted: (AuthCredential credential) async {
           Navigator.of(context).pop();
@@ -529,7 +556,7 @@ class _SignUpState extends State<SignUp> {
           createRecord(result.user.uid);
 
           //FirebaseUser user = result.user;
-          // Navigator.of(context).pushReplacementNamed('/fragmentnaql');
+          // Navigator.of(context).pushReplacementNamed('/fragmentsouq');
 
 //          if(user != null){
 //            Navigator.push(context, MaterialPageRoute(
@@ -550,20 +577,49 @@ class _SignUpState extends State<SignUp> {
               barrierDismissible: false,
               builder: (context) {
                 return AlertDialog(
-                  title: Text("Give the code?"),
+                  title: Column(
+                    children: <Widget>[
+                      Container(
+                        width: 50.0,
+                        height: 50.0,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            alignment: Alignment.center,
+                            matchTextDirection: true,
+                            repeat: ImageRepeat.noRepeat,
+                            image: AssetImage(
+                                "assets/images/ic_confirmephone.png"),
+                          ),
+                          borderRadius: BorderRadius.circular(21.0),
+                          //color: const Color(0xff4fc3f7),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 5.0),
+                        child: Text("تحقق من الكود المرسل؟"),
+                      ),
+                    ],
+                  ),
+//                  AssetImage("assets/logowhite.png"),
+//Text("Give the code?"),
                   content: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      TextField(
-                        controller: _codeController,
+                      Container(
+                        color: Colors.grey[300],
+                        width: 150,
+                        child: TextField(
+                          keyboardType: TextInputType.number,
+                          controller: _codeController,
+                        ),
                       ),
                     ],
                   ),
                   actions: <Widget>[
                     FlatButton(
-                      child: Text("Confirm"),
+                      child: Text("تأكيد"),
                       textColor: Colors.white,
-                      color: const Color(0xff171732),
+                      color: Colors.black,
                       onPressed: () async {
                         final code = _codeController.text.trim();
                         AuthCredential credential =
@@ -575,19 +631,7 @@ class _SignUpState extends State<SignUp> {
 
                         //FirebaseUser user = result.user;
                         createRecord(result.user.uid);
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    FragmentSouq1(widget.regionlist)));
-
-//                        if(user != null){
-//                          Navigator.push(context, MaterialPageRoute(
-//                              builder: (context) => HomeScreen(user: user,)
-//                          ));
-//                        }else{
-//                          print("Error");
-//                        }
+                        // Navigator.of(context).pushReplacementNamed('/fragmentsouq');
                       },
                     )
                   ],
@@ -606,21 +650,60 @@ class _SignUpState extends State<SignUp> {
         .then((signedInUser) {
       //Toast.show("${signedInUser.user.uid}",context,duration: Toast.LENGTH_LONG,gravity:  Toast.BOTTOM);
 
-      createRecord(signedInUser.user.uid);
+      //createRecord2(signedInUser.user.uid);
     }).catchError((e) {
       // Toast.show(e,context,duration: Toast.LENGTH_LONG,gravity:  Toast.BOTTOM);
-      showInSnackBar(e);
+//      showInSnackBar(e);
 
-      setState(() {
-        _load = false;
-      });
+//      setState(() {
+//        _load = false;
+//      });
     });
   }
 
   void createRecord(signedInUserid) {
+    _uploaddataemail();
+    setState(() {
+      _load = false;
+    });
+    final userdatabaseReference =
+        FirebaseDatabase.instance.reference().child("userdata");
+
+
+    if (signedInUserid == null) {
+      userdatabaseReference.child(signedInUserid).set({
+        "cId": signedInUserid,
+        "cPhone": _phoneController.text,
+        'cEmail': _emailController.text,
+        'rating': "0",
+        'custRate': 0,
+      }).then((_) {
+        setState(() {
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => FragmentSouq1(widget.regionlist)));
+        });
+      });
+    } else {
+      userdatabaseReference.child(signedInUserid).update({
+        "cPhone": _phoneController.text,
+        "cId": signedInUserid,
+        'cEmail': _emailController.text,
+      }).then((_) {
+        setState(() {
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => FragmentSouq1(widget.regionlist)));
+        });
+      });
+    }
+  }
+  void createRecord2(signedInUserid) {
     userdatabaseReference.child(signedInUserid).set({
       'cId': signedInUserid,
-      'cName': _nameController.text,
+//      'cName': _nameController.text,
       'cEmail': _emailController.text,
       'cPhone': _phoneController.text,
 //      'cType': "مستخدم",
@@ -636,12 +719,11 @@ class _SignUpState extends State<SignUp> {
     setState(() {
       _load = false;
     });
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => FragmentSouq1(widget.regionlist)));
+//    Navigator.pushReplacement(
+//        context,
+//        MaterialPageRoute(
+//            builder: (context) => FragmentSouq1(widget.regionlist)));
   }
-
 //  Widget _getImageAsset() {
 //    AssetImage assetImage = AssetImage("assets/images/twitter-icon.png");
 //    Image image = Image(
