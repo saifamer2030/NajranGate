@@ -160,6 +160,7 @@ class __PersonalPageState extends State<PersonalPage> {
                   width: MediaQuery.of(context).size.width,
                   height: 65.0,
                   decoration: BoxDecoration(
+
                     color: const Color(0xff171732),
                   ),
                   child: InkWell(
