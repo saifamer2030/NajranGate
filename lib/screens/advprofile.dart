@@ -1,8 +1,11 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:NajranGate/classes/AdvNameClass.dart';
@@ -676,6 +679,7 @@ class _AdvProlileState extends State<AdvProlile> {
                                     ),
                                   ),
                                 ),
+
                                 Positioned(
                                   top: 45,
                                   right: 5,
@@ -710,6 +714,56 @@ class _AdvProlileState extends State<AdvProlile> {
                                       ],
                                     ),
                                   ),
+                                ),
+                                Positioned(
+                                  top: 70,
+                                  left: 10,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(0.0),
+                                    child:  IconButton(
+                                      icon: Icon(Icons.share,size:35),
+                                      tooltip: 'مشاركة الاعلان',
+                                      onPressed: () async {
+                                        // Toast.show(
+                                        //     "ابشر .. برجاء الانتظار",
+                                        //     context,
+                                        //     duration: Toast.LENGTH_LONG,
+                                        //     gravity: Toast.BOTTOM);
+                                        try {
+                                          Map map = Map<String, Uint8List>();
+                                          // List<int> aaa;
+                                          for (var i = 0; i <  _imageUrls.length; i++) {
+                                            var request = await HttpClient().getUrl(Uri.parse(_imageUrls[i]));
+                                            var response = await request.close();
+                                            Uint8List bytes = await consolidateHttpClientResponseBytes(response);
+                                            map["${advnNameclass.ctitle}$i.jpg"] = bytes;
+                                            //  aaa.add(bytes);
+                                          }
+                                          await Share.files(
+                                              advnNameclass.ctitle,
+                                              map,
+                                              'image/jpg', text:advnNameclass.ctitle+"\n\n"+ advnNameclass.cdetail);
+                                        } catch (e) {
+                                          print('error: $e');
+                                        }
+
+
+
+                                        //   _imageUrls.length;
+                                        //    var result = { for (var v in _imageUrls) v[0]: v[ _imageUrls.length-1] };
+                                        // _imageUrls.asMap().forEach((index, value) async {
+                                        //   var request = await HttpClient().getUrl(Uri.parse(advnNameclass.curi));
+                                        //   var response = await request.close();
+                                        //   Uint8List bytes = await consolidateHttpClientResponseBytes(response);
+                                        // });
+
+
+
+                                        // await Share.file(advnNameclass.ctitle, '${advnNameclass.ctitle}.jpg', aaa, 'image/jpg', text: '${advnNameclass.cdetail}');
+                                      },
+                                    ),
+                                  ),
+
                                 ),
                                 /**    Positioned(
                                     top: 50,

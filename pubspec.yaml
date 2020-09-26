@@ -54,6 +54,7 @@ dependencies:
   http: ^0.12.2
   persian_number_utility: ^0.1.2
   image:
+  esys_flutter_share: ^1.0.2
 
 dev_dependencies:
   flutter_test:
