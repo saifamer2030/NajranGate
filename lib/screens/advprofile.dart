@@ -40,6 +40,7 @@ class _AdvProlileState extends State<AdvProlile> {
   Future<void> _launched;
   var _controller = ScrollController();
   bool favcheck = false;
+  Map map = Map<String, Uint8List>();
 
   //List<OrderDetailClass> orderlist = [];
   List<CommentClass> commentlist = [];
@@ -137,7 +138,7 @@ class _AdvProlileState extends State<AdvProlile> {
       //Toast.show("${snapshot.value.keys}",context,duration: Toast.LENGTH_LONG,gravity:  Toast.BOTTOM);
 
       commentlist.clear();
-
+      CommentClass commentclass;
       for (var individualkey in KEYS) {
         // if (!blockList.contains(individualkey) &&user.uid != individualkey) {
         CommentClass commentclass = new CommentClass(
@@ -148,11 +149,28 @@ class _AdvProlileState extends State<AdvProlile> {
           DATA[individualkey]['ccoment'],
           DATA[individualkey]['cname'],
           DATA[individualkey]['cadvID'],
+          DATA[individualkey]['arrange'],
         );
-
+if( DATA[individualkey]['arrange']==null){
+   commentclass = new CommentClass(
+    DATA[individualkey]['cId'],
+    DATA[individualkey]['cuserid'],
+    DATA[individualkey]['cdate'],
+    DATA[individualkey]['cheaddate'],
+    DATA[individualkey]['ccoment'],
+    DATA[individualkey]['cname'],
+    DATA[individualkey]['cadvID'],
+    0,
+  );
+}
         setState(() {
           commentlist.add(commentclass);
-//              Toast.show("${favchecklist.length}/${coiffurelist.length}",context,duration: Toast.LENGTH_LONG,gravity:  Toast.BOTTOM);
+          setState(() {
+       //     print("size of list : 5");
+            commentlist.sort((comment1, comment2) =>
+                comment2.arrange.compareTo(comment1.arrange));
+          });
+
         });
         // }
       }
@@ -210,7 +228,15 @@ class _AdvProlileState extends State<AdvProlile> {
                     .replaceAll("[", "")
                     .replaceAll("]", "")
                     .split(",");
-                print("kkkkkkkkkkkk${DATA['cname']}");
+                Future.delayed(Duration(seconds: 0), () async {
+                  for (var i = 0; i <  _imageUrls.length; i++) {
+                    var request = await HttpClient().getUrl(Uri.parse(_imageUrls[i]));
+                    var response = await request.close();
+                    Uint8List bytes = await consolidateHttpClientResponseBytes(response);
+                    map["${advnNameclass.ctitle}$i.jpg"] = bytes;
+                  }
+                });
+
               });
             });
           })
@@ -300,7 +326,14 @@ class _AdvProlileState extends State<AdvProlile> {
                     .replaceAll("[", "")
                     .replaceAll("]", "")
                     .split(",");
-                print("kkkkkkkkkkkk${DATA['cname']}");
+                Future.delayed(Duration(seconds: 0), () async {
+                  for (var i = 0; i <  _imageUrls.length; i++) {
+                    var request = await HttpClient().getUrl(Uri.parse(_imageUrls[i]));
+                    var response = await request.close();
+                    Uint8List bytes = await consolidateHttpClientResponseBytes(response);
+                    map["${advnNameclass.ctitle}$i.jpg"] = bytes;
+                  }
+                });
               });
             });
           }));
@@ -730,15 +763,15 @@ class _AdvProlileState extends State<AdvProlile> {
                                         //     duration: Toast.LENGTH_LONG,
                                         //     gravity: Toast.BOTTOM);
                                         try {
-                                          Map map = Map<String, Uint8List>();
-                                          // List<int> aaa;
-                                          for (var i = 0; i <  _imageUrls.length; i++) {
-                                            var request = await HttpClient().getUrl(Uri.parse(_imageUrls[i]));
-                                            var response = await request.close();
-                                            Uint8List bytes = await consolidateHttpClientResponseBytes(response);
-                                            map["${advnNameclass.ctitle}$i.jpg"] = bytes;
-                                            //  aaa.add(bytes);
-                                          }
+                                          // Map map = Map<String, Uint8List>();
+                                          // // List<int> aaa;
+                                          // for (var i = 0; i <  _imageUrls.length; i++) {
+                                          //   var request = await HttpClient().getUrl(Uri.parse(_imageUrls[i]));
+                                          //   var response = await request.close();
+                                          //   Uint8List bytes = await consolidateHttpClientResponseBytes(response);
+                                          //   map["${advnNameclass.ctitle}$i.jpg"] = bytes;
+                                          //   //  aaa.add(bytes);
+                                          // }
                                           await Share.files(
                                               advnNameclass.ctitle,
                                               map,
@@ -1192,7 +1225,7 @@ class _AdvProlileState extends State<AdvProlile> {
                                       : new ListView.builder(
                                           physics: BouncingScrollPhysics(),
                                           controller: _controller,
-                                          // reverse: true,
+                                         // reverse: true,
                                           itemCount: commentlist.length,
                                           itemBuilder:
                                               (BuildContext ctxt, int index) {
@@ -1395,6 +1428,7 @@ class _AdvProlileState extends State<AdvProlile> {
         'ccoment': _commentController.text,
         'cname': _username == null ? "لا يوجد اسم" : _username,
         'cadvID': widget.cDateID,
+        'arrange': ServerValue.timestamp,
       }).whenComplete(() {
         Toast.show("ارسالنا تعليقك طال عمرك", context,
             duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
@@ -1405,19 +1439,19 @@ class _AdvProlileState extends State<AdvProlile> {
           _userId + date,
           _commentController.text,
           _username == null ? "لا يوجد اسم" : _username,
-          widget.cDateID,
+          widget.cDateID,0
         );
         setState(() {
-          commentlist.add(commentclass);
+          commentlist.insert(0,commentclass);
           _commentController.text = "";
           //      var cursor = (5/commentlist.length)* _controller.position.maxScrollExtent;//specific item
 
-          _controller.animateTo(
-            // NEW
-            _controller.position.maxScrollExtent * 1.2, // NEW
-            duration: const Duration(milliseconds: 500), // NEW
-            curve: Curves.ease, // NEW
-          );
+          // _controller.animateTo(
+          //   // NEW
+          //   _controller.position.maxScrollExtent * 2, // NEW
+          //   duration: const Duration(milliseconds: 500), // NEW
+          //   curve: Curves.ease, // NEW
+          // );
         });
 
         databasealarm.push().set({

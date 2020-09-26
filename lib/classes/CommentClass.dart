@@ -6,6 +6,7 @@ class CommentClass {
   String ccoment;
   String cname;
   String cadvID;
+  int arrange;
 
 
 
@@ -17,7 +18,7 @@ class CommentClass {
   this.ccoment,
   this.cname,
       this.cadvID,
-
+      this.arrange,
      );
 
 
