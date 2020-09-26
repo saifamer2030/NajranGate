@@ -1,37 +1,21 @@
 {
   "project_info": {
-    "project_number": "381457442905",
-    "firebase_url": "https://souqnagran-49abe.firebaseio.com",
-    "project_id": "souqnagran-49abe",
-    "storage_bucket": "souqnagran-49abe.appspot.com"
+    "project_number": "397187573277",
+    "firebase_url": "https://najrangate-9be93.firebaseio.com",
+    "project_id": "najrangate-9be93",
+    "storage_bucket": "najrangate-9be93.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:381457442905:android:706c6015b60604ad192948",
+        "mobilesdk_app_id": "1:397187573277:android:b144c4c3e8257680ba08f4",
         "android_client_info": {
           "package_name": "com.arabdevelopers.souqnagran"
         }
       },
       "oauth_client": [
         {
-          "client_id": "381457442905-4cfjgpama8033e9srqd24idhmibfev7h.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.arabdevelopers.souqnagran",
-            "certificate_hash": "c065fc9f3ddedf409e9ccf06e139599a16a62574"
-          }
-        },
-        {
-          "client_id": "381457442905-dgnj9iil7un542vt105bk8ithq9gaovk.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.arabdevelopers.souqnagran",
-            "certificate_hash": "8a272be655cb0ba460f26c6532c2b351b1ff3d59"
-          }
-        },
-        {
-          "client_id": "381457442905-64aqhn2ibuugmhrj58q1dkqi37dpbgg5.apps.googleusercontent.com",
+          "client_id": "397187573277-to5ob7mcjupjj48utfmifv5qf4p4f9bk.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.arabdevelopers.souqnagran",
@@ -39,27 +23,28 @@
           }
         },
         {
-          "client_id": "381457442905-6p8argqoqre1066kan1h05jvn10sch3j.apps.googleusercontent.com",
+          "client_id": "397187573277-eaoovk3birkk5tthnrkbrs1e2qa90tjd.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDhsnTx047M9KtyTQ6I5QcXians4LDDK6E"
+          "current_key": "AIzaSyDqR9PHhsBqmlCA28fj4KnBe9fbFKIARKY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "381457442905-6p8argqoqre1066kan1h05jvn10sch3j.apps.googleusercontent.com",
+              "client_id": "397187573277-eaoovk3birkk5tthnrkbrs1e2qa90tjd.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "381457442905-i8lts881a05bavf1jk287ock40godg55.apps.googleusercontent.com",
+              "client_id": "397187573277-1mha8amheo70a3fl120eoq8hodk4ptp6.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.arabdevelopers.souqnagran"
+                "bundle_id": "com.arabdevelopers.souqnagran",
+                "app_store_id": "1528216979"
               }
             }
           ]
