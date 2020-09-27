@@ -151,26 +151,25 @@ class _AdvProlileState extends State<AdvProlile> {
           DATA[individualkey]['cadvID'],
           DATA[individualkey]['arrange'],
         );
-if( DATA[individualkey]['arrange']==null){
-   commentclass = new CommentClass(
-    DATA[individualkey]['cId'],
-    DATA[individualkey]['cuserid'],
-    DATA[individualkey]['cdate'],
-    DATA[individualkey]['cheaddate'],
-    DATA[individualkey]['ccoment'],
-    DATA[individualkey]['cname'],
-    DATA[individualkey]['cadvID'],
-    0,
-  );
-}
+        if (DATA[individualkey]['arrange'] == null) {
+          commentclass = new CommentClass(
+            DATA[individualkey]['cId'],
+            DATA[individualkey]['cuserid'],
+            DATA[individualkey]['cdate'],
+            DATA[individualkey]['cheaddate'],
+            DATA[individualkey]['ccoment'],
+            DATA[individualkey]['cname'],
+            DATA[individualkey]['cadvID'],
+            0,
+          );
+        }
         setState(() {
           commentlist.add(commentclass);
           setState(() {
-       //     print("size of list : 5");
+            //     print("size of list : 5");
             commentlist.sort((comment1, comment2) =>
                 comment2.arrange.compareTo(comment1.arrange));
           });
-
         });
         // }
       }
@@ -229,14 +228,15 @@ if( DATA[individualkey]['arrange']==null){
                     .replaceAll("]", "")
                     .split(",");
                 Future.delayed(Duration(seconds: 0), () async {
-                  for (var i = 0; i <  _imageUrls.length; i++) {
-                    var request = await HttpClient().getUrl(Uri.parse(_imageUrls[i]));
+                  for (var i = 0; i < _imageUrls.length; i++) {
+                    var request =
+                        await HttpClient().getUrl(Uri.parse(_imageUrls[i]));
                     var response = await request.close();
-                    Uint8List bytes = await consolidateHttpClientResponseBytes(response);
+                    Uint8List bytes =
+                        await consolidateHttpClientResponseBytes(response);
                     map["${advnNameclass.ctitle}$i.jpg"] = bytes;
                   }
                 });
-
               });
             });
           })
@@ -327,10 +327,12 @@ if( DATA[individualkey]['arrange']==null){
                     .replaceAll("]", "")
                     .split(",");
                 Future.delayed(Duration(seconds: 0), () async {
-                  for (var i = 0; i <  _imageUrls.length; i++) {
-                    var request = await HttpClient().getUrl(Uri.parse(_imageUrls[i]));
+                  for (var i = 0; i < _imageUrls.length; i++) {
+                    var request =
+                        await HttpClient().getUrl(Uri.parse(_imageUrls[i]));
                     var response = await request.close();
-                    Uint8List bytes = await consolidateHttpClientResponseBytes(response);
+                    Uint8List bytes =
+                        await consolidateHttpClientResponseBytes(response);
                     map["${advnNameclass.ctitle}$i.jpg"] = bytes;
                   }
                 });
@@ -340,7 +342,7 @@ if( DATA[individualkey]['arrange']==null){
   }
 
   final ReferenceNotice =
-      FirebaseDatabase.instance.reference().child('ADVNotice');
+      FirebaseDatabase.instance.reference().child('Reports');
 
   @override
   Widget build(BuildContext context) {
@@ -367,11 +369,10 @@ if( DATA[individualkey]['arrange']==null){
                       width: 20,
                       height: 20,
                       alignment: Alignment.bottomLeft,
-                            child: Icon(
-                              Icons.arrow_back,
-                              color: Colors.white,
-                            ),
-
+                      child: Icon(
+                        Icons.arrow_back,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                   decoration: BoxDecoration(
@@ -712,7 +713,6 @@ if( DATA[individualkey]['arrange']==null){
                                     ),
                                   ),
                                 ),
-
                                 Positioned(
                                   top: 45,
                                   right: 5,
@@ -753,8 +753,8 @@ if( DATA[individualkey]['arrange']==null){
                                   left: 10,
                                   child: Padding(
                                     padding: const EdgeInsets.all(0.0),
-                                    child:  IconButton(
-                                      icon: Icon(Icons.share,size:35),
+                                    child: IconButton(
+                                      icon: Icon(Icons.share, size: 35),
                                       tooltip: 'مشاركة الاعلان',
                                       onPressed: () async {
                                         // Toast.show(
@@ -775,12 +775,13 @@ if( DATA[individualkey]['arrange']==null){
                                           await Share.files(
                                               advnNameclass.ctitle,
                                               map,
-                                              'image/jpg', text:advnNameclass.ctitle+"\n\n"+ advnNameclass.cdetail);
+                                              'image/jpg',
+                                              text: advnNameclass.ctitle +
+                                                  "\n\n" +
+                                                  advnNameclass.cdetail);
                                         } catch (e) {
                                           print('error: $e');
                                         }
-
-
 
                                         //   _imageUrls.length;
                                         //    var result = { for (var v in _imageUrls) v[0]: v[ _imageUrls.length-1] };
@@ -790,13 +791,10 @@ if( DATA[individualkey]['arrange']==null){
                                         //   Uint8List bytes = await consolidateHttpClientResponseBytes(response);
                                         // });
 
-
-
                                         // await Share.file(advnNameclass.ctitle, '${advnNameclass.ctitle}.jpg', aaa, 'image/jpg', text: '${advnNameclass.cdetail}');
                                       },
                                     ),
                                   ),
-
                                 ),
                                 /**    Positioned(
                                     top: 50,
@@ -1139,6 +1137,11 @@ if( DATA[individualkey]['arrange']==null){
                           ),
                           InkWell(
                             onTap: () {
+                              DateTime now = DateTime.now();
+
+                              // String date1 ='${now.year}-${now.month}-${now.day}';// ${now.hour}:${now.minute}:00.000';
+                              String date =
+                                  '${now.year}-${now.month}-${now.day}-${now.hour}-${now.minute}-00';
                               if (_userId != null) {
                                 showDialog(
                                   context: context,
@@ -1152,13 +1155,23 @@ if( DATA[individualkey]['arrange']==null){
                                           isDefaultAction: false,
                                           child: new FlatButton(
                                             onPressed: () {
-                                              ReferenceNotice.child(widget.cId)
-                                                  .child(_userId)
+                                              ReferenceNotice.child(
+                                                      widget.cDateID)
+                                                  .push()
+                                                  .child(widget.cId)
                                                   .set({
-                                                'idUserNotice': _userId,
-                                                'NameForAdv': widget.cName,
-                                                'DateForAdv': widget.cDateID,
+                                                'NameUserForAdv': widget.cName,
+                                                'NameUserForReport':
+                                                    _username == null
+                                                        ? "لا يوجد اسم"
+                                                        : _username,
+                                                'DateAdv': widget.cDateID,
+                                                'DateReport': date,
+                                                'UserIdForAdv': widget.cId,
+                                                'UserIdForReport': _userId,
                                               }).then((_) {
+                                                print(
+                                                    "##############$_username");
                                                 Toast.show(
                                                     "ابشر ... سيتم مراجعة بلاغك",
                                                     context,
@@ -1225,7 +1238,7 @@ if( DATA[individualkey]['arrange']==null){
                                       : new ListView.builder(
                                           physics: BouncingScrollPhysics(),
                                           controller: _controller,
-                                         // reverse: true,
+                                          // reverse: true,
                                           itemCount: commentlist.length,
                                           itemBuilder:
                                               (BuildContext ctxt, int index) {
@@ -1433,16 +1446,16 @@ if( DATA[individualkey]['arrange']==null){
         Toast.show("ارسالنا تعليقك طال عمرك", context,
             duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
         CommentClass commentclass = new CommentClass(
-          widget.cId,
-          _userId,
-          now.toString(),
-          _userId + date,
-          _commentController.text,
-          _username == null ? "لا يوجد اسم" : _username,
-          widget.cDateID,0
-        );
+            widget.cId,
+            _userId,
+            now.toString(),
+            _userId + date,
+            _commentController.text,
+            _username == null ? "لا يوجد اسم" : _username,
+            widget.cDateID,
+            0);
         setState(() {
-          commentlist.insert(0,commentclass);
+          commentlist.insert(0, commentclass);
           _commentController.text = "";
           //      var cursor = (5/commentlist.length)* _controller.position.maxScrollExtent;//specific item
 
@@ -1555,50 +1568,54 @@ if( DATA[individualkey]['arrange']==null){
                         style: TextStyle(fontSize: 20, color: Colors.blue))
                     : Text(""),
                 Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: .2,
-                  color: advnNameclass.cmodel != ""   ?Colors.grey:Colors.white
-                ),
+                    width: MediaQuery.of(context).size.width,
+                    height: .2,
+                    color: advnNameclass.cmodel != ""
+                        ? Colors.grey
+                        : Colors.white),
                 advnNameclass.cmodel != null
                     ? Text('${advnNameclass.cmodel}',
                         textAlign: TextAlign.right,
                         style: TextStyle(fontSize: 20, color: Colors.blue))
                     : Text(""),
                 Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: .2,
-                  color: advnNameclass.cmodel != null  ?Colors.grey:Colors.white
-                ),
+                    width: MediaQuery.of(context).size.width,
+                    height: .2,
+                    color: advnNameclass.cmodel != null
+                        ? Colors.grey
+                        : Colors.white),
                 advnNameclass.cauto != ""
                     ? Text('${advnNameclass.cauto}',
                         textAlign: TextAlign.right,
                         style: TextStyle(fontSize: 20, color: Colors.blue))
                     : Text(""),
                 Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: .2,
-                  color: advnNameclass.cauto != null   ?Colors.grey:Colors.white
-                ),
+                    width: MediaQuery.of(context).size.width,
+                    height: .2,
+                    color: advnNameclass.cauto != null
+                        ? Colors.grey
+                        : Colors.white),
                 advnNameclass.csale != ""
                     ? Text('${advnNameclass.csale}',
                         textAlign: TextAlign.right,
                         style: TextStyle(fontSize: 20, color: Colors.blue))
                     : Text(""),
                 Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: .2,
-                  color: advnNameclass.csale != ""   ?Colors.grey:Colors.white
-                ),
+                    width: MediaQuery.of(context).size.width,
+                    height: .2,
+                    color:
+                        advnNameclass.csale != "" ? Colors.grey : Colors.white),
                 advnNameclass.cagekm != "0"
                     ? Text('كم${advnNameclass.cagekm}',
                         textAlign: TextAlign.right,
                         style: TextStyle(fontSize: 20, color: Colors.blue))
                     : Text(""),
                 Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: .2,
-                  color:advnNameclass.cagekm != "0"   ?Colors.grey:Colors.white
-                ),
+                    width: MediaQuery.of(context).size.width,
+                    height: .2,
+                    color: advnNameclass.cagekm != "0"
+                        ? Colors.grey
+                        : Colors.white),
               ],
             ),
           ),
