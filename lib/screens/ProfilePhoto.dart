@@ -36,7 +36,7 @@ class _ProfilePhotoState extends State<ProfilePhoto> {
                   : Swiper(
                       loop: true,
                       duration: 1000,
-                      autoplay: true,
+                      autoplay: false,
                       autoplayDelay: 15000,
                       itemCount: widget.imageUrls.length,
                       pagination: new SwiperPagination(

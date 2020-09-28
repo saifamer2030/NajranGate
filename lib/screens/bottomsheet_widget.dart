@@ -140,7 +140,7 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
               Navigator.pop(context);
             },
             child: Padding(
-              padding: const EdgeInsets.only(top: 80,bottom: 50),
+              padding: const EdgeInsets.only(top: 25,bottom: 30),
               child: Container(
                   width: 20,
                   height: 20,
@@ -149,7 +149,7 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
           ),
           Container(
 //          margin: const EdgeInsets.only(top: 5, left: 15, right: 15),
-            height: 550,
+            height: 500,
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(15),

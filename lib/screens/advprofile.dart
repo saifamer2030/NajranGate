@@ -76,7 +76,7 @@ class _AdvProlileState extends State<AdvProlile> {
 
   showNotification(date1, title, _userId, head, name) async {
     DateTime scheduledNotificationDateTime =
-        DateTime.parse('$date1').add(new Duration(days: 13));
+        DateTime.parse('$date1').add(new Duration(days: 20));
     //   DateTime scheduledNotificationDateTime = DateTime.now();
 
 //    DateTime scheduledNotificationDateTime = new DateTime(
@@ -444,7 +444,7 @@ if( DATA[individualkey]['arrange']==null){
                                       Swiper(
                                         loop: false,
                                         duration: 1000,
-                                        autoplay: true,
+                                        autoplay: false,
                                         autoplayDelay: 15000,
                                         itemCount: _imageUrls.length,
                                         pagination: new SwiperPagination(
@@ -907,7 +907,7 @@ if( DATA[individualkey]['arrange']==null){
                                     DateTime startdate =
                                         DateTime.parse(advnNameclass.cdate);
                                     var newdate =
-                                        startdate.add(new Duration(days: 14));
+                                        startdate.add(new Duration(days: 21));
                                     DateTime now = DateTime.now();
                                     var permissiondate =
                                         startdate.add(new Duration(days: 10));
