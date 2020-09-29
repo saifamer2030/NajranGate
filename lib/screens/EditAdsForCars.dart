@@ -124,12 +124,12 @@ class _EditAdsForCarsState extends State<EditAdsForCars> {
 
   Future onSelectNotification(String payload) async {
     if (payload != null) {
-//      await Navigator.push(
-//        context,
-//        new MaterialPageRoute(
-//            builder: (context) =>
-//            new AdvProlile(payload.split(",")[0], payload.split(",")[1], payload.split(",")[2])),
-//      );
+     await Navigator.push(
+       context,
+       new MaterialPageRoute(
+           builder: (context) =>
+           new AdvProlile(payload.split(",")[0], payload.split(",")[1], payload.split(",")[2])),
+      );
     }
 
 //    await Navigator.push(
@@ -231,7 +231,7 @@ class _EditAdsForCarsState extends State<EditAdsForCars> {
   }
   showNotification(date1,title,_userId,head,name) async {
 
-    DateTime scheduledNotificationDateTime =DateTime.parse('$date1').add(new Duration(days: 20));
+    DateTime scheduledNotificationDateTime =DateTime.parse('$date1').add(new Duration(days: 45));
    // DateTime scheduledNotificationDateTime = DateTime.now();
 
 //    DateTime scheduledNotificationDateTime = new DateTime(
@@ -261,11 +261,11 @@ class _EditAdsForCarsState extends State<EditAdsForCars> {
     await flutterLocalNotificationsPlugin.schedule(
         111,
         'تذكير بحذف الاعلان',
-        'عزيزى العميل سيتم حذف اعلان $title غدا يرجى عمل تمديد له',
+        'عزيزى العميل سيتم حذف اعلان $title بعد اسبوعين يرجى عمل تمديد له',
         scheduledNotificationDateTime,
         platformChannelSpecifics,
-        payload:""
-   //     "$_userId,$head,$_cName"
+        payload://""
+        "$_userId,$head,$_cName"
     );
   }
   showAlertDialog1(BuildContext context) {
@@ -323,6 +323,35 @@ class _EditAdsForCarsState extends State<EditAdsForCars> {
         //  print("aaaa${_imageUrls.length}///$index");
           Navigator.pop(context);
           _imageUrls.removeAt(index);
+          Future.delayed(Duration(seconds: 0), () async {
+            print("dellll");
+            FirebaseStorage.instance
+                .getReferenceFromUrl(_imageUrls[index])
+                .then((reference){ reference.delete();
+            print("dellllok");
+                }).catchError((e) => print("dellll"+e));
+            /////////////////////////////////////
+            // StorageReference storageReference =
+            // await FirebaseStorage.instance.getReferenceFromUrl(_imageUrls[index]);
+            //
+            // print("dellll"+storageReference.path);
+            //
+            // await storageReference.delete().whenComplete(() {
+            // print("dellll");
+            // }).catchError((e){print("dellll$e");});
+///////////////////////////////////////////////////////////////
+//             final StorageReference storageRef =
+//             await FirebaseStorage.instance.getReferenceFromUrl(_imageUrls[index]);
+//             await storageRef.delete().whenComplete(() {
+// print("del");
+//             }).catchError((e){print("del$e");});
+
+            //  final StorageReference storageRef =FirebaseStorage.instance.ref().child('myimage');
+            //  final StorageReference storageRef =
+            // await FirebaseStorage.instance.getReferenceFromUrl(_imageUrls[index]);
+            // await storageRef.delete();
+          });
+
 
         });
       },
@@ -422,7 +451,7 @@ print("hhhhhhhhh");
       await file.writeAsBytes(byteData.buffer
           .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
       final StorageUploadTask uploadTask =
-      storageRef.child('$now.jpg').putFile(file);
+      storageRef.child('$_userId$now.jpg').putFile(file);
       var Imageurl = await (await uploadTask.onComplete).ref.getDownloadURL();
       print("oooo8");
       Toast.show("تم تحميل صورة طال عمرك", context,

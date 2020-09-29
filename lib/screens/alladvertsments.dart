@@ -296,7 +296,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
               DateTime now = DateTime.now();
               DateTime startdate =
                   DateTime.parse("${DATA[individualkey]['cdate']}");
-              var deltime = startdate.add(new Duration(days: 21));
+              var deltime = startdate.add(new Duration(days: 60));
 
               if (deltime.isAfter(now)) {
                 /////////////////////////////////////

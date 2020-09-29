@@ -150,7 +150,7 @@ class _MyFavState extends State<MyFav> {
                         /////////////////////////////////////
                         DateTime now = DateTime.now();
                         DateTime startdate = DateTime.parse("${DATA['cdate']}");
-                        var deltime = startdate.add(new Duration(days: 21));
+                        var deltime = startdate.add(new Duration(days: 60));
 
 
                         if (deltime.isAfter(now) ) {

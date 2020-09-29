@@ -101,12 +101,12 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
 
   Future onSelectNotification(String payload) async {
     if (payload != null) {
-//    await Navigator.push(
-//      context,
-//      new MaterialPageRoute(
-//          builder: (context) =>
-//          new AdvProlile(payload.split(",")[0], payload.split(",")[1], payload.split(",")[2])),
-//    );
+   await Navigator.push(
+     context,
+     new MaterialPageRoute(
+         builder: (context) =>
+         new AdvProlile(payload.split(",")[0], payload.split(",")[1], payload.split(",")[2])),
+   );
     }
 //    await Navigator.push(
 //      context,
@@ -293,7 +293,7 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
 
   showNotification(date1, title, _userId, head, name) async {
     DateTime scheduledNotificationDateTime =
-        DateTime.parse('$date1').add(new Duration(days: 20));
+        DateTime.parse('$date1').add(new Duration(days: 45));
 //    DateTime scheduledNotificationDateTime = DateTime.now();
 
 //    DateTime scheduledNotificationDateTime = new DateTime(
@@ -323,11 +323,11 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
     await flutterLocalNotificationsPlugin.schedule(
         111,
         'تذكير بحذف الاعلان',
-        'عزيزى العميل سيتم حذف اعلان $title غدا يرجى عمل تمديد له',
+        'عزيزى العميل سيتم حذف اعلان $title بعد اسبوعبن يرجى عمل تمديد له',
         scheduledNotificationDateTime,
         platformChannelSpecifics,
-        payload: ""
-        //  "$_userId,$head,$_cName"
+        payload:// ""
+          "$_userId,$head,$_cName"
         );
   }
 
@@ -1708,174 +1708,10 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
     });
   }
 
-//  Future getImage1() async {
-//    var tempImage1 = await ImagePicker.pickImage(source: ImageSource.gallery);
-//
-//    ///***************************************
-//    final tempDir1 = await getTemporaryDirectory();
-//    final path1 = tempDir1.path;
-//
-//    int rand1 = new Math.Random().nextInt(100000);
-//
-//    Img.Image image1 = Img.decodeImage(tempImage1.readAsBytesSync());
-//    Img.Image smallerImg1 = Img.copyResizeCropSquare(image1, 500);
-//    var compressImg1 = new File("$path1/image1_$rand1.jpg")
-//      ..writeAsBytesSync(Img.encodeJpg(smallerImg1, quality: 50));
-//
-//    /// **********************************
-//    setState(() {
-//      imagepathes = imagepathes + "$path1/image1_$rand1.jpg,";
-//
-//      sampleImage1 = compressImg1;
-//      picno++;
-//      // Toast.show(sampleImage1.toString(),context,duration: Toast.LENGTH_SHORT,gravity:  Toast.BOTTOM);
-//    });
-//  }
-//
-//  Future getImage2() async {
-//    var tempImage2 = await ImagePicker.pickImage(source: ImageSource.gallery);
-//
-//    ///***************************************
-//    final tempDir2 = await getTemporaryDirectory();
-//    final path2 = tempDir2.path;
-//
-//    int rand2 = new Math.Random().nextInt(100000);
-//
-//    Img.Image image2 = Img.decodeImage(tempImage2.readAsBytesSync());
-//    Img.Image smallerImg2 = Img.copyResizeCropSquare(image2, 500);
-//    var compressImg2 = new File("$path2/image2_$rand2.jpg")
-//      ..writeAsBytesSync(Img.encodeJpg(smallerImg2, quality: 50));
-//
-//    /// **********************************
-//    setState(() {
-//      imagepathes = imagepathes + "$path2/image2_$rand2.jpg,";
-//      sampleImage2 = compressImg2;
-//      picno++;
-//      // Toast.show(sampleImage1.toString(),context,duration: Toast.LENGTH_SHORT,gravity:  Toast.BOTTOM);
-//    });
-//  }
-//
-//  Future getImage3() async {
-//    var tempImage3 = await ImagePicker.pickImage(source: ImageSource.gallery);
-//
-//    ///***************************************
-//    final tempDir3 = await getTemporaryDirectory();
-//    final path3 = tempDir3.path;
-//
-//    int rand3 = new Math.Random().nextInt(100000);
-//
-//    Img.Image image3 = Img.decodeImage(tempImage3.readAsBytesSync());
-//    Img.Image smallerImg3 = Img.copyResizeCropSquare(image3, 500);
-//    var compressImg3 = new File("$path3/image3_$rand3.jpg")
-//      ..writeAsBytesSync(Img.encodeJpg(smallerImg3, quality: 50));
-//
-//    /// **********************************
-//    setState(() {
-//      imagepathes = imagepathes + "$path3/image3_$rand3.jpg,";
-//
-//      sampleImage3 = compressImg3;
-//      picno++;
-//      // Toast.show(sampleImage1.toString(),context,duration: Toast.LENGTH_SHORT,gravity:  Toast.BOTTOM);
-//    });
-//  }
-//
-//  Future getImage4() async {
-//    var tempImage4 = await ImagePicker.pickImage(source: ImageSource.gallery);
-//
-//    ///***************************************
-//    final tempDir4 = await getTemporaryDirectory();
-//    final path4 = tempDir4.path;
-//
-//    int rand4 = new Math.Random().nextInt(100000);
-//
-//    Img.Image image4 = Img.decodeImage(tempImage4.readAsBytesSync());
-//    Img.Image smallerImg4 = Img.copyResizeCropSquare(image4, 500);
-//    var compressImg4 = new File("$path4/image4_$rand4.jpg")
-//      ..writeAsBytesSync(Img.encodeJpg(smallerImg4, quality: 50));
-//
-//    /// **********************************
-//    setState(() {
-//      imagepathes = imagepathes + "$path4/image4_$rand4.jpg,";
-//
-//      sampleImage4 = compressImg4;
-//      picno++;
-//      // Toast.show(sampleImage1.toString(),context,duration: Toast.LENGTH_SHORT,gravity:  Toast.BOTTOM);
-//    });
-//  }
-//
-//  Future getImage5() async {
-//    var tempImage5 = await ImagePicker.pickImage(source: ImageSource.gallery);
-//
-//    ///***************************************
-//    final tempDir5 = await getTemporaryDirectory();
-//    final path5 = tempDir5.path;
-//
-//    int rand5 = new Math.Random().nextInt(100000);
-//
-//    Img.Image image5 = Img.decodeImage(tempImage5.readAsBytesSync());
-//    Img.Image smallerImg5 = Img.copyResizeCropSquare(image5, 500);
-//    var compressImg5 = new File("$path5/image5_$rand5.jpg")
-//      ..writeAsBytesSync(Img.encodeJpg(smallerImg5, quality: 50));
-//
-//    /// **********************************
-//    setState(() {
-//      imagepathes = imagepathes + "$path5/image5_$rand5.jpg,";
-//
-//      sampleImage5 = compressImg5;
-//      picno++;
-//      // Toast.show(sampleImage1.toString(),context,duration: Toast.LENGTH_SHORT,gravity:  Toast.BOTTOM);
-//    });
-//  }
-//
-//  Future getImage6() async {
-//    var tempImage6 = await ImagePicker.pickImage(source: ImageSource.gallery);
-//
-//    ///***************************************
-//    final tempDir6 = await getTemporaryDirectory();
-//    final path6 = tempDir6.path;
-//
-//    int rand6 = new Math.Random().nextInt(100000);
-//
-//    Img.Image image6 = Img.decodeImage(tempImage6.readAsBytesSync());
-//    Img.Image smallerImg6 = Img.copyResizeCropSquare(image6, 500);
-//    var compressImg6 = new File("$path6/image6_$rand6.jpg")
-//      ..writeAsBytesSync(Img.encodeJpg(smallerImg6, quality: 50));
-//
-//    /// **********************************
-//    setState(() {
-//      imagepathes = imagepathes + "$path6/image6_$rand6.jpg,";
-//
-//      sampleImage6 = compressImg6;
-//      picno++;
-//      // Toast.show(sampleImage1.toString(),context,duration: Toast.LENGTH_SHORT,gravity:  Toast.BOTTOM);
-//    });
-//  }
-//
-//  Future getImage7() async {
-//    var tempImage7 = await ImagePicker.pickImage(source: ImageSource.gallery);
-//
-//    ///***************************************
-//    final tempDir7 = await getTemporaryDirectory();
-//    final path7 = tempDir7.path;
-//
-//    int rand7 = new Math.Random().nextInt(100000);
-//
-//    Img.Image image7 = Img.decodeImage(tempImage7.readAsBytesSync());
-//    Img.Image smallerImg7 = Img.copyResizeCropSquare(image7, 500);
-//    var compressImg7 = new File("$path7/image7_$rand7.jpg")
-//      ..writeAsBytesSync(Img.encodeJpg(smallerImg7, quality: 50));
-//
-//    /// **********************************
-//    setState(() {
-//      imagepathes = imagepathes + "$path7/image7_$rand7.jpg,";
-//
-//      sampleImage7 = compressImg7;
-//      picno++;
-//      // Toast.show(sampleImage1.toString(),context,duration: Toast.LENGTH_SHORT,gravity:  Toast.BOTTOM);
-//    });
-//  }
+
 
   Future uploadpp0() async {
+
     // String url1;
     final StorageReference storageRef =
         FirebaseStorage.instance.ref().child('myimage');
@@ -1887,9 +1723,9 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
       await file.writeAsBytes(byteData.buffer
           .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
       final StorageUploadTask uploadTask =
-          storageRef.child('$now.jpg').putFile(file);
+          storageRef.child('$_userId$now.jpg').putFile(file);
       var Imageurl = await (await uploadTask.onComplete).ref.getDownloadURL();
-      print("oooo8");
+    //  print("oooo8");
       Toast.show("تم تحميل صورة طال عمرك", context,
           duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
       setState(() {
@@ -2007,8 +1843,7 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
                 _character5 = SingingCharacter5.no;
                 _value2.text = "";
               });
-              showNotification(
-                  date1, _titleController.text, _userId, idkey, _cName);
+              showNotification(date1, _titleController.text, _userId, idkey, _cName);
 
               showAlertDialog(context);
             }).catchError((e) {

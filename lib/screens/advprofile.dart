@@ -56,15 +56,15 @@ class _AdvProlileState extends State<AdvProlile> {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
   Future onSelectNotification(String payload) async {
-//    if (payload != null) {
-//      print('notification payload: ' + payload.split(",")[0]+payload.split(",")[1]+payload.split(",")[2]);
-//      await Navigator.push(
-//        context,
-//        new MaterialPageRoute(
-//            builder: (context) =>
-//            new AdvProlile(payload.split(",")[0], payload.split(",")[1], payload.split(",")[2])),
-//      );
-//    }
+   if (payload != null) {
+   //  print('notification payload: ' + payload.split(",")[0]+payload.split(",")[1]+payload.split(",")[2]);
+     await Navigator.push(
+       context,
+       new MaterialPageRoute(
+           builder: (context) =>
+           new AdvProlile(payload.split(",")[0], payload.split(",")[1], payload.split(",")[2])),
+     );
+   }
 //
 //    await Navigator.push(
 //        context,
@@ -76,7 +76,7 @@ class _AdvProlileState extends State<AdvProlile> {
 
   showNotification(date1, title, _userId, head, name) async {
     DateTime scheduledNotificationDateTime =
-        DateTime.parse('$date1').add(new Duration(days: 20));
+    DateTime.parse('$date1').add(new Duration(days: 20));
     //   DateTime scheduledNotificationDateTime = DateTime.now();
 
 //    DateTime scheduledNotificationDateTime = new DateTime(
@@ -109,8 +109,8 @@ class _AdvProlileState extends State<AdvProlile> {
         'عزيزى العميل سيتم حذف اعلان $title غدا يرجى عمل تمديد له',
         scheduledNotificationDateTime,
         platformChannelSpecifics,
-        //payload:"$_userId,$head,$name"
-        payload: "");
+        payload:"$_userId,$head,$name");
+    // payload: "");
   }
 
   @override
