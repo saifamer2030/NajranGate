@@ -500,7 +500,7 @@ class _ChatState extends State<ChatPage> {
 
       databasealarm.push().set({
         'alarmid': databasealarm.push().key,
-        'wid': widget.uid,
+        'wid': user.uid,
         'Name': _cName,
         'cType': "chat",
         'cDateID':"$now",

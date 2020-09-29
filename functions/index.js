@@ -37,12 +37,16 @@ exports.sendAlarmNotification = functions.database.ref('/Alarm/{recieverUid}/{pu
                 // title : `رسالة جديدة من ${sen.val()}`,
                 title : `بوابة نجران - لديك اشعار جديد`,
                 body : `${sen.val()} - ${msg.val()}`,
-                click_action : 'FLUTTER_NOTIFICATION_CLICK' ,
-                badge : '1',
-                icon: 'https://firebasestorage.googleapis.com/v0/b/souqnagran-49abe.appspot.com/o/logo%2Fsouqnagran.png?alt=media&token=8e8f8ff2-0855-4e67-9a44-aff2811448e7',
-                sound : 'default',
+                badge: '1',
+                sound: 'default'
 
-            }
+            },
+            data: {
+                click_action: `FLUTTER_NOTIFICATION_CLICK`,
+                sound: `default`,
+                status: `chat`,
+                screen: `homePage`
+                }
         };
     
         return admin.database().ref(`/Fcm-Token/${recUid}`).once('value').then(allToken => {

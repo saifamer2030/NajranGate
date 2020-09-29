@@ -353,8 +353,6 @@ class _SignInState extends State<SignIn> {
       userdatabaseReference.child(signedInUserid).set({
         "cId":signedInUserid,
         "cPhone": _phoneController.text,
-        'rating': "0",
-        'custRate': 0,
       }).then((_) {
         setState(() {
           Navigator.pushReplacement(

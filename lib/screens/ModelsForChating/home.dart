@@ -226,16 +226,15 @@ class _HomePageState extends State<HomePage> {
       mapOfMaps.values.forEach((value) {
         CoiffureRegDataClass usr =
             CoiffureRegDataClass.fromJson(Map.from(value));
-
+        print("########${usr.cId}");
 /*        HelperFunc.showToast("curUser ${curUser.uid}", Colors.pink);*/
         mDatabase
             .child("ChatList")
             .child(curUser.uid)
-
             .child("idTo")
             .once()
             .then((DataSnapshot snapshot2) {
-          chatList2.add(new ChatList(snapshot2.value, "2"));
+          chatList2.add(new ChatList(snapshot2.value, "1"));
 /*
               HelperFunc.showToast("idTo ${snapshot2.value}", Colors.pink);
 */
@@ -247,6 +246,7 @@ class _HomePageState extends State<HomePage> {
               isLoaded = true;
             });
             setState(() {
+
               userList.add(usr);
             });
             return;

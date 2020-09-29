@@ -1698,7 +1698,7 @@ print("jjjjjjjj///$_userId///${widget.chead}");
         context: context,
         builder: (BuildContext context) => new CupertinoAlertDialog(
             title: new Text("تهاننا"),
-            content: new Text("تم تعديل إعلانك الموجود الحين ضمن شبكة سوق نجران"),
+            content: new Text("تم تعديل إعلانك الموجود الحين ضمن شبكة بوابة نجران"),
             actions: [
               CupertinoDialogAction(
                 isDefaultAction: false,

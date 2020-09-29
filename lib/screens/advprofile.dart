@@ -11,6 +11,7 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:NajranGate/classes/AdvNameClass.dart';
 import 'package:NajranGate/classes/CommentClass.dart';
 import 'package:NajranGate/screens/splash.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 //import 'package:simple_slider/simple_slider.dart';
@@ -1142,6 +1143,8 @@ class _AdvProlileState extends State<AdvProlile> {
                               // String date1 ='${now.year}-${now.month}-${now.day}';// ${now.hour}:${now.minute}:00.000';
                               String date =
                                   '${now.year}-${now.month}-${now.day}-${now.hour}-${now.minute}-00';
+
+
                               if (_userId != null) {
                                 showDialog(
                                   context: context,
@@ -1155,8 +1158,7 @@ class _AdvProlileState extends State<AdvProlile> {
                                           isDefaultAction: false,
                                           child: new FlatButton(
                                             onPressed: () {
-                                              ReferenceNotice.child(
-                                                      widget.cDateID)
+                                              ReferenceNotice.child(widget.cDateID)
                                                   .push()
                                                   .child(widget.cId)
                                                   .set({

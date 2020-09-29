@@ -1,11 +1,15 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:NajranGate/classes/CityClass.dart';
 import 'package:NajranGate/screens/loginphone.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:toast/toast.dart';
 import '../FragmentSouqNajran.dart';
 import 'network_connection.dart';
@@ -42,10 +46,19 @@ class _SplashState extends State<Splash> {
 //                   SignIn(regionlist))),
         );
   }
-
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   @override
   void initState() {
+
     super.initState();
+
+
+
+
+//    _initFirebaseMessaging();
+
+
     Future.delayed(Duration(seconds: 0), () async {
       try {
         final result = await InternetAddress.lookup('google.com');
@@ -147,4 +160,34 @@ class _SplashState extends State<Splash> {
       ),
     );
   }
+
+  _initFirebaseMessaging() {
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) {
+        print('AppPushs onMessage : $message');
+        return;
+      },
+      onBackgroundMessage: Platform.isIOS ? null : myBackgroundMessageHandler,
+      onResume: (Map<String, dynamic> message) {
+        print('AppPushs onResume : $message');
+        return;
+      },
+      onLaunch: (Map<String, dynamic> message) {
+        print('AppPushs onLaunch : $message');
+        return;
+      },
+    );
+    _firebaseMessaging.requestNotificationPermissions(const IosNotificationSettings(sound: true, badge: true, alert: true));
+  }
+
+  // TOP-LEVEL or STATIC function to handle background messages
+  static Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
+    print('AppPushs myBackgroundMessageHandler : $message');
+    return Future<void>.value();
+  }
+
+
+
+
+
 }

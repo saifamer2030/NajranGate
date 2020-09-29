@@ -1,4 +1,5 @@
 
+import 'package:NajranGate/screens/ModelsForChating/chat.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -224,17 +225,17 @@ class _MyAlarmsState extends State<MyAlarms> {
                   setState(() {
                     if (snapshot5.value != null) {
                       setState(() {
-//                        Navigator.push(
-//                          context,
-//                          new MaterialPageRoute(
-//                              builder: (BuildContext context) => new ChatPage(
-//                                  name: snapshot5.value, uid: wid)),
-//                        );
+                        Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (BuildContext context) => new ChatPage(
+                                  name: snapshot5.value, uid: wid)),
+                        );
                       });
                     }
                   });
                 });
-              }else if(cType == "profilecomment"){
+              }else if(cType == "love"){
                 Navigator.push(
                     context,
                     MaterialPageRoute(
