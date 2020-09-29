@@ -297,7 +297,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
               DateTime now = DateTime.now();
               DateTime startdate =
                   DateTime.parse("${DATA[individualkey]['cdate']}");
-              var deltime = startdate.add(new Duration(days: 14));
+              var deltime = startdate.add(new Duration(days: 60));
 
               if (deltime.isAfter(now)) {
                 /////////////////////////////////////
@@ -319,9 +319,9 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
                       DATA5['cName'],
                       DATA5['cType'],
                     );
-
+                    AdvNameClass advnameclass;
                     setState(() {
-                      AdvNameClass advnameclass = new AdvNameClass(
+                       advnameclass = new AdvNameClass(
                         DATA[individualkey]['cId'],
                         DATA[individualkey]['cdate'],
                         DATA[individualkey]['chead'],
@@ -348,6 +348,96 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
                         DATA[individualkey]['consoome'],
                         DATA[individualkey]['cmodel'],
                       );
+                      if(DATA[individualkey]['cdep11']==null){
+                         advnameclass = new AdvNameClass(
+                          DATA[individualkey]['cId'],
+                          DATA[individualkey]['cdate'],
+                          DATA[individualkey]['chead'],
+                          DATA[individualkey]['ctitle'],
+                          DATA[individualkey]['cdepart'],
+                          DATA[individualkey]['cregion'],
+                          DATA[individualkey]['cphone'],
+                          DATA[individualkey]['cprice'],
+                          DATA[individualkey]['cdetail'],
+                          DATA[individualkey]['cpublished'],
+                          DATA[individualkey]['curi'],
+                          DATA[individualkey]['curilist'],
+                          DATA[individualkey]['cagekm'],
+                          DATA[individualkey]['csale'],
+                          DATA[individualkey]['cauto'],
+                          DATA[individualkey]['coil'],
+                          DATA[individualkey]['cNew'],
+                          DATA[individualkey]['cno'],
+                           "${ DATA[individualkey]['cdepart']} اخري",
+                          DATA[individualkey]['cdep22'],
+                          DATA5['cName'],
+                          DATA5['cType'],
+                          DATA[individualkey]['carrange'],
+                          DATA[individualkey]['consoome'],
+                          DATA[individualkey]['cmodel'],
+                        );
+                         print("kkkk${"${ DATA[individualkey]['cdepart']} اخري"}");
+                      }else  if(DATA[individualkey]['cdep22']==null){
+                         advnameclass = new AdvNameClass(
+                          DATA[individualkey]['cId'],
+                          DATA[individualkey]['cdate'],
+                          DATA[individualkey]['chead'],
+                          DATA[individualkey]['ctitle'],
+                          DATA[individualkey]['cdepart'],
+                          DATA[individualkey]['cregion'],
+                          DATA[individualkey]['cphone'],
+                          DATA[individualkey]['cprice'],
+                          DATA[individualkey]['cdetail'],
+                          DATA[individualkey]['cpublished'],
+                          DATA[individualkey]['curi'],
+                          DATA[individualkey]['curilist'],
+                          DATA[individualkey]['cagekm'],
+                          DATA[individualkey]['csale'],
+                          DATA[individualkey]['cauto'],
+                          DATA[individualkey]['coil'],
+                          DATA[individualkey]['cNew'],
+                          DATA[individualkey]['cno'],
+                          DATA[individualkey]['cdep11'],
+                           "${ DATA[individualkey]['cdepart']} اخري",
+                          DATA5['cName'],
+                          DATA5['cType'],
+                          DATA[individualkey]['carrange'],
+                          DATA[individualkey]['consoome'],
+                          DATA[individualkey]['cmodel'],
+                        );
+                         print("kkkk${"${ DATA[individualkey]['cdepart']} اخري"}");
+
+                      }else if(DATA[individualkey]['cdep11']==null||DATA[individualkey]['cdep22']==null){
+                         advnameclass = new AdvNameClass(
+                          DATA[individualkey]['cId'],
+                          DATA[individualkey]['cdate'],
+                          DATA[individualkey]['chead'],
+                          DATA[individualkey]['ctitle'],
+                          DATA[individualkey]['cdepart'],
+                          DATA[individualkey]['cregion'],
+                          DATA[individualkey]['cphone'],
+                          DATA[individualkey]['cprice'],
+                          DATA[individualkey]['cdetail'],
+                          DATA[individualkey]['cpublished'],
+                          DATA[individualkey]['curi'],
+                          DATA[individualkey]['curilist'],
+                          DATA[individualkey]['cagekm'],
+                          DATA[individualkey]['csale'],
+                          DATA[individualkey]['cauto'],
+                          DATA[individualkey]['coil'],
+                          DATA[individualkey]['cNew'],
+                          DATA[individualkey]['cno'],
+                           "${ DATA[individualkey]['cdepart']} اخري",
+                           "${ DATA[individualkey]['cdepart']} اخري",
+                          DATA5['cName'],
+                          DATA5['cType'],
+                          DATA[individualkey]['carrange'],
+                          DATA[individualkey]['consoome'],
+                          DATA[individualkey]['cmodel'],
+                        );
+                         print("kkkk${"${ DATA[individualkey]['cdepart']} اخري"}");
+
+                      }
                       setState(() {
                         advlist.add(advnameclass);
                         costantList.add(advnameclass);
@@ -900,7 +990,7 @@ _indyearcurrentItemSelected="الموديل";
                                     setState(() {
                                       departlist1.add(new DepartmentClass(
                                         "",
-                                        "اخري",
+                                        "${departlist[index].title} اخري",
                                         null,
                                         "https://firebasestorage.googleapis.com/v0/b/souqnagran-49abe.appspot.com/o/departments1%2Fhiclipart.com%20(10).png?alt=media&token=7ea64e1a-5170-45ef-bca0-e6adf272dead",
                                         const Color(0xff8C8C96),
@@ -1112,7 +1202,7 @@ _indyearcurrentItemSelected="الموديل";
                                           setState(() {
                                             departlist2.add(new DepartmentClass(
                                               "",
-                                              "اخري",
+                                                "${departlist[index].title} اخري",
                                               null,
                                               "https://firebasestorage.googleapis.com/v0/b/souqnagran-49abe.appspot.com/o/departments1%2Fhiclipart.com%20(10).png?alt=media&token=7ea64e1a-5170-45ef-bca0-e6adf272dead",
                                               const Color(0xff8C8C96),

@@ -50,8 +50,8 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
   var _formKey = GlobalKey<FormState>();
   bool _load2 = false;
   String _userId;
-  String dep1;
-  String dep2;
+  String dep1="اخري";
+  String dep2="اخري";
   int picno = 0;
   SingingCharacter1 _character1 = SingingCharacter1.sale;
   SingingCharacter2 _character2 = SingingCharacter2.outo;
@@ -70,6 +70,7 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
 //  File sampleImage7;
   String url1;
   String imagepathes = '';
+
   final advdatabaseReference =
       FirebaseDatabase.instance.reference().child("advdata");
 
@@ -100,12 +101,12 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
 
   Future onSelectNotification(String payload) async {
     if (payload != null) {
-//    await Navigator.push(
-//      context,
-//      new MaterialPageRoute(
-//          builder: (context) =>
-//          new AdvProlile(payload.split(",")[0], payload.split(",")[1], payload.split(",")[2])),
-//    );
+   await Navigator.push(
+     context,
+     new MaterialPageRoute(
+         builder: (context) =>
+         new AdvProlile(payload.split(",")[0], payload.split(",")[1], payload.split(",")[2])),
+   );
     }
 //    await Navigator.push(
 //      context,
@@ -292,7 +293,7 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
 
   showNotification(date1, title, _userId, head, name) async {
     DateTime scheduledNotificationDateTime =
-        DateTime.parse('$date1').add(new Duration(days: 13));
+        DateTime.parse('$date1').add(new Duration(days: 45));
 //    DateTime scheduledNotificationDateTime = DateTime.now();
 
 //    DateTime scheduledNotificationDateTime = new DateTime(
@@ -322,11 +323,11 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
     await flutterLocalNotificationsPlugin.schedule(
         111,
         'تذكير بحذف الاعلان',
-        'عزيزى العميل سيتم حذف اعلان $title غدا يرجى عمل تمديد له',
+        'عزيزى العميل سيتم حذف اعلان $title بعد اسبوعبن يرجى عمل تمديد له',
         scheduledNotificationDateTime,
         platformChannelSpecifics,
-        payload: ""
-        //  "$_userId,$head,$_cName"
+        payload:// ""
+          "$_userId,$head,$_cName"
         );
   }
 
@@ -729,7 +730,7 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
-                                          "تفاصيل القسم",
+                                          "القسم الفرعي",
                                           textDirection: TextDirection.rtl,
                                           style: TextStyle(
                                               color: Colors.grey,
@@ -1628,35 +1629,43 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
                               color: const Color(0xff171732),
                               onPressed: () async {
                                 if (_formKey.currentState.validate()) {
-                                  if (images.length != 0 &&
-                                      (dep1 != null || dep1 != "") &&
-                                      (dep2 != null || dep2 != "")) {
-                                    try {
-                                      final result =
-                                          await InternetAddress.lookup(
-                                              'google.com');
-                                      if (result.isNotEmpty &&
-                                          result[0].rawAddress.isNotEmpty) {
-                                        uploadpp0();
-                                        //uploadToFirebase();
-
-                                        setState(() {
-                                          _load2 = true;
-                                        });
-                                      }
-                                    } on SocketException catch (_) {
-                                      Toast.show(
-                                          "انت غير متصل بشبكة إنترنت طال عمرك",
-                                          context,
-                                          duration: Toast.LENGTH_LONG,
-                                          gravity: Toast.BOTTOM);
-                                    }
-                                  } else {
+                                  if (images.length == 0 ) {
                                     Toast.show(
-                                        "ضيف صورة علي الاقل حق إعلانك طال عمرك",
+                                        "تأكد من وجود صورة على الاقل لاعلانك",
                                         context,
-                                        duration: Toast.LENGTH_SHORT,
+                                        duration: Toast.LENGTH_LONG,
                                         gravity: Toast.BOTTOM);
+                                  } else {
+// if((dep1 == null || dep1 == "") || (dep2 == null || dep2 == "")){
+//   Toast.show(
+//       "تأكد من إدخالك القسم الفرعي",
+//       context,
+//       duration: Toast.LENGTH_LONG,
+//       gravity: Toast.BOTTOM);
+// }else{
+  try {
+  final result =
+  await InternetAddress.lookup(
+      'google.com');
+  if (result.isNotEmpty &&
+      result[0].rawAddress.isNotEmpty) {
+    setState(() {
+      _load2 = true;
+    });
+    uploadpp0();
+    //uploadToFirebase();
+
+
+  }
+} on SocketException catch (_) {
+  Toast.show(
+      "انت غير متصل بشبكة إنترنت طال عمرك",
+      context,
+      duration: Toast.LENGTH_LONG,
+      gravity: Toast.BOTTOM);
+}
+                                  //}
+
                                   }
                                 }
                               },
@@ -1699,191 +1708,24 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
     });
   }
 
-//  Future getImage1() async {
-//    var tempImage1 = await ImagePicker.pickImage(source: ImageSource.gallery);
-//
-//    ///***************************************
-//    final tempDir1 = await getTemporaryDirectory();
-//    final path1 = tempDir1.path;
-//
-//    int rand1 = new Math.Random().nextInt(100000);
-//
-//    Img.Image image1 = Img.decodeImage(tempImage1.readAsBytesSync());
-//    Img.Image smallerImg1 = Img.copyResizeCropSquare(image1, 500);
-//    var compressImg1 = new File("$path1/image1_$rand1.jpg")
-//      ..writeAsBytesSync(Img.encodeJpg(smallerImg1, quality: 50));
-//
-//    /// **********************************
-//    setState(() {
-//      imagepathes = imagepathes + "$path1/image1_$rand1.jpg,";
-//
-//      sampleImage1 = compressImg1;
-//      picno++;
-//      // Toast.show(sampleImage1.toString(),context,duration: Toast.LENGTH_SHORT,gravity:  Toast.BOTTOM);
-//    });
-//  }
-//
-//  Future getImage2() async {
-//    var tempImage2 = await ImagePicker.pickImage(source: ImageSource.gallery);
-//
-//    ///***************************************
-//    final tempDir2 = await getTemporaryDirectory();
-//    final path2 = tempDir2.path;
-//
-//    int rand2 = new Math.Random().nextInt(100000);
-//
-//    Img.Image image2 = Img.decodeImage(tempImage2.readAsBytesSync());
-//    Img.Image smallerImg2 = Img.copyResizeCropSquare(image2, 500);
-//    var compressImg2 = new File("$path2/image2_$rand2.jpg")
-//      ..writeAsBytesSync(Img.encodeJpg(smallerImg2, quality: 50));
-//
-//    /// **********************************
-//    setState(() {
-//      imagepathes = imagepathes + "$path2/image2_$rand2.jpg,";
-//      sampleImage2 = compressImg2;
-//      picno++;
-//      // Toast.show(sampleImage1.toString(),context,duration: Toast.LENGTH_SHORT,gravity:  Toast.BOTTOM);
-//    });
-//  }
-//
-//  Future getImage3() async {
-//    var tempImage3 = await ImagePicker.pickImage(source: ImageSource.gallery);
-//
-//    ///***************************************
-//    final tempDir3 = await getTemporaryDirectory();
-//    final path3 = tempDir3.path;
-//
-//    int rand3 = new Math.Random().nextInt(100000);
-//
-//    Img.Image image3 = Img.decodeImage(tempImage3.readAsBytesSync());
-//    Img.Image smallerImg3 = Img.copyResizeCropSquare(image3, 500);
-//    var compressImg3 = new File("$path3/image3_$rand3.jpg")
-//      ..writeAsBytesSync(Img.encodeJpg(smallerImg3, quality: 50));
-//
-//    /// **********************************
-//    setState(() {
-//      imagepathes = imagepathes + "$path3/image3_$rand3.jpg,";
-//
-//      sampleImage3 = compressImg3;
-//      picno++;
-//      // Toast.show(sampleImage1.toString(),context,duration: Toast.LENGTH_SHORT,gravity:  Toast.BOTTOM);
-//    });
-//  }
-//
-//  Future getImage4() async {
-//    var tempImage4 = await ImagePicker.pickImage(source: ImageSource.gallery);
-//
-//    ///***************************************
-//    final tempDir4 = await getTemporaryDirectory();
-//    final path4 = tempDir4.path;
-//
-//    int rand4 = new Math.Random().nextInt(100000);
-//
-//    Img.Image image4 = Img.decodeImage(tempImage4.readAsBytesSync());
-//    Img.Image smallerImg4 = Img.copyResizeCropSquare(image4, 500);
-//    var compressImg4 = new File("$path4/image4_$rand4.jpg")
-//      ..writeAsBytesSync(Img.encodeJpg(smallerImg4, quality: 50));
-//
-//    /// **********************************
-//    setState(() {
-//      imagepathes = imagepathes + "$path4/image4_$rand4.jpg,";
-//
-//      sampleImage4 = compressImg4;
-//      picno++;
-//      // Toast.show(sampleImage1.toString(),context,duration: Toast.LENGTH_SHORT,gravity:  Toast.BOTTOM);
-//    });
-//  }
-//
-//  Future getImage5() async {
-//    var tempImage5 = await ImagePicker.pickImage(source: ImageSource.gallery);
-//
-//    ///***************************************
-//    final tempDir5 = await getTemporaryDirectory();
-//    final path5 = tempDir5.path;
-//
-//    int rand5 = new Math.Random().nextInt(100000);
-//
-//    Img.Image image5 = Img.decodeImage(tempImage5.readAsBytesSync());
-//    Img.Image smallerImg5 = Img.copyResizeCropSquare(image5, 500);
-//    var compressImg5 = new File("$path5/image5_$rand5.jpg")
-//      ..writeAsBytesSync(Img.encodeJpg(smallerImg5, quality: 50));
-//
-//    /// **********************************
-//    setState(() {
-//      imagepathes = imagepathes + "$path5/image5_$rand5.jpg,";
-//
-//      sampleImage5 = compressImg5;
-//      picno++;
-//      // Toast.show(sampleImage1.toString(),context,duration: Toast.LENGTH_SHORT,gravity:  Toast.BOTTOM);
-//    });
-//  }
-//
-//  Future getImage6() async {
-//    var tempImage6 = await ImagePicker.pickImage(source: ImageSource.gallery);
-//
-//    ///***************************************
-//    final tempDir6 = await getTemporaryDirectory();
-//    final path6 = tempDir6.path;
-//
-//    int rand6 = new Math.Random().nextInt(100000);
-//
-//    Img.Image image6 = Img.decodeImage(tempImage6.readAsBytesSync());
-//    Img.Image smallerImg6 = Img.copyResizeCropSquare(image6, 500);
-//    var compressImg6 = new File("$path6/image6_$rand6.jpg")
-//      ..writeAsBytesSync(Img.encodeJpg(smallerImg6, quality: 50));
-//
-//    /// **********************************
-//    setState(() {
-//      imagepathes = imagepathes + "$path6/image6_$rand6.jpg,";
-//
-//      sampleImage6 = compressImg6;
-//      picno++;
-//      // Toast.show(sampleImage1.toString(),context,duration: Toast.LENGTH_SHORT,gravity:  Toast.BOTTOM);
-//    });
-//  }
-//
-//  Future getImage7() async {
-//    var tempImage7 = await ImagePicker.pickImage(source: ImageSource.gallery);
-//
-//    ///***************************************
-//    final tempDir7 = await getTemporaryDirectory();
-//    final path7 = tempDir7.path;
-//
-//    int rand7 = new Math.Random().nextInt(100000);
-//
-//    Img.Image image7 = Img.decodeImage(tempImage7.readAsBytesSync());
-//    Img.Image smallerImg7 = Img.copyResizeCropSquare(image7, 500);
-//    var compressImg7 = new File("$path7/image7_$rand7.jpg")
-//      ..writeAsBytesSync(Img.encodeJpg(smallerImg7, quality: 50));
-//
-//    /// **********************************
-//    setState(() {
-//      imagepathes = imagepathes + "$path7/image7_$rand7.jpg,";
-//
-//      sampleImage7 = compressImg7;
-//      picno++;
-//      // Toast.show(sampleImage1.toString(),context,duration: Toast.LENGTH_SHORT,gravity:  Toast.BOTTOM);
-//    });
-//  }
+
 
   Future uploadpp0() async {
+
     // String url1;
     final StorageReference storageRef =
         FirebaseStorage.instance.ref().child('myimage');
     int i = 0;
     for (var f in images) {
-      //  images.forEach((f) async {
-      var byteData = await f.getByteData(quality: 50);
-//      final String path1 = await getApplicationDocumentsDirectory().path;
-//      var file=await getImageFileFromAssets(path);
-      // final byteData = await rootBundle.load('$f');
+        var byteData = await f.getByteData(quality: 20);
       DateTime now = DateTime.now();
       final file = File('${(await getTemporaryDirectory()).path}/$f');
       await file.writeAsBytes(byteData.buffer
           .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
       final StorageUploadTask uploadTask =
-          storageRef.child('$now.jpg').putFile(file);
+          storageRef.child('$_userId$now.jpg').putFile(file);
       var Imageurl = await (await uploadTask.onComplete).ref.getDownloadURL();
+    //  print("oooo8");
       Toast.show("تم تحميل صورة طال عمرك", context,
           duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
       setState(() {
@@ -1901,277 +1743,8 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
     setState(() {
       _load2 = true;
     });
-//    String currentTime = new DateTime(now.year, now.month, now.day, now.hour, now.minute) as String;
-//    if (picno >= 2) {
-//      uploadpp2(url1);
-//    } else if (picno == 1) {
-//      createRecord(url1);
-//    }
   }
 
-//  uploadpp0() {
-//    // String url1;
-//    final StorageReference storageRef =
-//        FirebaseStorage.instance.ref().child('myimage');
-//    int i = 0;
-//    images.forEach((f) async {
-//      var byteData = await f.getByteData(quality: 50);
-////      final String path1 = await getApplicationDocumentsDirectory().path;
-////      var file=await getImageFileFromAssets(path);
-//      // final byteData = await rootBundle.load('$f');
-//      DateTime now = DateTime.now();
-//      final file = File('${(await getTemporaryDirectory()).path}/$f');
-//      await file.writeAsBytes(byteData.buffer
-//          .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
-//      final StorageUploadTask uploadTask =
-//          storageRef.child('$now.jpg').putFile(file);
-//      var Imageurl = await (await uploadTask.onComplete).ref.getDownloadURL();
-//
-//      Toast.show("تم تحميل صورة طال عمرك", context,
-//          duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
-//      setState(() {
-//        url1 = Imageurl.toString();
-//        urlList.add(url1);
-//        //  print('URL Is${images.length} ///$url1///$urlList');
-//        i++;
-//
-//        // _load2 = false;
-//      });
-//      if (i == images.length) {
-//        // print('gggg${images.length} ///$i');
-//
-//        createRecord(urlList);
-//      }
-//    });
-//
-//    setState(() {
-//      _load2 = true;
-//    });
-//
-////    String currentTime = new DateTime(now.year, now.month, now.day, now.hour, now.minute) as String;
-//
-////    if (picno >= 2) {
-////      uploadpp2(url1);
-////    } else if (picno == 1) {
-////      createRecord(url1);
-////    }
-//  }
-
-//
-//  Future uploadpp1() async {
-//    // Toast.show("22222",context,duration: Toast.LENGTH_SHORT,gravity:  Toast.BOTTOM);
-//
-//    final StorageReference storageRef =
-//    FirebaseStorage.instance.ref().child('myimage');
-//    DateTime now = DateTime.now();
-//
-////    String currentTime = new DateTime(now.year, now.month, now.day, now.hour, now.minute) as String;
-//    final StorageUploadTask uploadTask =
-//    storageRef.child('$now.jpg').putFile(sampleImage1);
-//    var Imageurl = await (await uploadTask.onComplete).ref.getDownloadURL();
-//    String url1 = Imageurl.toString();
-//    //print('URL Is $url1');
-//
-//    Toast.show("الصورة الاولي اتحملت طال عمرك", context,
-//        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
-//    setState(() {
-//      urlList.add(url1);
-//      _load2 = false;
-//    });
-//    if (picno >= 2) {
-//      uploadpp2(url1);
-//    } else if (picno == 1) {
-//      createRecord(url1);
-//    }
-//    setState(() {
-//      _load2 = true;
-//    });
-//  }
-//
-//  Future uploadpp2(url1) async {
-//    final StorageReference storageRef =
-//    FirebaseStorage.instance.ref().child('myimage');
-//    DateTime now = DateTime.now();
-//
-////    String currentTime = new DateTime(now.year, now.month, now.day, now.hour, now.minute) as String;
-//    final StorageUploadTask uploadTask =
-//    storageRef.child('$now.jpg').putFile(sampleImage2);
-//    var Imageurl = await (await uploadTask.onComplete).ref.getDownloadURL();
-//    String url2 = Imageurl.toString();
-//    // print('URL Is $url');
-//    setState(() {
-//      _load2 = false;
-//    });
-//    Toast.show("الصورة الثانية اتحملت طال عمرك", context,
-//        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
-//    // uploadwp(url);
-//    setState(() {
-//      urlList.add(url2);
-//      // _load1 = false;
-//    });
-//    if (picno >= 3) {
-//      uploadpp3(url1);
-//    } else if (picno == 2) {
-//      createRecord(url1);
-//    }
-//    setState(() {
-//      _load2 = true;
-//    });
-//  }
-//
-//  Future uploadpp3(url1) async {
-//    final StorageReference storageRef =
-//    FirebaseStorage.instance.ref().child('myimage');
-//    DateTime now = DateTime.now();
-//
-////    String currentTime = new DateTime(now.year, now.month, now.day, now.hour, now.minute) as String;
-//    final StorageUploadTask uploadTask =
-//    storageRef.child('$now.jpg').putFile(sampleImage3);
-//    var Imageurl = await (await uploadTask.onComplete).ref.getDownloadURL();
-//    String url2 = Imageurl.toString();
-//    // print('URL Is $url');
-//    setState(() {
-//      _load2 = false;
-//    });
-//    Toast.show("الصورة الثالثة اتحملت طال عمرك", context,
-//        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
-//    // uploadwp(url);
-//    setState(() {
-//      urlList.add(url2);
-//      // _load1 = false;
-//    });
-//    if (picno >= 4) {
-//      uploadpp4(url1);
-//    } else if (picno == 3) {
-//      createRecord(url1);
-//    }
-//    setState(() {
-//      _load2 = true;
-//    });
-//  }
-//
-//  Future uploadpp4(url1) async {
-//    final StorageReference storageRef =
-//    FirebaseStorage.instance.ref().child('myimage');
-//    DateTime now = DateTime.now();
-//
-////    String currentTime = new DateTime(now.year, now.month, now.day, now.hour, now.minute) as String;
-//    final StorageUploadTask uploadTask =
-//    storageRef.child('$now.jpg').putFile(sampleImage4);
-//    var Imageurl = await (await uploadTask.onComplete).ref.getDownloadURL();
-//    String url2 = Imageurl.toString();
-//    // print('URL Is $url');
-//    setState(() {
-//      _load2 = false;
-//    });
-//    Toast.show("الصورة الرابعة اتحملت طال عمرك", context,
-//        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
-//    // uploadwp(url);
-//    setState(() {
-//      urlList.add(url2);
-//      // _load1 = false;
-//    });
-//    if (picno >= 5) {
-//      uploadpp5(url1);
-//    } else if (picno == 4) {
-//      createRecord(url1);
-//    }
-//    setState(() {
-//      _load2 = true;
-//    });
-//  }
-//
-//  Future uploadpp5(url1) async {
-//    final StorageReference storageRef =
-//    FirebaseStorage.instance.ref().child('myimage');
-//    DateTime now = DateTime.now();
-//
-////    String currentTime = new DateTime(now.year, now.month, now.day, now.hour, now.minute) as String;
-//    final StorageUploadTask uploadTask =
-//    storageRef.child('$now.jpg').putFile(sampleImage5);
-//    var Imageurl = await (await uploadTask.onComplete).ref.getDownloadURL();
-//    String url2 = Imageurl.toString();
-//    // print('URL Is $url');
-//    setState(() {
-//      _load2 = false;
-//    });
-//    Toast.show("الصورة الخامسة اتحملت طال عمرك", context,
-//        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
-//    // uploadwp(url);
-//    setState(() {
-//      urlList.add(url2);
-//      // _load1 = false;
-//    });
-//    if (picno >= 6) {
-//      uploadpp6(url1);
-//    } else if (picno == 5) {
-//      createRecord(url1);
-//    }
-//    setState(() {
-//      _load2 = true;
-//    });
-//  }
-//
-//  Future uploadpp6(url1) async {
-//    final StorageReference storageRef =
-//    FirebaseStorage.instance.ref().child('myimage');
-//    DateTime now = DateTime.now();
-//
-////    String currentTime = new DateTime(now.year, now.month, now.day, now.hour, now.minute) as String;
-//    final StorageUploadTask uploadTask =
-//    storageRef.child('$now.jpg').putFile(sampleImage6);
-//    var Imageurl = await (await uploadTask.onComplete).ref.getDownloadURL();
-//    String url2 = Imageurl.toString();
-//    // print('URL Is $url');
-//    setState(() {
-//      _load2 = false;
-//    });
-//    Toast.show("الصورة السادسة اتحملت طال عمرك", context,
-//        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
-//    // uploadwp(url);
-//    setState(() {
-//      urlList.add(url2);
-//      // _load1 = false;
-//    });
-//    if (picno >= 7) {
-//      uploadpp7(url1);
-//    } else if (picno == 6) {
-//      createRecord(url1);
-//    }
-//    setState(() {
-//      _load2 = true;
-//    });
-//  }
-//
-//  Future uploadpp7(url1) async {
-//    // Toast.show("22222",context,duration: Toast.LENGTH_SHORT,gravity:  Toast.BOTTOM);
-//
-//    final StorageReference storageRef =
-//    FirebaseStorage.instance.ref().child('myimage');
-//    DateTime now = DateTime.now();
-//
-////    String currentTime = new DateTime(now.year, now.month, now.day, now.hour, now.minute) as String;
-//    final StorageUploadTask uploadTask =
-//    storageRef.child('$now.jpg').putFile(sampleImage7);
-//    var Imageurl = await (await uploadTask.onComplete).ref.getDownloadURL();
-//    String url3 = Imageurl.toString();
-//    //print('URL Is $url3');
-//    setState(() {
-//      // _load1 = false;
-//    });
-//    Toast.show("الصورة السابعة اتحملت طال عمرك", context,
-//        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
-//    // uploadwp(url);
-//    setState(() {
-//      urlList.add(url3);
-//      _load2 = false;
-//    });
-//    createRecord(url1);
-//
-//    setState(() {
-//      _load2 = true;
-//    });
-//  }
 
   void createRecord(urlList) {
     FirebaseAuth.instance.currentUser().then((user) => user == null
@@ -2200,13 +1773,13 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
             }
             String date1 = '${now.year}-${b}-${c} ${d}:${e}:00';
             int arrange = int.parse('${now.year}${b}${c}${d}${e}');
-
-            advdatabaseReference.child(_userId).child(date).set({
+          String  idkey= advdatabaseReference.child(_userId).push().key;
+            advdatabaseReference.child(_userId).child(idkey).set({
               'carrange': arrange,
               'consoome': _isCheckedPrice,
               'cId': _userId,
               'cdate': date1,
-              'chead': date,
+              'chead': idkey,
               'ctitle': _titleController.text,
               'cdepart': _departcurrentItemSelected,
               'cregion': _regioncurrentItemSelected,
@@ -2245,8 +1818,8 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
               'cno': widget.department == "السيارات"
                   ? _character5.toString().contains("yes") ? "نعم" : "لا"
                   : "",
-              'cdep11': dep1,
-              'cdep22': dep2,
+              'cdep11': dep1=="اخري"?"${widget.department} اخري":dep1,
+              'cdep22': dep2=="اخري"?"${widget.department} اخري":dep2,
               'cmodel': widget.department == "السيارات"
                   ? _indyearcurrentItemSelected
                   : null,
@@ -2270,8 +1843,7 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
                 _character5 = SingingCharacter5.no;
                 _value2.text = "";
               });
-              showNotification(
-                  date1, _titleController.text, _userId, date, _cName);
+              showNotification(date1, _titleController.text, _userId, idkey, _cName);
 
               showAlertDialog(context);
             }).catchError((e) {
@@ -2387,7 +1959,7 @@ class _MyForm3State extends State<MyForm3> {
         );
         //  print("kkkkkkkkk"+ctitle+ DATA[individualkey]['title']);
         setState(() {
-          if (DATA[individualkey]['arrange'] == null)
+          if (DATA[individualkey]['arrange'] == null){
             departmentclass = new DepartmentClass(
               DATA[individualkey]['id'],
               DATA[individualkey]['title'],
@@ -2396,7 +1968,39 @@ class _MyForm3State extends State<MyForm3> {
               const Color(0xff8C8C96),
               false,
               100,
-            );
+            );}
+
+        //   if ((DATA[individualkey]['title'] == "قسم غير مصنف")&&(DATA[individualkey]['arrange'] == null)){
+        //     departmentclass = new DepartmentClass(
+        //       DATA[individualkey]['id'],
+        //       DATA[individualkey]['title'],
+        //       "قسم غير مصنف",
+        //       DATA[individualkey]['uri'],
+        //       const Color(0xff8C8C96),
+        //       false,
+        //       100,
+        //     );
+        //   }else  if (DATA[individualkey]['arrange'] == null){
+        //     departmentclass = new DepartmentClass(
+        //       DATA[individualkey]['id'],
+        //       DATA[individualkey]['title'],
+        //       DATA[individualkey]['subtitle'],
+        //       DATA[individualkey]['uri'],
+        //       const Color(0xff8C8C96),
+        //       false,
+        //       100,
+        //     );
+        // }else  if ((DATA[individualkey]['title'] == "قسم غير مصنف")){
+        //     departmentclass = new DepartmentClass(
+        //   DATA[individualkey]['id'],
+        //   DATA[individualkey]['title'],
+        //   "قسم غير مصنف",
+        //   DATA[individualkey]['uri'],
+        //   const Color(0xff8C8C96),
+        //   false,
+        //   DATA[individualkey]['arrange'],
+        //   );
+        //   }
           departlist1.add(departmentclass);
           setState(() {
 //            print("size of list : 5");
@@ -2494,6 +2098,10 @@ class _MyForm3State extends State<MyForm3> {
                                   debugPrint('VAL = $val');
                                   _currentValue = val;
                                   _currentValue1 = departlist1[i].title;
+                                  widget.onSubmit3(
+                                      _currentValue1.toString() + "," + _currentValue.toString());
+                                  Navigator.pop(context);
+
                                 });
                               },
                             ))
@@ -2503,13 +2111,13 @@ class _MyForm3State extends State<MyForm3> {
 //                children:
 //                _buildExpandableContent(regionlist[i]),
 //              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  cancelButton,
-                  continueButton,
-                ],
-              )
+//               Row(
+//                 mainAxisAlignment: MainAxisAlignment.spaceAround,
+//                 children: <Widget>[
+//                   cancelButton,
+//                   continueButton,
+//                 ],
+//               )
             ],
           );
         },

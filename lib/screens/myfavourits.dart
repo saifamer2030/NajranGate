@@ -100,6 +100,9 @@ class _MyFavState extends State<MyFav> {
                     .then((DataSnapshot data1) {
                   var DATA1 = data1.value;
                   var keys1 = data1.value.keys;
+                  print("jjjj$keys1");
+                  print("jjjj$DATA1");
+
                   advlist.clear();
                   namelist.clear();
                   for (var individualkey1 in keys1) {
@@ -108,6 +111,7 @@ class _MyFavState extends State<MyFav> {
                       DATA1[individualkey1]['cChecked'],
                       DATA1[individualkey1]['cDateID'],
                     );
+                    // print("jjjj$");
                     ///////////////////////////////////
                     final advdatabaseReference =FirebaseDatabase.instance.reference().child("advdata");
 
@@ -146,7 +150,7 @@ class _MyFavState extends State<MyFav> {
                         /////////////////////////////////////
                         DateTime now = DateTime.now();
                         DateTime startdate = DateTime.parse("${DATA['cdate']}");
-                        var deltime = startdate.add(new Duration(days: 7));
+                        var deltime = startdate.add(new Duration(days: 60));
 
 
                         if (deltime.isAfter(now) ) {
@@ -212,7 +216,7 @@ class _MyFavState extends State<MyFav> {
                           FirebaseDatabase.instance.reference().child("userFavourits").child(_userId);
 
                           databaseFav
-                              .child(DATA1[individualkey1]['cDateID']).remove();
+                              .child(_userId+DATA1[individualkey1]['cDateID']).remove();
 
                         }
                         //////////////////////////////

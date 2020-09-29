@@ -7,6 +7,7 @@ import 'package:NajranGate/FragmentSouqNajran.dart';
 import 'package:NajranGate/classes/DepartmentClass.dart';
 import 'package:NajranGate/screens/alladvertsments.dart';
 import 'package:NajranGate/screens/splash.dart';
+import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:toast/toast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -88,25 +89,26 @@ class _EditAdsForCarsState extends State<EditAdsForCars> {
   var _formKey = GlobalKey<FormState>();
   bool _load2 = false;
   String _userId;
-  String dep1;
-  String dep2;
+  String dep1="اخري";
+  String dep2="اخري";
   int picno = 0;
   SingingCharacter1 _character1 = SingingCharacter1.sale;
   SingingCharacter2 _character2 = SingingCharacter2.outo;
   SingingCharacter3 _character3 = SingingCharacter3.oil;
   SingingCharacter4 _character4 = SingingCharacter4.New;
   SingingCharacter5 _character5 = SingingCharacter5.no;
-  List<String> urlList = [];
+  //List<String> urlList = [];
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   String _cName;
-  File sampleImage1;
-  File sampleImage2;
-  File sampleImage3;
+  List<Asset> images = List<Asset>();
   String _uri;
-  String _urilist;
+  String url1;
 
+  String _urilist;
+  List<String> _imageUrls;
   final advdatabaseReference =
   FirebaseDatabase.instance.reference().child("advdata");
+  String _error = 'No Error Dectected';
 
   String csale,cauto,coil,cNew,cno;
   double _value = 0.0;
@@ -122,12 +124,12 @@ class _EditAdsForCarsState extends State<EditAdsForCars> {
 
   Future onSelectNotification(String payload) async {
     if (payload != null) {
-//      await Navigator.push(
-//        context,
-//        new MaterialPageRoute(
-//            builder: (context) =>
-//            new AdvProlile(payload.split(",")[0], payload.split(",")[1], payload.split(",")[2])),
-//      );
+     await Navigator.push(
+       context,
+       new MaterialPageRoute(
+           builder: (context) =>
+           new AdvProlile(payload.split(",")[0], payload.split(",")[1], payload.split(",")[2])),
+      );
     }
 
 //    await Navigator.push(
@@ -144,16 +146,23 @@ class _EditAdsForCarsState extends State<EditAdsForCars> {
     setState(() {
       _departcurrentItemSelected = widget.cdepart;
       _regioncurrentItemSelected = widget.cregion;
-
+// print("llll${images.length}");
       _titleController = TextEditingController(text: widget.ctitle);
        _phoneController = TextEditingController(text: widget.cphone);
        _priceController = TextEditingController(text: widget.cprice);
       _modelController = TextEditingController(text: widget.cmodel);
        _detailController = TextEditingController(text: widget.cdetail);
-       dep1=widget.cdep11;
-       dep2==widget.cdep22;
+      ((widget.cdep11=="")||(widget.cdep11==null))?dep1="${widget.cdepart} اخري": dep1=widget.cdep11;
+      ((widget.cdep22=="")||(widget.cdep22==null))?dep2="${widget.cdepart} اخري": dep2=widget.cdep11;
+
+      //dep2==widget.cdep22;
       _uri=widget.curi;
       _urilist=widget.curilist;
+      _imageUrls =_urilist
+          .replaceAll(" ", "")
+          .replaceAll("[", "")
+          .replaceAll("]", "")
+          .split(",");
 ////////////////
       _value =double.parse(widget.cagekm)/2000000;
 
@@ -222,7 +231,7 @@ class _EditAdsForCarsState extends State<EditAdsForCars> {
   }
   showNotification(date1,title,_userId,head,name) async {
 
-    DateTime scheduledNotificationDateTime =DateTime.parse('$date1').add(new Duration(days: 13));
+    DateTime scheduledNotificationDateTime =DateTime.parse('$date1').add(new Duration(days: 45));
    // DateTime scheduledNotificationDateTime = DateTime.now();
 
 //    DateTime scheduledNotificationDateTime = new DateTime(
@@ -252,11 +261,229 @@ class _EditAdsForCarsState extends State<EditAdsForCars> {
     await flutterLocalNotificationsPlugin.schedule(
         111,
         'تذكير بحذف الاعلان',
-        'عزيزى العميل سيتم حذف اعلان $title غدا يرجى عمل تمديد له',
+        'عزيزى العميل سيتم حذف اعلان $title بعد اسبوعين يرجى عمل تمديد له',
         scheduledNotificationDateTime,
         platformChannelSpecifics,
-        payload:""
-   //     "$_userId,$head,$_cName"
+        payload://""
+        "$_userId,$head,$_cName"
+    );
+  }
+  showAlertDialog1(BuildContext context) {
+//    // set up the button
+//    Widget okButton = FlatButton(
+//      child: Text("تم"),
+//      onPressed: () {
+//        Navigator.push(context,
+//            MaterialPageRoute(builder: (context) => AllAdvertesmenta()));
+//      },
+//    );
+//
+//    // set up the AlertDialog
+//    CupertinoDialogAction alert = CupertinoDialogAction(
+//
+//      title: Text("تهانناا"),
+//      content: Text("إعلانك موجود الحين ضمن شبكة سوق نجران"),
+//      actions: [
+//        okButton,
+//      ],
+//    );
+
+    // show the dialog
+    showDialog(
+        context: context,
+        builder: (BuildContext context) => new CupertinoAlertDialog(
+            title: new Text("تهاننا"),
+            content: new Text("إعلانك موجود الحين ضمن شبكة بوابة نجران"),
+            actions: [
+              CupertinoDialogAction(
+                isDefaultAction: false,
+                child: new FlatButton(
+                  child: Text("تم"),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                FragmentSouq1(widget.regionlist)));
+                  },
+                ),
+              )
+            ]));
+  }
+  showAlertDialog11(BuildContext context,int index) {
+
+    // set up the button
+    Widget okButton = FlatButton(
+      child: Text("موافق"),
+      onPressed: () {
+        setState(() {
+          //print("aaaa${_imageUrls.length}///$index");
+          _urilist=  _urilist.replaceAll( _imageUrls[index], "");
+        if(_urilist.contains(", ,")) _urilist= _urilist.replaceAll( ", ,", ",");
+        //  print("aaaa${_imageUrls.length}///$index");
+          Navigator.pop(context);
+          _imageUrls.removeAt(index);
+          Future.delayed(Duration(seconds: 0), () async {
+            print("dellll");
+            FirebaseStorage.instance
+                .getReferenceFromUrl(_imageUrls[index])
+                .then((reference){ reference.delete();
+            print("dellllok");
+                }).catchError((e) => print("dellll"+e));
+            /////////////////////////////////////
+            // StorageReference storageReference =
+            // await FirebaseStorage.instance.getReferenceFromUrl(_imageUrls[index]);
+            //
+            // print("dellll"+storageReference.path);
+            //
+            // await storageReference.delete().whenComplete(() {
+            // print("dellll");
+            // }).catchError((e){print("dellll$e");});
+///////////////////////////////////////////////////////////////
+//             final StorageReference storageRef =
+//             await FirebaseStorage.instance.getReferenceFromUrl(_imageUrls[index]);
+//             await storageRef.delete().whenComplete(() {
+// print("del");
+//             }).catchError((e){print("del$e");});
+
+            //  final StorageReference storageRef =FirebaseStorage.instance.ref().child('myimage');
+            //  final StorageReference storageRef =
+            // await FirebaseStorage.instance.getReferenceFromUrl(_imageUrls[index]);
+            // await storageRef.delete();
+          });
+
+
+        });
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("مسح صورة"),
+      content: Text("هل انت موافق على مسح الصورة"),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+  Widget buildGridView() {
+    return GridView.count(
+      crossAxisCount: 3,
+      children: List.generate(_imageUrls.length, (index) {
+
+        return  Container(
+          width: 300,
+          height: 300,
+          child: Stack(
+            children: <Widget>[
+              new Image.network(
+                _imageUrls[index],
+                fit: BoxFit.contain,
+              ),
+          IconButton(
+              icon: Icon(Icons.close,color: Colors.red,size:35),
+              tooltip: 'مسح صورة',
+              onPressed: ()  {
+                showAlertDialog11(context,index);
+              }),
+            ],
+          ),
+        );
+      }),
+    );
+  }
+  Future<void> loadAssets() async {
+    List<Asset> resultList = List<Asset>();
+    String error = 'No Error Dectected';
+print("hhhhhhhhh");
+    try {
+      resultList = await MultiImagePicker.pickImages(
+        maxImages: 10-_imageUrls.length,
+        enableCamera: false,
+        selectedAssets: images,
+        cupertinoOptions: CupertinoOptions(takePhotoIcon: "اعلان"),
+        materialOptions: MaterialOptions(
+          statusBarColor: "#000000",
+          actionBarColor: "#000000",
+          actionBarTitle: "بوابة نجران",
+          allViewTitle: "كل الصور",
+          useDetailsView: false,
+          selectCircleStrokeColor: "#000000",
+        ),
+      );
+    } on Exception catch (e) {
+      error = e.toString();
+      // print("hhh$e");
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      images = resultList;
+      _error = error;
+    //  picno = images.length;
+
+      //    print("hhhh$images");
+    });
+  }
+  Future uploadpp0() async {
+    if (images.length==0) {
+      createRecord();
+    } else {
+    final StorageReference storageRef =
+    FirebaseStorage.instance.ref().child('myimage');
+    int i = 0;
+    for (var f in images) {
+      var byteData = await f.getByteData(quality: 20);
+      DateTime now = DateTime.now();
+      final file = File('${(await getTemporaryDirectory()).path}/$f');
+      await file.writeAsBytes(byteData.buffer
+          .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+      final StorageUploadTask uploadTask =
+      storageRef.child('$_userId$now.jpg').putFile(file);
+      var Imageurl = await (await uploadTask.onComplete).ref.getDownloadURL();
+      print("oooo8");
+      Toast.show("تم تحميل صورة طال عمرك", context,
+          duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+      setState(() {
+        url1 = Imageurl.toString();
+        _imageUrls.add(url1);
+        //  print('URL Is${images.length} ///$url1///$urlList');
+        i++;
+        // _load2 = false;
+      });
+      if (i == images.length) {
+        // print('gggg${images.length} ///$i');
+        createRecord();
+      }
+    }
+    setState(() {
+      _load2 = true;
+    });
+  }
+  }
+  Widget buildGridViewass() {
+    return GridView.count(
+      crossAxisCount: 5,
+      children: List.generate(images.length, (index) {
+        Asset asset = images[index];
+        return AssetThumb(
+          asset: asset,
+          width: 300,
+          height: 300,
+        );
+      }),
     );
   }
 
@@ -345,14 +572,53 @@ class _EditAdsForCarsState extends State<EditAdsForCars> {
                         children: <Widget>[
                           Center(
                             child: Container(
-                              height:150,
-                              width: 150,
-                              child: new Image.network(
-                                _uri,
-                                fit: BoxFit.fitHeight,
+                              width: 200,
+                              height: 200,
+                              color: Colors.grey[300],
+                              child:Stack(
+                                children: <Widget>[
+                                  buildGridView(),
+
+
+                                ],
                               ),
                             ),
                           ),
+                          SizedBox(height: 10,),
+                            Center(
+                            child: Row(
+                              mainAxisAlignment:MainAxisAlignment.spaceAround ,
+                              children: <Widget>[
+                                images==0?Container(): Container(
+                                  width: 200,
+                                  height: 100,
+                                  color: Colors.grey[300],
+                                  child:buildGridViewass(),
+                                ),
+                                IconButton(
+                                    icon: Icon(Icons.add_a_photo,color: Colors.grey[800],size:50),
+                                    tooltip: 'إضافة صورة',
+                                    onPressed: ()  {
+                                      print("hhhh111");
+                                      loadAssets();
+                                    }),
+                              ],
+                            ),
+                          ),
+
+
+                          // buildGridView(),
+
+                          // Center(
+                          //   child: Container(
+                          //     height:150,
+                          //     width: 150,
+                          //     child: new Image.network(
+                          //       _uri,
+                          //       fit: BoxFit.fitHeight,
+                          //     ),
+                          //   ),
+                          // ),
                           /**InkWell(
                             onTap: () {
 //                              if (picno == 0) {
@@ -614,7 +880,7 @@ class _EditAdsForCarsState extends State<EditAdsForCars> {
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
-                                          "تفاصيل القسم",
+                                          "القسم الفرعي",
                                           textDirection: TextDirection.rtl,
                                           style: TextStyle(
                                               color: Colors.grey,
@@ -1357,15 +1623,15 @@ class _EditAdsForCarsState extends State<EditAdsForCars> {
                               color: const Color(0xff171732),
                               onPressed: () async {
                                 if (_formKey.currentState.validate()) {
-                                  if (sampleImage1 != null|| dep1!=null||dep2!=null||dep1!=""||dep2!="") {
+                                 // if (sampleImage1 != null|| dep1!=null||dep2!=null||dep1!=""||dep2!="") {
                                     try {
                                       final result =
                                       await InternetAddress.lookup(
                                           'google.com');
                                       if (result.isNotEmpty &&
                                           result[0].rawAddress.isNotEmpty) {
-                                     //   uploadpp1();
-                                        createRecord();
+                                        uploadpp0();
+                                      //  createRecord();
                                         setState(() {
                                           _load2 = true;
                                         });
@@ -1377,13 +1643,13 @@ class _EditAdsForCarsState extends State<EditAdsForCars> {
                                           duration: Toast.LENGTH_LONG,
                                           gravity: Toast.BOTTOM);
                                     }
-                                  } else {
-                                    Toast.show(
-                                        "ضيف صورة علي الاقل حق إعلانك طال عمرك",
-                                        context,
-                                        duration: Toast.LENGTH_SHORT,
-                                        gravity: Toast.BOTTOM);
-                                  }
+                                  // } else {
+                                  //   Toast.show(
+                                  //       "ضيف صورة علي الاقل حق إعلانك طال عمرك",
+                                  //       context,
+                                  //       duration: Toast.LENGTH_SHORT,
+                                  //       gravity: Toast.BOTTOM);
+                                  // }
                                 }
                               },
                               shape: new RoundedRectangleBorder(
@@ -1419,162 +1685,6 @@ class _EditAdsForCarsState extends State<EditAdsForCars> {
     });
   }
 
-  Future getImage1() async {
-    var tempImage1 = await ImagePicker.pickImage(source: ImageSource.gallery);
-
-    ///***************************************
-    final tempDir1 = await getTemporaryDirectory();
-    final path1 = tempDir1.path;
-
-    int rand1 = new Math.Random().nextInt(100000);
-
-    Img.Image image1 = Img.decodeImage(tempImage1.readAsBytesSync());
-    Img.Image smallerImg1 = Img.copyResizeCropSquare(image1, 500);
-    var compressImg1 = new File("$path1/image1_$rand1.jpg")
-      ..writeAsBytesSync(Img.encodeJpg(smallerImg1, quality: 50));
-
-    /// **********************************
-    setState(() {
-      sampleImage1 = compressImg1;
-      picno++;
-      // Toast.show(sampleImage1.toString(),context,duration: Toast.LENGTH_SHORT,gravity:  Toast.BOTTOM);
-    });
-  }
-
-  Future getImage2() async {
-    var tempImage2 = await ImagePicker.pickImage(source: ImageSource.gallery);
-
-    ///***************************************
-    final tempDir2 = await getTemporaryDirectory();
-    final path2 = tempDir2.path;
-
-    int rand2 = new Math.Random().nextInt(100000);
-
-    Img.Image image2 = Img.decodeImage(tempImage2.readAsBytesSync());
-    Img.Image smallerImg2 = Img.copyResizeCropSquare(image2, 500);
-    var compressImg2 = new File("$path2/image2_$rand2.jpg")
-      ..writeAsBytesSync(Img.encodeJpg(smallerImg2, quality: 50));
-
-    /// **********************************
-    setState(() {
-      sampleImage2 = compressImg2;
-      picno++;
-      // Toast.show(sampleImage1.toString(),context,duration: Toast.LENGTH_SHORT,gravity:  Toast.BOTTOM);
-    });
-  }
-
-  Future getImage3() async {
-    var tempImage3 = await ImagePicker.pickImage(source: ImageSource.gallery);
-
-    ///***************************************
-    final tempDir3 = await getTemporaryDirectory();
-    final path3 = tempDir3.path;
-
-    int rand3 = new Math.Random().nextInt(100000);
-
-    Img.Image image3 = Img.decodeImage(tempImage3.readAsBytesSync());
-    Img.Image smallerImg3 = Img.copyResizeCropSquare(image3, 500);
-    var compressImg3 = new File("$path3/image3_$rand3.jpg")
-      ..writeAsBytesSync(Img.encodeJpg(smallerImg3, quality: 50));
-
-    /// **********************************
-    setState(() {
-      sampleImage3 = compressImg3;
-      picno++;
-      // Toast.show(sampleImage1.toString(),context,duration: Toast.LENGTH_SHORT,gravity:  Toast.BOTTOM);
-    });
-  }
-
-  Future uploadpp1() async {
-    // Toast.show("22222",context,duration: Toast.LENGTH_SHORT,gravity:  Toast.BOTTOM);
-
-    final StorageReference storageRef =
-    FirebaseStorage.instance.ref().child('myimage');
-    DateTime now = DateTime.now();
-
-//    String currentTime = new DateTime(now.year, now.month, now.day, now.hour, now.minute) as String;
-    final StorageUploadTask uploadTask =
-    storageRef.child('$now.jpg').putFile(sampleImage1);
-    var Imageurl = await (await uploadTask.onComplete).ref.getDownloadURL();
-    String url1 = Imageurl.toString();
-    //print('URL Is $url1');
-
-    Toast.show("الصورة الاولي اتحملت طال عمرك", context,
-        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
-    setState(() {
-      urlList.add(url1);
-      _load2 = false;
-    });
-    if (picno >= 2) {
-      uploadpp2(url1);
-    } else if (picno == 1) {
-     // createRecord(url1);
-    }
-    setState(() {
-      _load2 = true;
-    });
-  }
-
-  Future uploadpp2(url1) async {
-    final StorageReference storageRef =
-    FirebaseStorage.instance.ref().child('myimage');
-    DateTime now = DateTime.now();
-
-//    String currentTime = new DateTime(now.year, now.month, now.day, now.hour, now.minute) as String;
-    final StorageUploadTask uploadTask =
-    storageRef.child('$now.jpg').putFile(sampleImage2);
-    var Imageurl = await (await uploadTask.onComplete).ref.getDownloadURL();
-    String url2 = Imageurl.toString();
-    // print('URL Is $url');
-    setState(() {
-      _load2 = false;
-    });
-    Toast.show("الصورة الثانية اتحملت طال عمرك", context,
-        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
-    // uploadwp(url);
-    setState(() {
-      urlList.add(url2);
-      // _load1 = false;
-    });
-    if (picno >= 3) {
-      uploadpp3(url1);
-    } else if (picno == 2) {
-      //createRecord(url1);
-    }
-    setState(() {
-      _load2 = true;
-    });
-  }
-
-  Future uploadpp3(url1) async {
-    // Toast.show("22222",context,duration: Toast.LENGTH_SHORT,gravity:  Toast.BOTTOM);
-
-    final StorageReference storageRef =
-    FirebaseStorage.instance.ref().child('myimage');
-    DateTime now = DateTime.now();
-
-//    String currentTime = new DateTime(now.year, now.month, now.day, now.hour, now.minute) as String;
-    final StorageUploadTask uploadTask =
-    storageRef.child('$now.jpg').putFile(sampleImage3);
-    var Imageurl = await (await uploadTask.onComplete).ref.getDownloadURL();
-    String url3 = Imageurl.toString();
-    //print('URL Is $url3');
-    setState(() {
-      // _load1 = false;
-    });
-    Toast.show("الصورة الثالثة اتحملت طال عمرك", context,
-        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
-    // uploadwp(url);
-    setState(() {
-      urlList.add(url3);
-      _load2 = false;
-    });
-    //createRecord(url1);
-
-    setState(() {
-      _load2 = true;
-    });
-  }
 
   void createRecord() {
     FirebaseAuth.instance.currentUser().then((user) => user == null
@@ -1615,8 +1725,9 @@ print("jjjjjjjj///$_userId///${widget.chead}");
         'cprice': _priceController.text,
         'cdetail': _detailController.text,
         'cpublished': false,
-        'curi': _uri,
-        'curilist': _urilist.toString(),
+
+        'curi': _imageUrls[0],
+        'curilist': _imageUrls.toString(),
       //////////////////////////
         'cagekm': widget.cdepart == "السيارات"
             ? ' ${(_value * 2000000).round()}'
@@ -1646,8 +1757,8 @@ print("jjjjjjjj///$_userId///${widget.chead}");
         'cno': widget.cdepart == "السيارات"
             ? _character5.toString().contains("yes") ? "نعم" : "لا"
             : "",
-        'cdep11': dep1,
-        'cdep22': dep2,
+        'cdep11': ((dep1=="اخري")||(dep1=="")||(dep1==null))?"${widget.cdepart} اخري":dep1,
+        'cdep22': ((dep2=="اخري")||(dep2=="")||(dep2==null))?"${widget.cdepart} اخري":dep2,
 
 
       }).whenComplete(() {
@@ -1662,7 +1773,7 @@ print("jjjjjjjj///$_userId///${widget.chead}");
         });
         showNotification(date1,_titleController.text,_userId,widget.chead, _cName);
 
-        showAlertDialog(context);
+        showAlertDialog1(context);
       }).catchError((e) {
         Toast.show(e, context,
             duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
@@ -1858,6 +1969,9 @@ class _MyForm3State extends State<MyForm3> {
                       debugPrint('VAL = $val');
                       _currentValue = val;
                       _currentValue1=departlist1[i].title;
+                      widget.onSubmit3(_currentValue1.toString()+","+_currentValue.toString());
+                      Navigator.pop(context);
+
                     });
                   },
                 ))
@@ -1867,13 +1981,13 @@ class _MyForm3State extends State<MyForm3> {
 //                children:
 //                _buildExpandableContent(regionlist[i]),
 //              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  cancelButton,
-                  continueButton,
-                ],
-              )
+//               Row(
+//                 mainAxisAlignment: MainAxisAlignment.spaceAround,
+//                 children: <Widget>[
+//                   cancelButton,
+//                   continueButton,
+//                 ],
+//               )
             ],
           );
         },
