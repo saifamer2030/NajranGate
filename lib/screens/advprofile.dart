@@ -76,7 +76,7 @@ class _AdvProlileState extends State<AdvProlile> {
 
   showNotification(date1, title, _userId, head, name) async {
     DateTime scheduledNotificationDateTime =
-    DateTime.parse('$date1').add(new Duration(days: 20));
+    DateTime.parse('$date1').add(new Duration(days: 45));
     //   DateTime scheduledNotificationDateTime = DateTime.now();
 
 //    DateTime scheduledNotificationDateTime = new DateTime(
