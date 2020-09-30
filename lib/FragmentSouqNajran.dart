@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:NajranGate/screens/loginmail.dart';
+import 'package:NajranGate/screens/splash.dart';
 import 'package:fimber/fimber_base.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -15,6 +17,8 @@ import 'package:NajranGate/screens/myalarms.dart';
 import 'package:NajranGate/screens/myfavourits.dart';
 import 'package:NajranGate/screens/personal_page.dart';
 import 'package:NajranGate/screens/loginphone.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class FragmentSouq1 extends StatefulWidget {
   List<String> regionlist = [];
@@ -46,13 +50,152 @@ class _Fragment1SouqState extends State<FragmentSouq1> {
   final GlobalKey<NavigatorState> navigatorKey =
       new GlobalKey<NavigatorState>();
   Widget currentScreen; // Our first view in viewport
+  FirebaseAuth _firebaseAuth;
+  String ImageUrl = "";
+  String TextBody = "";
+  String TitleHead = "";
+  String ShowADV = "";
+  String TextButton = "";
+  String Button = "";
+
+  String _userId;
+
   @override
   void initState() {
     super.initState();
+    _firebaseAuth = FirebaseAuth.instance;
+    FirebaseAuth.instance.currentUser().then((user) => user == null
+        ? null
+        : setState(() {
+            _userId = user.uid;
+            final userdatabaseReference =
+                FirebaseDatabase.instance.reference().child("PopUpMessage");
+            userdatabaseReference
+                .child("wwwwwwwwwwwwwwwwwwwwwwwwwwwwww")
+                .child("ShowADV")
+                .once()
+                .then((DataSnapshot snapshot5) {
+              setState(() {
+                if (snapshot5.value != null) {
+                  setState(() {
+                    ShowADV = snapshot5.value;
+                    print("############$ShowADV####################");
+                  });
+                } else {
+                  setState(() {
+                    ShowADV = "false";
+                  });
+                }
+              });
+            });
+            //////////////////////////
+            userdatabaseReference
+                .child("wwwwwwwwwwwwwwwwwwwwwwwwwwwwww")
+                .child("ImageUrl")
+                .once()
+                .then((DataSnapshot snapshot5) {
+              setState(() {
+                if (snapshot5.value != null) {
+                  setState(() {
+                    ImageUrl = snapshot5.value;
+                  });
+                } else {
+                  setState(() {
+                    ImageUrl =
+                        "https://firebasestorage.googleapis.com/v0/b/souqnagran-49abe.appspot.com/o/FIAMImages%2FIMG-20200906-WA0029.jpg?alt=media&token=e636b542-3167-4f03-bb9c-bf9d0ce318d4";
+                  });
+                }
+              });
+            });
+
+            ////////////////////////
+            userdatabaseReference
+                .child("wwwwwwwwwwwwwwwwwwwwwwwwwwwwww")
+                .child("TextBody")
+                .once()
+                .then((DataSnapshot snapshot5) {
+              setState(() {
+                if (snapshot5.value != null) {
+                  setState(() {
+                    TextBody = snapshot5.value;
+                  });
+                } else {
+                  setState(() {
+                    TextBody = "لا يوجد نص إعلاني";
+                  });
+                }
+              });
+            });
+            userdatabaseReference
+                .child("wwwwwwwwwwwwwwwwwwwwwwwwwwwwww")
+                .child("TitleHead")
+                .once()
+                .then((DataSnapshot snapshot5) {
+              setState(() {
+                if (snapshot5.value != null) {
+                  setState(() {
+                    TitleHead = snapshot5.value;
+                  });
+                } else {
+                  setState(() {
+                    TitleHead = "لا يوجد نص إعلاني";
+                  });
+                }
+              });
+            });
+            userdatabaseReference
+                .child("wwwwwwwwwwwwwwwwwwwwwwwwwwwwww")
+                .child("Button")
+                .once()
+                .then((DataSnapshot snapshot5) {
+              setState(() {
+                if (snapshot5.value != null) {
+                  setState(() {
+                    Button = snapshot5.value;
+                  });
+                } else {
+//                  setState(() {
+//                    Button = "لا يوجد نص إعلاني";
+//                  });
+                }
+              });
+            });
+            userdatabaseReference
+                .child("wwwwwwwwwwwwwwwwwwwwwwwwwwwwww")
+                .child("TextButton")
+                .once()
+                .then((DataSnapshot snapshot5) {
+              setState(() {
+                if (snapshot5.value != null) {
+                  setState(() {
+                    TextButton = snapshot5.value;
+                  });
+                } else {
+                  setState(() {
+                    TextButton = "لا يوجد نص إعلاني";
+                  });
+                }
+              });
+            });
+
+            ////////////////////////
+          }));
+
     // Toast.show("kkkkkkkkkkk"+widget.regionlist.toString(),context,duration: Toast.LENGTH_SHORT,gravity:  Toast.BOTTOM);
 //print("kkkkkklllllkkkkk"+FragmentSouq1.regionlist.toString());
-     registerNotification();
+
+
+
+
+
+
+
+    registerNotification();
     configLocalNotification();
+
+
+
+
     setState(() {
       currentScreen = AllAdvertesmenta(widget.regionlist);
     });
@@ -102,7 +245,27 @@ class _Fragment1SouqState extends State<FragmentSouq1> {
                 children: <Widget>[
                   MaterialButton(
                     minWidth: 40,
-                    onPressed: () {
+                    onPressed: () async {
+
+//                      var scheduledNotificationDateTime =
+//                      new DateTime.now().add(new Duration(seconds: 20));
+//                      var androidPlatformChannelSpecifics =
+//                      new AndroidNotificationDetails('your other channel id',
+//                          'your other channel name', 'your other channel description');
+//                      var iOSPlatformChannelSpecifics =
+//                      new IOSNotificationDetails();
+//                      NotificationDetails platformChannelSpecifics = new
+//                      NotificationDetails(
+//                          androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+//                      await flutterLocalNotificationsPlugin.schedule(
+//                          0,
+//                          'scheduled title',
+//                          'scheduled body',
+//                          scheduledNotificationDateTime,
+//                          platformChannelSpecifics);
+
+
+
                       print("kkkkkkkkk");
                       setState(() {
                         currentScreen = MoreSouqNajran(widget
@@ -200,6 +363,30 @@ class _Fragment1SouqState extends State<FragmentSouq1> {
                     minWidth: 40,
                     onPressed: () {
                       setState(() {
+                        print("############$ShowADV####################");
+                        ShowADV == "true"
+                            ? Alert(
+                                context: context,
+                                title: TitleHead,
+                                desc: TextBody,
+                                buttons: [
+                                  DialogButton(
+                                    child: Text(
+                                      TextButton,
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 20),
+                                    ),
+                                    onPressed: () {
+                                      _makePhoneCall('$Button');
+                                      print("#################$Button");
+                                    } /*Navigator.pop(context)*/,
+                                    color: Color.fromRGBO(0, 179, 134, 1.0),
+                                    radius: BorderRadius.circular(0.0),
+                                  ),
+                                ],
+                                image: Image.network(ImageUrl),
+                              ).show()
+                            : Container();
                         currentScreen = AllAdvertesmenta(widget
                             .regionlist); // if user taps on this dashboard tab will be active
                         currentTab = 3;
@@ -235,18 +422,22 @@ class _Fragment1SouqState extends State<FragmentSouq1> {
   }
 
   void registerNotification() {
-    firebaseMessaging.requestNotificationPermissions();
-
+    firebaseMessaging.requestNotificationPermissions(
+      const IosNotificationSettings(sound: true, badge: true, alert: true),
+    );
     firebaseMessaging.configure(onMessage: (Map<String, dynamic> message) {
       print('onMessage: $message');
       showNotification(message['notification']);
+      _serialiseAndNavigate(message['notification']);
       return;
     }, onResume: (Map<String, dynamic> message) {
       print('onResume: $message');
       _serialiseAndNavigate(message);
       return;
     },
-        //onBackgroundMessage: myBackgroundMessageHandler,
+
+
+       // onBackgroundMessage: Platform.isIOS ? null : myBackgroundMessageHandler,
         onLaunch: (Map<String, dynamic> message) {
       print('onLaunch: $message');
       _serialiseAndNavigate(message);
@@ -257,7 +448,12 @@ class _Fragment1SouqState extends State<FragmentSouq1> {
   void configLocalNotification() {
     var initializationSettingsAndroid =
         new AndroidInitializationSettings('@drawable/ic_launcher');
-    var initializationSettingsIOS = new IOSInitializationSettings();
+    var initializationSettingsIOS = new IOSInitializationSettings(
+      defaultPresentAlert: true,
+      requestSoundPermission: true,
+      defaultPresentSound: true,
+      requestAlertPermission: true,
+    );
     var initializationSettings = new InitializationSettings(
         initializationSettingsAndroid, initializationSettingsIOS);
     flutterLocalNotificationsPlugin.initialize(initializationSettings,
@@ -276,7 +472,11 @@ class _Fragment1SouqState extends State<FragmentSouq1> {
       importance: Importance.Max,
       priority: Priority.High,
     );
-    var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
+    var iOSPlatformChannelSpecifics = new IOSNotificationDetails(
+      presentSound: true,
+      presentAlert: true,
+
+    );
     var platformChannelSpecifics = new NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(0, message['title'].toString(),
@@ -286,56 +486,77 @@ class _Fragment1SouqState extends State<FragmentSouq1> {
 
   // ignore: missing_return
   Future _serialiseAndNavigate(Map<String, dynamic> message) {
+
     var notificationData = message['data'];
     var view = notificationData['view'];
 
     if (view != null) {
       // Navigate to the create post view
-      if (view == 'cart_screen') {
+      if (view == 'FLUTTER_NOTIFICATION_CLICK') {
         Navigator.push(
           context,
           new MaterialPageRoute(
-              builder: (context) => AllAdvertesmenta(widget.regionlist)),
-        );
-      } else if (view == 'categories_screen') {
-        Navigator.push(
-          context,
-          new MaterialPageRoute(
-              builder: (context) => AllAdvertesmenta(widget.regionlist)),
+              builder: (context) => MyAlarms(widget.regionlist)),
         );
       }
     }
   }
-
   Future<dynamic> myBackgroundMessageHandler(
       Map<String, dynamic> message) async {
     print("_backgroundMessageHandler");
     if (message.containsKey('data')) {
       // Handle data message
       final dynamic data = message['data'];
-      print("_backgroundMessageHandler data: $data");
+      print("_backgroundMessageHandler data: ${data}");
     }
 
     if (message.containsKey('notification')) {
       // Handle notification message
       final dynamic notification = message['notification'];
-      print("_backgroundMessageHandler notification: $notification");
+      print("_backgroundMessageHandler notification: ${notification}");
       Fimber.d("=====>myBackgroundMessageHandler $message");
     }
     return Future<void>.value();
   }
+//  Future<dynamic> myBackgroundMessageHandler(
+//      Map<String, dynamic> message) async {
+//    print("_backgroundMessageHandler");
+//    if (message.containsKey('data')) {
+//      // Handle data message
+//      final dynamic data = message['data'];
+//      print("_backgroundMessageHandler data: $data");
+//    }
+//
+//    if (message.containsKey('notification')) {
+//      // Handle notification message
+//      final dynamic notification = message['notification'];
+//      print("_backgroundMessageHandler notification: $notification");
+//      Fimber.d("=====>myBackgroundMessageHandler $message");
+//    }
+//    return Future<void>.value();
+//  }
 
   Future selectNotification(String payload) async {
-    await Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => AllAdvertesmenta(widget.regionlist)),
-    );
+
+      debugPrint('notification payload: ' + payload);
+      await Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Splash()),
+      );
+
 
 //    if (payload == 'cart') {
 //      debugPrint('notification payload: ' + payload);
 //
 //    }
+  }
+
+  Future<void> _makePhoneCall(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
 

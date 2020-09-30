@@ -11,6 +11,7 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:NajranGate/classes/AdvNameClass.dart';
 import 'package:NajranGate/classes/CommentClass.dart';
 import 'package:NajranGate/screens/splash.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 //import 'package:simple_slider/simple_slider.dart';
@@ -41,7 +42,7 @@ class _AdvProlileState extends State<AdvProlile> {
   var _controller = ScrollController();
   bool favcheck = false;
   Map map = Map<String, Uint8List>();
-
+bool presscheck=false;
   //List<OrderDetailClass> orderlist = [];
   List<CommentClass> commentlist = [];
 
@@ -57,13 +58,14 @@ class _AdvProlileState extends State<AdvProlile> {
 
   Future onSelectNotification(String payload) async {
    if (payload != null) {
-   //  print('notification payload: ' + payload.split(",")[0]+payload.split(",")[1]+payload.split(",")[2]);
+     print('notification payload: ' + payload.split(",")[0]+payload.split(",")[1]+payload.split(",")[2]);
      await Navigator.push(
        context,
        new MaterialPageRoute(
            builder: (context) =>
            new AdvProlile(payload.split(",")[0], payload.split(",")[1], payload.split(",")[2])),
      );
+     return;
    }
 //
 //    await Navigator.push(
@@ -75,8 +77,19 @@ class _AdvProlileState extends State<AdvProlile> {
   }
 
   showNotification(date1, title, _userId, head, name) async {
+    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    var android = AndroidInitializationSettings('@drawable/ic_lancher');
+    var ios = IOSInitializationSettings();
+    var initSettings = InitializationSettings(android, ios);
+    flutterLocalNotificationsPlugin.initialize(
+      initSettings,
+      onSelectNotification: onSelectNotification,
+    );
+    ///////////////////
     DateTime scheduledNotificationDateTime =
-    DateTime.parse('$date1').add(new Duration(days: 45));
+   // DateTime.parse('$date1').add(new Duration(days: -15));
+    DateTime.now()/*parse('$date1')*/.add(new Duration(seconds: 5));
+//print("scheduledNotificationDateTime:$scheduledNotificationDateTime");
     //   DateTime scheduledNotificationDateTime = DateTime.now();
 
 //    DateTime scheduledNotificationDateTime = new DateTime(
@@ -102,29 +115,25 @@ class _AdvProlileState extends State<AdvProlile> {
 //        context,
 //        duration: Toast.LENGTH_SHORT,
 //        gravity: Toast.BOTTOM);
-
+// print("ddd${advnNameclass.carrange-}");
     await flutterLocalNotificationsPlugin.schedule(
-        111,
+        advnNameclass.carrange-202000000000,
         'تذكير بحذف الاعلان',
-        'عزيزى العميل سيتم حذف اعلان $title غدا يرجى عمل تمديد له',
+        'عزيزى العميل سيتم حذف اعلان $title بعد اسبوعين يرجى عمل تمديد له',
         scheduledNotificationDateTime,
         platformChannelSpecifics,
         payload:"$_userId,$head,$name");
     // payload: "");
   }
-
+  @override
+  void dispose() {
+   // flutterLocalNotificationsPlugin.cancelAll();
+    super.dispose();
+  }
   @override
   void initState() {
     super.initState();
 
-    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-    var android = AndroidInitializationSettings('@drawable/ic_lancher');
-    var ios = IOSInitializationSettings();
-    var initSettings = InitializationSettings(android, ios);
-    flutterLocalNotificationsPlugin.initialize(
-      initSettings,
-      onSelectNotification: onSelectNotification,
-    );
     final userdatabaseReference =
         FirebaseDatabase.instance.reference().child("userdata");
     final commentdatabaseReference = FirebaseDatabase.instance
@@ -902,74 +911,82 @@ class _AdvProlileState extends State<AdvProlile> {
                                   textColor: Colors.white,
                                   color: const Color(0xff171732),
                                   onPressed: () {
-                                    DateTime startdate =
-                                        DateTime.parse(advnNameclass.cdate);
-                                    var newdate =
-                                        startdate.add(new Duration(days: 21));
-                                    DateTime now = DateTime.now();
-                                    var permissiondate =
-                                        startdate.add(new Duration(days: 10));
+                                    if(presscheck){
+   Toast.show("لا يمكن التمديد الان. حاول مرة اخرى...",context,duration: Toast.LENGTH_LONG,gravity:  Toast.BOTTOM);
 
-                                    String b = newdate.month.toString();
-                                    if (b.length < 2) {
-                                      b = "0" + b;
-                                    }
-                                    String c = newdate.day.toString();
-                                    if (c.length < 2) {
-                                      c = "0" + c;
-                                    }
-                                    String d = newdate.hour.toString();
-                                    if (d.length < 2) {
-                                      d = "0" + d;
-                                    }
-                                    String e = newdate.minute.toString();
-                                    if (e.length < 2) {
-                                      e = "0" + e;
-                                    }
-                                    String date1 =
-                                        '${newdate.year}-${b}-${c} ${d}:${e}:00';
+                                    }else{
+                                      presscheck=true;
+    DateTime startdate =
+    DateTime.parse(advnNameclass.cdate);
 
-                                    if (_userId == null) {
-                                      Toast.show(
-                                          "ابشر .. سجل دخول الاول طال عمرك",
-                                          context,
-                                          duration: Toast.LENGTH_LONG,
-                                          gravity: Toast.BOTTOM);
-                                    } else {
-                                      if (now.isAfter(permissiondate)) {
-                                        final advdatabaseReference =
-                                            FirebaseDatabase.instance
-                                                .reference()
-                                                .child("advdata");
-                                        advdatabaseReference
-                                            .child(widget.cId)
-                                            .child(widget.cDateID)
-                                            .update({
-                                          "cdate": date1,
-                                        }).then((_) {
-                                          setState(() {
-                                            advnNameclass.cdate = date1;
-                                            showNotification(
-                                                date1,
-                                                advnNameclass.ctitle,
-                                                advnNameclass.cId,
-                                                advnNameclass.chead,
-                                                _username);
 
-                                            Toast.show("$date1تم التمديد الى ",
-                                                context,
-                                                duration: Toast.LENGTH_LONG,
-                                                gravity: Toast.BOTTOM);
-                                          });
-                                        });
-                                      } else {
-                                        Toast.show(
-                                            "يمكنك التجديد بعد مرور 10 ايام من موعد التجديد الاول او انتظار الاشعار",
-                                            context,
-                                            duration: Toast.LENGTH_LONG,
-                                            gravity: Toast.BOTTOM);
-                                      }
-                                    }
+    var newdate =
+    startdate.add(new Duration(days: 60));
+    // var permissiondate =
+    // startdate.add(new Duration(days: -20));
+    DateTime now = DateTime.now();
+
+    String b = newdate.month.toString();
+    if (b.length < 2) {
+    b = "0" + b;
+    }
+    String c = newdate.day.toString();
+    if (c.length < 2) {
+    c = "0" + c;
+    }
+    String d = newdate.hour.toString();
+    if (d.length < 2) {
+    d = "0" + d;
+    }
+    String e = newdate.minute.toString();
+    if (e.length < 2) {
+    e = "0" + e;
+    }
+    String date1 =
+    '${newdate.year}-${b}-${c} ${d}:${e}:00';
+
+    if (_userId == null) {
+    Toast.show(
+    "ابشر .. سجل دخول الاول طال عمرك",
+    context,
+    duration: Toast.LENGTH_LONG,
+    gravity: Toast.BOTTOM);
+    } else {
+    // if (now.isAfter(permissiondate)) {
+    final advdatabaseReference =
+    FirebaseDatabase.instance
+        .reference()
+        .child("advdata");
+    advdatabaseReference
+        .child(widget.cId)
+        .child(widget.cDateID)
+        .update({
+    "cdate": date1,
+    }).then((_) {
+    setState(() {
+    advnNameclass.cdate = date1;
+    showNotification(
+    date1,
+    advnNameclass.ctitle,
+    advnNameclass.cId,
+    advnNameclass.chead,
+    _username);
+
+    Toast.show("$date1تم التمديد الى ",
+    context,
+    duration: Toast.LENGTH_LONG,
+    gravity: Toast.BOTTOM);
+    });
+    });
+    // } else {
+    //   Toast.show(
+    //       "يمكنك التجديد بعد مرور 10 ايام من موعد التجديد الاول او انتظار الاشعار",
+    //       context,
+    //       duration: Toast.LENGTH_LONG,
+    //       gravity: Toast.BOTTOM);
+    // }
+    }
+    }
                                   },
 //
                                   shape: new RoundedRectangleBorder(
@@ -1142,6 +1159,8 @@ class _AdvProlileState extends State<AdvProlile> {
                               // String date1 ='${now.year}-${now.month}-${now.day}';// ${now.hour}:${now.minute}:00.000';
                               String date =
                                   '${now.year}-${now.month}-${now.day}-${now.hour}-${now.minute}-00';
+
+
                               if (_userId != null) {
                                 showDialog(
                                   context: context,
@@ -1155,8 +1174,7 @@ class _AdvProlileState extends State<AdvProlile> {
                                           isDefaultAction: false,
                                           child: new FlatButton(
                                             onPressed: () {
-                                              ReferenceNotice.child(
-                                                      widget.cDateID)
+                                              ReferenceNotice.child(widget.cDateID)
                                                   .push()
                                                   .child(widget.cId)
                                                   .set({

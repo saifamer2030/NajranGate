@@ -675,8 +675,6 @@ class _SignUpState extends State<SignUp> {
         "cId": signedInUserid,
         "cPhone": _phoneController.text,
         'cEmail': _emailController.text,
-        'rating': "0",
-        'custRate': 0,
       }).then((_) {
         setState(() {
           Navigator.pushReplacement(

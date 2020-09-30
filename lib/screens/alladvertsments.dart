@@ -9,6 +9,7 @@ import 'package:NajranGate/classes/AdvClass.dart';
 import 'package:NajranGate/classes/AdvNameClass.dart';
 import 'package:NajranGate/classes/DepartmentClass.dart';
 import 'package:NajranGate/classes/UserDataClass.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 import 'package:toast/toast.dart';
 
@@ -489,6 +490,9 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
       });
     });
     //);
+    setState(() {
+
+    });
   }
 
   final double _minimumPadding = 5.0;

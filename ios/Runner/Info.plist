@@ -43,6 +43,8 @@
 	<string> لاستخدام الاستديو لارسال الصور اثناء المحادثة او اثناء رفع الاعلان You must allow access to your studio in order to send pictures via chat or upload them as personal photos</string>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>fetch</string>
+		<string>processing</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
@@ -50,8 +52,6 @@
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UISupportedInterfaceOrientations</key>
-	<string>FirebaseInAppMessagingAutomaticDataCollectionEnabled</string>
-	<key>NO</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
