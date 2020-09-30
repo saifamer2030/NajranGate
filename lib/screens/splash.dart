@@ -46,18 +46,15 @@ class _SplashState extends State<Splash> {
 //                   SignIn(regionlist))),
         );
   }
+
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+
   @override
   void initState() {
-
     super.initState();
 
-
-
-
 //    _initFirebaseMessaging();
-
 
     Future.delayed(Duration(seconds: 0), () async {
       try {
@@ -146,16 +143,15 @@ class _SplashState extends State<Splash> {
     return Scaffold(
       backgroundColor: const Color(0xff171732),
       body: Center(
-            child: Text(
-              'بوابة نجران',
-              style: TextStyle(
-                fontFamily: 'Estedad-Black',
-                fontSize: 90,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xffffffff),
-              ),
-              textAlign: TextAlign.center,
-
+        child: Text(
+          'بوابة نجران',
+          style: TextStyle(
+            fontFamily: 'Estedad-Black',
+            fontSize: 90,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xffffffff),
+          ),
+          textAlign: TextAlign.center,
         ),
       ),
     );
@@ -177,17 +173,14 @@ class _SplashState extends State<Splash> {
         return;
       },
     );
-    _firebaseMessaging.requestNotificationPermissions(const IosNotificationSettings(sound: true, badge: true, alert: true));
+    _firebaseMessaging.requestNotificationPermissions(
+        const IosNotificationSettings(sound: true, badge: true, alert: true));
   }
 
   // TOP-LEVEL or STATIC function to handle background messages
-  static Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
+  static Future<dynamic> myBackgroundMessageHandler(
+      Map<String, dynamic> message) {
     print('AppPushs myBackgroundMessageHandler : $message');
     return Future<void>.value();
   }
-
-
-
-
-
 }

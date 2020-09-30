@@ -37,16 +37,17 @@ exports.sendAlarmNotification = functions.database.ref('/Alarm/{recieverUid}/{pu
                 // title : `رسالة جديدة من ${sen.val()}`,
                 title : `بوابة نجران - لديك اشعار جديد`,
                 body : `${sen.val()} - ${msg.val()}`,
+                view : `${msg.val()}`,
+                click_action: 'FLUTTER_NOTIFICATION_CLICK',
                 badge: '1',
                 sound: 'default'
 
             },
-            data: {
-                click_action: `FLUTTER_NOTIFICATION_CLICK`,
-                sound: `default`,
-                status: `chat`,
-                screen: `homePage`
-                }
+             'data': {
+                          'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+                          'id': '1',
+                          'status': 'done',
+                        },
         };
     
         return admin.database().ref(`/Fcm-Token/${recUid}`).once('value').then(allToken => {

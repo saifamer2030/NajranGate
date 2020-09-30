@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:NajranGate/screens/ModelsForChating/home.dart';
 import 'package:NajranGate/screens/loginmail.dart';
+import 'package:NajranGate/screens/myadvertisement.dart';
 import 'package:NajranGate/screens/splash.dart';
 import 'package:fimber/fimber_base.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,6 +20,7 @@ import 'package:NajranGate/screens/myfavourits.dart';
 import 'package:NajranGate/screens/personal_page.dart';
 import 'package:NajranGate/screens/loginphone.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:toast/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class FragmentSouq1 extends StatefulWidget {
@@ -36,7 +39,7 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 class _Fragment1SouqState extends State<FragmentSouq1> {
   // Properties & Variables needed
-
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   int currentTab = 3; // to keep track of active tab index
 //  List<Widget> _children() => [
 
@@ -63,6 +66,33 @@ class _Fragment1SouqState extends State<FragmentSouq1> {
   @override
   void initState() {
     super.initState();
+    _firebaseMessaging.subscribeToTopic('Alarm');
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+        final notification = message['notification'];
+
+        showNotification(message['notification']);
+//        handleRouting(notification);
+        _serialiseAndNavigate(notification);
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+
+        final notification = message['notification'];
+
+//        handleRouting(notification);
+        _serialiseAndNavigate(notification);
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+        final notification = message['notification'];
+//        handleRouting(notification);
+        _serialiseAndNavigate(notification);
+      },
+    );
+    _firebaseMessaging.requestNotificationPermissions(
+        const IosNotificationSettings(sound: true, badge: true, alert: true));
     _firebaseAuth = FirebaseAuth.instance;
     FirebaseAuth.instance.currentUser().then((user) => user == null
         ? null
@@ -184,17 +214,9 @@ class _Fragment1SouqState extends State<FragmentSouq1> {
     // Toast.show("kkkkkkkkkkk"+widget.regionlist.toString(),context,duration: Toast.LENGTH_SHORT,gravity:  Toast.BOTTOM);
 //print("kkkkkklllllkkkkk"+FragmentSouq1.regionlist.toString());
 
+//    registerNotification();
 
-
-
-
-
-
-    registerNotification();
     configLocalNotification();
-
-
-
 
     setState(() {
       currentScreen = AllAdvertesmenta(widget.regionlist);
@@ -246,7 +268,6 @@ class _Fragment1SouqState extends State<FragmentSouq1> {
                   MaterialButton(
                     minWidth: 40,
                     onPressed: () async {
-
 //                      var scheduledNotificationDateTime =
 //                      new DateTime.now().add(new Duration(seconds: 20));
 //                      var androidPlatformChannelSpecifics =
@@ -263,8 +284,6 @@ class _Fragment1SouqState extends State<FragmentSouq1> {
 //                          'scheduled body',
 //                          scheduledNotificationDateTime,
 //                          platformChannelSpecifics);
-
-
 
                       print("kkkkkkkkk");
                       setState(() {
@@ -421,26 +440,45 @@ class _Fragment1SouqState extends State<FragmentSouq1> {
     );
   }
 
+  void handleRouting(dynamic notification) {
+    switch (notification['view']) {
+      case 'chat':
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (BuildContext context) => HomePage()));
+        break;
+      case 'Comment':
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) =>
+                MyAdvertisement(widget.regionlist)));
+        break;
+    }
+  }
+
   void registerNotification() {
     firebaseMessaging.requestNotificationPermissions(
       const IosNotificationSettings(sound: true, badge: true, alert: true),
     );
     firebaseMessaging.configure(onMessage: (Map<String, dynamic> message) {
       print('onMessage: $message');
+
       showNotification(message['notification']);
-      _serialiseAndNavigate(message['notification']);
+      final notification = message['data'];
+//      handleRouting(notification);
+      _serialiseAndNavigate(notification);
       return;
     }, onResume: (Map<String, dynamic> message) {
       print('onResume: $message');
-      _serialiseAndNavigate(message);
+      final notification = message['data'];
+//      handleRouting(notification);
+      _serialiseAndNavigate(notification);
       return;
     },
-
-
-        onBackgroundMessage: Platform.isIOS ? null : myBackgroundMessageHandler,
+//        onBackgroundMessage: Platform.isIOS ? null : myBackgroundMessageHandler,
         onLaunch: (Map<String, dynamic> message) {
       print('onLaunch: $message');
-      _serialiseAndNavigate(message);
+      final notification = message['data'];
+      _serialiseAndNavigate(notification);
+//      handleRouting(notification);
       return;
     });
   }
@@ -475,7 +513,6 @@ class _Fragment1SouqState extends State<FragmentSouq1> {
     var iOSPlatformChannelSpecifics = new IOSNotificationDetails(
       presentSound: true,
       presentAlert: true,
-
     );
     var platformChannelSpecifics = new NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
@@ -485,22 +522,21 @@ class _Fragment1SouqState extends State<FragmentSouq1> {
   }
 
   // ignore: missing_return
-  Future _serialiseAndNavigate(Map<String, dynamic> message) {
-
-    var notificationData = message['data'];
+  void _serialiseAndNavigate( dynamic message) {
+    var notificationData = message['notification'];
     var view = notificationData['view'];
-
+    print("#########$view");
     if (view != null) {
       // Navigate to the create post view
-      if (view == 'FLUTTER_NOTIFICATION_CLICK') {
+      if (view == 'chat') {
         Navigator.push(
           context,
-          new MaterialPageRoute(
-              builder: (context) => MyAlarms(widget.regionlist)),
+          new MaterialPageRoute(builder: (context) => HomePage()),
         );
       }
     }
   }
+
   Future<dynamic> myBackgroundMessageHandler(
       Map<String, dynamic> message) async {
     print("_backgroundMessageHandler");
@@ -518,6 +554,7 @@ class _Fragment1SouqState extends State<FragmentSouq1> {
     }
     return Future<void>.value();
   }
+
 //  Future<dynamic> myBackgroundMessageHandler(
 //      Map<String, dynamic> message) async {
 //    print("_backgroundMessageHandler");
@@ -536,19 +573,14 @@ class _Fragment1SouqState extends State<FragmentSouq1> {
 //    return Future<void>.value();
 //  }
 
-  Future selectNotification(String payload) async {
-
-      debugPrint('notification payload: ' + payload);
+  Future selectNotification(payload) async {
+    print('notification payload: ' + payload);
+    if (payload['view'] == "chat") {
       await Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => Splash()),
+        MaterialPageRoute(builder: (context) => FragmentSouq1(widget.regionlist)),
       );
-
-
-//    if (payload == 'cart') {
-//      debugPrint('notification payload: ' + payload);
-//
-//    }
+    }
   }
 
   Future<void> _makePhoneCall(String url) async {

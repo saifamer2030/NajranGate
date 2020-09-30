@@ -235,7 +235,7 @@ class _MyAlarmsState extends State<MyAlarms> {
                     }
                   });
                 });
-              }else if(cType == "love"){
+              }else if(cType == "love" || cType == "Comment"){
                 Navigator.push(
                     context,
                     MaterialPageRoute(

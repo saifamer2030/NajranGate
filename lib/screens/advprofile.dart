@@ -57,15 +57,15 @@ class _AdvProlileState extends State<AdvProlile> {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
   Future onSelectNotification(String payload) async {
-   if (payload != null) {
-   //  print('notification payload: ' + payload.split(",")[0]+payload.split(",")[1]+payload.split(",")[2]);
-     await Navigator.push(
-       context,
-       new MaterialPageRoute(
-           builder: (context) =>
-           new AdvProlile(payload.split(",")[0], payload.split(",")[1], payload.split(",")[2])),
-     );
-   }
+    if (payload != null) {
+      //  print('notification payload: ' + payload.split(",")[0]+payload.split(",")[1]+payload.split(",")[2]);
+      await Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (context) => new AdvProlile(payload.split(",")[0],
+                payload.split(",")[1], payload.split(",")[2])),
+      );
+    }
 //
 //    await Navigator.push(
 //        context,
@@ -77,7 +77,7 @@ class _AdvProlileState extends State<AdvProlile> {
 
   showNotification(date1, title, _userId, head, name) async {
     DateTime scheduledNotificationDateTime =
-    DateTime.now()/*parse('$date1')*/.add(new Duration(days: 20));
+        DateTime.now() /*parse('$date1')*/ .add(new Duration(seconds: 5));
     //   DateTime scheduledNotificationDateTime = DateTime.now();
 
 //    DateTime scheduledNotificationDateTime = new DateTime(
@@ -110,7 +110,7 @@ class _AdvProlileState extends State<AdvProlile> {
         'عزيزى العميل سيتم حذف اعلان $title غدا يرجى عمل تمديد له',
         scheduledNotificationDateTime,
         platformChannelSpecifics,
-        payload:"$_userId,$head,$name");
+        payload: "$_userId,$head,$name");
     // payload: "");
   }
 
@@ -937,39 +937,39 @@ class _AdvProlileState extends State<AdvProlile> {
                                           duration: Toast.LENGTH_LONG,
                                           gravity: Toast.BOTTOM);
                                     } else {
-                                      if (now.isAfter(permissiondate)) {
-                                        final advdatabaseReference =
-                                            FirebaseDatabase.instance
-                                                .reference()
-                                                .child("advdata");
-                                        advdatabaseReference
-                                            .child(widget.cId)
-                                            .child(widget.cDateID)
-                                            .update({
-                                          "cdate": date1,
-                                        }).then((_) {
-                                          setState(() {
-                                            advnNameclass.cdate = date1;
-                                            showNotification(
-                                                date1,
-                                                advnNameclass.ctitle,
-                                                advnNameclass.cId,
-                                                advnNameclass.chead,
-                                                _username);
+//                                      if (now.isAfter(permissiondate)) {
+                                      final advdatabaseReference =
+                                          FirebaseDatabase.instance
+                                              .reference()
+                                              .child("advdata");
+                                      advdatabaseReference
+                                          .child(widget.cId)
+                                          .child(widget.cDateID)
+                                          .update({
+                                        "cdate": date1,
+                                      }).then((_) {
+                                        setState(() {
+                                          advnNameclass.cdate = date1;
+                                          showNotification(
+                                              date1,
+                                              advnNameclass.ctitle,
+                                              advnNameclass.cId,
+                                              advnNameclass.chead,
+                                              _username);
 
-                                            Toast.show("$date1تم التمديد الى ",
-                                                context,
-                                                duration: Toast.LENGTH_LONG,
-                                                gravity: Toast.BOTTOM);
-                                          });
+                                          Toast.show(
+                                              "$date1تم التمديد الى ", context,
+                                              duration: Toast.LENGTH_LONG,
+                                              gravity: Toast.BOTTOM);
                                         });
-                                      } else {
-                                        Toast.show(
-                                            "يمكنك التجديد بعد مرور 10 ايام من موعد التجديد الاول او انتظار الاشعار",
-                                            context,
-                                            duration: Toast.LENGTH_LONG,
-                                            gravity: Toast.BOTTOM);
-                                      }
+                                      });
+//                                      } else {
+//                                        Toast.show(
+//                                            "يمكنك التجديد بعد مرور 10 ايام من موعد التجديد الاول او انتظار الاشعار",
+//                                            context,
+//                                            duration: Toast.LENGTH_LONG,
+//                                            gravity: Toast.BOTTOM);
+//                                      }
                                     }
                                   },
 //
@@ -1144,7 +1144,6 @@ class _AdvProlileState extends State<AdvProlile> {
                               String date =
                                   '${now.year}-${now.month}-${now.day}-${now.hour}-${now.minute}-00';
 
-
                               if (_userId != null) {
                                 showDialog(
                                   context: context,
@@ -1158,7 +1157,8 @@ class _AdvProlileState extends State<AdvProlile> {
                                           isDefaultAction: false,
                                           child: new FlatButton(
                                             onPressed: () {
-                                              ReferenceNotice.child(widget.cDateID)
+                                              ReferenceNotice.child(
+                                                      widget.cDateID)
                                                   .push()
                                                   .child(widget.cId)
                                                   .set({
@@ -1473,7 +1473,7 @@ class _AdvProlileState extends State<AdvProlile> {
           'alarmid': databasealarm.push().key,
           'wid': widget.cId,
           'Name': _username == null ? "لا يوجد اسم" : _username,
-          'cType': "chat",
+          'cType': "Comment",
           'chead': widget.cDateID,
           'cDate': "${now.year.toString()}-${b}-${c} ${d}:${e}:${f}",
           'arrange': int.parse("${now.year.toString()}${b}${c}${d}${e}${f}")
