@@ -87,8 +87,8 @@ bool presscheck=false;
     );
     ///////////////////
     DateTime scheduledNotificationDateTime =
-   // DateTime.parse('$date1').add(new Duration(days: -15));
-    DateTime.now()/*parse('$date1')*/.add(new Duration(seconds: 5));
+   DateTime.parse('$date1').add(new Duration(days: -15));
+  //  DateTime.now()/*parse('$date1')*/.add(new Duration(seconds: 5));
 //print("scheduledNotificationDateTime:$scheduledNotificationDateTime");
     //   DateTime scheduledNotificationDateTime = DateTime.now();
 
