@@ -81,7 +81,7 @@ class _SignUpState extends State<SignUp> {
                       child: InkWell(
                           onTap: () => Navigator.pop(context),
                           child: Icon(
-                            Icons.arrow_back,
+                            Icons.arrow_back_ios,
                             color: Colors.white,
                           )),
                     ),

@@ -35,7 +35,7 @@ class _MyAlarmsState extends State<MyAlarms> {
 
     FirebaseAuth.instance.currentUser().then((user) => user == null
         ? Navigator.of(context, rootNavigator: false).push(MaterialPageRoute(
-        builder: (context) => LoginScreen2(widget.regionlist), maintainState: false))
+        builder: (context) => SignIn(widget.regionlist), maintainState: false))
 
         : setState(() {
             _userId = user.uid;
@@ -240,7 +240,7 @@ class _MyAlarmsState extends State<MyAlarms> {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            AdvProlile(wid, chead,Name)));
+                            AdvProlile(wid, chead,Name,0.0)));
 
               }
             });

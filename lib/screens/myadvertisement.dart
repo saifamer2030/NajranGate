@@ -174,6 +174,8 @@ class _MyAdvertisementState extends State<MyAdvertisement> {
                             DATA[individualkey]['carrange'],
                             DATA[individualkey]['consoome'],
                             DATA['cmodel'],
+                            DATA[individualkey]['rating'],
+                            DATA[individualkey]['custRate'],
                           );
                           setState(() {
                             advlist.add(advnameclass);
@@ -260,7 +262,7 @@ class _MyAdvertisementState extends State<MyAdvertisement> {
                           child: InkWell(
                               onTap: () => Navigator.pop(context),
                               child: Icon(
-                                Icons.arrow_back,
+                                Icons.arrow_back_ios,
                                 color: Colors.white,
                               )),
                         ),
@@ -342,6 +344,8 @@ class _MyAdvertisementState extends State<MyAdvertisement> {
                             advlist[index].cname,
                             advlist[index].cdep11,
                             advlist[index].cdep22,
+                            advlist[index].rating,
+                            advlist[index].custRate,
 
                           ),
                           actions: <Widget>[
@@ -383,6 +387,7 @@ class _MyAdvertisementState extends State<MyAdvertisement> {
                                     advlist[index].cdep11,
                                     advlist[index].cdep22,
                                     advlist[index].cmodel,
+                                    advlist[index].carrange,
 
                                   )),
                             );
@@ -493,8 +498,22 @@ class _MyAdvertisementState extends State<MyAdvertisement> {
       String cname,
       String cdep1,
       String cdep2,
+      String rating,
+      int custRate,
       ) {
+    var cRate = 0.0;
+    if (rating == null && custRate == null) {
+      rating = "0";
+      custRate = 0;
 
+      if (custRate > 0) {
+        cRate = double.parse(rating) / custRate;
+      }
+    }
+
+    if (custRate > 0) {
+      cRate = double.parse(rating) / custRate;
+    }
     return Padding(
       padding: const EdgeInsets.all(2.0),
       child: Card(
@@ -512,12 +531,12 @@ class _MyAdvertisementState extends State<MyAdvertisement> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => AdvProlile(cId, chead, cname)));
+                      builder: (context) => AdvProlile(cId, chead, cname,cRate)));
             } else {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => AdvProlile(cId, chead, cname)));
+                      builder: (context) => AdvProlile(cId, chead, cname,cRate)));
             }
           },
           child: Container(

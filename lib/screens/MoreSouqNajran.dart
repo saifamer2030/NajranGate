@@ -11,6 +11,7 @@ import 'package:NajranGate/screens/SmsForUser/SmsForUserPage.dart';
 import 'package:NajranGate/screens/personal_page.dart';
 import 'package:NajranGate/screens/privcy_policy.dart';
 import 'package:NajranGate/screens/loginphone.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'advprofile.dart';
 import 'loginmail.dart';
@@ -179,61 +180,61 @@ class _MoreSouqNajranState extends State<MoreSouqNajran> {
                           ),
                           InkWell(
                             onTap: () {
-                            if(_userId == null){
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          LoginScreen2(widget.regionlist)));
-                            }else{
-                              if (_userId != null &&
-                                  _cType != null ) {
+                              if (_userId == null) {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            MyAdvertisement(widget.regionlist)));
+                                            SignIn(widget.regionlist)));
                               } else {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                  new CupertinoAlertDialog(
-                                    title: new Text(
-                                      "تنبية",
-                                      style: TextStyle(
+                                if (_userId != null && _cType != null) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => MyAdvertisement(
+                                              widget.regionlist)));
+                                } else {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        new CupertinoAlertDialog(
+                                      title: new Text(
+                                        "تنبية",
+                                        style: TextStyle(
 //                                      fontFamily: 'Estedad-Black',
-                                      ),
-                                    ),
-                                    content: new Text(
-                                      "نبغاك تخبرنا عن نوع حسابك",
-                                      style: TextStyle(
-//                                      fontFamily: 'Estedad-Black',
-                                      ),
-                                    ),
-                                    actions: [
-                                      CupertinoDialogAction(
-                                          isDefaultAction: false,
-                                          child: new FlatButton(
-                                            onPressed: () {
-                                              Navigator.pop(context, false);
-                                              Navigator.push(
-                                                  context,
-                                                  new MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          PersonalPage(widget.regionlist)));
-                                            },
-                                            child: Text(
-                                              "موافق",
-                                              style: TextStyle(
-//                                              fontFamily: 'Estedad-Black',
-                                              ),
                                             ),
-                                          )),
-                                    ],
-                                  ),
-                                );
+                                      ),
+                                      content: new Text(
+                                        "نبغاك تخبرنا عن نوع حسابك",
+                                        style: TextStyle(
+//                                      fontFamily: 'Estedad-Black',
+                                            ),
+                                      ),
+                                      actions: [
+                                        CupertinoDialogAction(
+                                            isDefaultAction: false,
+                                            child: new FlatButton(
+                                              onPressed: () {
+                                                Navigator.pop(context, false);
+                                                Navigator.push(
+                                                    context,
+                                                    new MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            PersonalPage(widget
+                                                                .regionlist)));
+                                              },
+                                              child: Text(
+                                                "موافق",
+                                                style: TextStyle(
+//                                              fontFamily: 'Estedad-Black',
+                                                    ),
+                                              ),
+                                            )),
+                                      ],
+                                    ),
+                                  );
+                                }
                               }
-                            }
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -289,7 +290,7 @@ class _MoreSouqNajranState extends State<MoreSouqNajran> {
                                     context,
                                     new MaterialPageRoute(
                                         builder: (context) =>
-                                            LoginScreen2(widget.regionlist)));
+                                            SignIn(widget.regionlist)));
                               } else {
                                 if (_cType != null) {
                                   Navigator.push(
@@ -307,8 +308,7 @@ class _MoreSouqNajranState extends State<MoreSouqNajran> {
 //                                      fontFamily: 'Estedad-Black',
                                             ),
                                       ),
-                                      content:
-                                      new Text(
+                                      content: new Text(
                                         "نبغاك تخبرنا عن نوع حسابك",
                                         style: TextStyle(
 //                                      fontFamily: 'Estedad-Black',
@@ -324,7 +324,8 @@ class _MoreSouqNajranState extends State<MoreSouqNajran> {
                                                     context,
                                                     new MaterialPageRoute(
                                                         builder: (context) =>
-                                                            PersonalPage(widget.regionlist)));
+                                                            PersonalPage(widget
+                                                                .regionlist)));
                                               },
                                               child: Text(
                                                 "موافق",
@@ -392,13 +393,14 @@ class _MoreSouqNajranState extends State<MoreSouqNajran> {
                                 Navigator.push(
                                     context,
                                     new MaterialPageRoute(
-                                        builder: (context) => PersonalPage(widget.regionlist)));
+                                        builder: (context) =>
+                                            PersonalPage(widget.regionlist)));
                               } else {
                                 Navigator.push(
                                     context,
                                     new MaterialPageRoute(
                                         builder: (context) =>
-                                            LoginScreen2(widget.regionlist)));
+                                            SignIn(widget.regionlist)));
                               }
                             },
                             child: Row(
@@ -446,7 +448,8 @@ class _MoreSouqNajranState extends State<MoreSouqNajran> {
                               Navigator.push(
                                   context,
                                   new MaterialPageRoute(
-                                      builder: (context) => CommissionNajran()));
+                                      builder: (context) =>
+                                          CommissionNajran()));
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -568,23 +571,21 @@ class _MoreSouqNajranState extends State<MoreSouqNajran> {
                           ),
                           InkWell(
                             onTap: () {
-                              if(_userId == null){
+                              if (_userId == null) {
                                 Navigator.push(
                                     context,
                                     new MaterialPageRoute(
-                                        builder: (context) => LoginScreen2(widget.regionlist)));
-                              }else{
+                                        builder: (context) =>
+                                            SignIn(widget.regionlist)));
+                              } else {
                                 Navigator.push(
                                     context,
                                     new MaterialPageRoute(
                                         builder: (context) => SmsForUserPage(
                                             SmsForUser(_userId, _cName, "", "",
                                                 _cMobile, ""))));
-
                               }
-
-
-                                                       },
+                            },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: <Widget>[
@@ -653,7 +654,7 @@ class _MoreSouqNajranState extends State<MoreSouqNajran> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          LoginScreen2(widget.regionlist)));
+                                          SignIn(widget.regionlist)));
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
@@ -707,6 +708,95 @@ class _MoreSouqNajranState extends State<MoreSouqNajran> {
                             height: .2,
                             color: Colors.grey,
                           ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20),
+                            child: Text(
+                              "تابعونا",
+                              style: TextStyle(
+//                                fontFamily: 'Estedad-Black',
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold,
+                                color: const Color(0xff171732),
+                                height: 1.0800000190734864,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    _makePhoneCall(
+                                        'https://instagram.com/najrangate?igshid=sq9voqeeqrlm');
+                                  },
+                                  child: Container(
+                                    width: 75,
+                                    height: 75,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        alignment: Alignment.center,
+                                        image: AssetImage(
+                                            "assets/images/instgram.png"),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    _makePhoneCall(
+                                        'https://www.snapchat.com/add/najran_gate2020');
+                                  },
+                                  child: Container(
+                                    width: 75,
+                                    height: 75,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        alignment: Alignment.center,
+                                        image: AssetImage(
+                                            "assets/images/snapchat.png"),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    _makePhoneCall(
+                                        "https://twitter.com/najrangate1?s=08");
+                                  },
+                                  child: Container(
+                                    width: 75,
+                                    height: 75,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        alignment: Alignment.center,
+                                        image: AssetImage(
+                                            "assets/images/twetter.png"),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    _makePhoneCall(
+                                        "https://www.youtube.com/channel/UCEX4lkGr13M5HmaBEujRqNQ");
+                                  },
+                                  child: Container(
+                                    width: 75,
+                                    height: 75,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        alignment: Alignment.center,
+                                        image: AssetImage(
+                                            "assets/images/youtup.png"),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -718,5 +808,13 @@ class _MoreSouqNajranState extends State<MoreSouqNajran> {
         ),
       ),
     );
+  }
+
+  Future<void> _makePhoneCall(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }

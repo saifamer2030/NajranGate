@@ -5,6 +5,7 @@ import 'package:NajranGate/screens/ModelsForChating/home.dart';
 import 'package:NajranGate/screens/loginmail.dart';
 import 'package:NajranGate/screens/myadvertisement.dart';
 import 'package:NajranGate/screens/splash.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fimber/fimber_base.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -19,6 +20,7 @@ import 'package:NajranGate/screens/myalarms.dart';
 import 'package:NajranGate/screens/myfavourits.dart';
 import 'package:NajranGate/screens/personal_page.dart';
 import 'package:NajranGate/screens/loginphone.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:toast/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -403,7 +405,13 @@ class _Fragment1SouqState extends State<FragmentSouq1> {
                                     radius: BorderRadius.circular(0.0),
                                   ),
                                 ],
-                                image: Image.network(ImageUrl),
+                                image: CachedNetworkImage(
+                                  imageUrl: ImageUrl,
+                                  placeholder: (context, url) => SpinKitCircle(
+                                      color: const Color(0xff171732)),
+                                  errorWidget: (context, url, error) =>
+                                      Icon(Icons.error),
+                                ),
                               ).show()
                             : Container();
                         currentScreen = AllAdvertesmenta(widget
@@ -473,7 +481,9 @@ class _Fragment1SouqState extends State<FragmentSouq1> {
       _serialiseAndNavigate(notification);
       return;
     },
-//        onBackgroundMessage: Platform.isIOS ? null : myBackgroundMessageHandler,
+
+        // onBackgroundMessage: Platform.isIOS ? null : myBackgroundMessageHandler,
+
         onLaunch: (Map<String, dynamic> message) {
       print('onLaunch: $message');
       final notification = message['data'];
@@ -522,7 +532,7 @@ class _Fragment1SouqState extends State<FragmentSouq1> {
   }
 
   // ignore: missing_return
-  void _serialiseAndNavigate( dynamic message) {
+  void _serialiseAndNavigate(dynamic message) {
     var notificationData = message['notification'];
     var view = notificationData['view'];
     print("#########$view");
@@ -578,7 +588,8 @@ class _Fragment1SouqState extends State<FragmentSouq1> {
     if (payload['view'] == "chat") {
       await Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => FragmentSouq1(widget.regionlist)),
+        MaterialPageRoute(
+            builder: (context) => FragmentSouq1(widget.regionlist)),
       );
     }
   }
@@ -624,7 +635,8 @@ class _MyFloatingButtonState extends State<MyFloatingButton> {
               FirebaseAuth.instance.currentUser().then((user) => user == null
                   ? Navigator.of(context, rootNavigator: false).push(
                       MaterialPageRoute(
-                          builder: (context) => LoginScreen2(widget.regionlist),
+                          builder: (context) => SignIn
+                            (widget.regionlist),
                           maintainState: false))
                   : setState(() {
                       var sheetController = showBottomSheet(

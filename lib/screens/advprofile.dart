@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:NajranGate/screens/UserRating/RatingClass.dart';
+import 'package:NajranGate/screens/UserRating/UserRatingPage.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -12,6 +14,7 @@ import 'package:NajranGate/classes/AdvNameClass.dart';
 import 'package:NajranGate/classes/CommentClass.dart';
 import 'package:NajranGate/screens/splash.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 //import 'package:simple_slider/simple_slider.dart';
@@ -26,8 +29,9 @@ class AdvProlile extends StatefulWidget {
   String cId;
   String cDateID;
   String cName;
+  var cRate;
 
-  AdvProlile(this.cId, this.cDateID, this.cName);
+  AdvProlile(this.cId, this.cDateID, this.cName, this.cRate);
 
   @override
   _AdvProlileState createState() => _AdvProlileState();
@@ -42,6 +46,7 @@ class _AdvProlileState extends State<AdvProlile> {
   var _controller = ScrollController();
   bool favcheck = false;
   Map map = Map<String, Uint8List>();
+  bool presscheck = false;
 
   //List<OrderDetailClass> orderlist = [];
   List<CommentClass> commentlist = [];
@@ -58,13 +63,20 @@ class _AdvProlileState extends State<AdvProlile> {
 
   Future onSelectNotification(String payload) async {
     if (payload != null) {
-      //  print('notification payload: ' + payload.split(",")[0]+payload.split(",")[1]+payload.split(",")[2]);
+      print('notification payload: ' +
+          payload.split(",")[0] +
+          payload.split(",")[1] +
+          payload.split(",")[2]);
       await Navigator.push(
         context,
         new MaterialPageRoute(
-            builder: (context) => new AdvProlile(payload.split(",")[0],
-                payload.split(",")[1], payload.split(",")[2])),
+            builder: (context) => new AdvProlile(
+                payload.split(",")[0],
+                payload.split(",")[1],
+                payload.split(",")[2],
+               0.0)),
       );
+      return;
     }
 //
 //    await Navigator.push(
@@ -76,8 +88,19 @@ class _AdvProlileState extends State<AdvProlile> {
   }
 
   showNotification(date1, title, _userId, head, name) async {
+    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    var android = AndroidInitializationSettings('@drawable/ic_lancher');
+    var ios = IOSInitializationSettings();
+    var initSettings = InitializationSettings(android, ios);
+    flutterLocalNotificationsPlugin.initialize(
+      initSettings,
+      onSelectNotification: onSelectNotification,
+    );
+    ///////////////////
     DateTime scheduledNotificationDateTime =
-        DateTime.now() /*parse('$date1')*/ .add(new Duration(seconds: 5));
+        DateTime.parse('$date1').add(new Duration(days: -15));
+    //  DateTime.now()/*parse('$date1')*/.add(new Duration(seconds: 5));
+//print("scheduledNotificationDateTime:$scheduledNotificationDateTime");
     //   DateTime scheduledNotificationDateTime = DateTime.now();
 
 //    DateTime scheduledNotificationDateTime = new DateTime(
@@ -103,11 +126,11 @@ class _AdvProlileState extends State<AdvProlile> {
 //        context,
 //        duration: Toast.LENGTH_SHORT,
 //        gravity: Toast.BOTTOM);
-
+// print("ddd${advnNameclass.carrange-}");
     await flutterLocalNotificationsPlugin.schedule(
-        111,
+        advnNameclass.carrange - 202000000000,
         'تذكير بحذف الاعلان',
-        'عزيزى العميل سيتم حذف اعلان $title غدا يرجى عمل تمديد له',
+        'عزيزى العميل سيتم حذف اعلان $title بعد اسبوعين يرجى عمل تمديد له',
         scheduledNotificationDateTime,
         platformChannelSpecifics,
         payload: "$_userId,$head,$name");
@@ -115,17 +138,15 @@ class _AdvProlileState extends State<AdvProlile> {
   }
 
   @override
+  void dispose() {
+    // flutterLocalNotificationsPlugin.cancelAll();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
 
-    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-    var android = AndroidInitializationSettings('@drawable/ic_lancher');
-    var ios = IOSInitializationSettings();
-    var initSettings = InitializationSettings(android, ios);
-    flutterLocalNotificationsPlugin.initialize(
-      initSettings,
-      onSelectNotification: onSelectNotification,
-    );
     final userdatabaseReference =
         FirebaseDatabase.instance.reference().child("userdata");
     final commentdatabaseReference = FirebaseDatabase.instance
@@ -222,6 +243,8 @@ class _AdvProlileState extends State<AdvProlile> {
                   DATA['carrange'],
                   DATA['consoome'],
                   DATA['cmodel'],
+                  DATA['rating'],
+                  DATA['custRate'],
                 );
                 _imageUrls = DATA['curilist']
                     .replaceAll(" ", "")
@@ -321,6 +344,8 @@ class _AdvProlileState extends State<AdvProlile> {
                   DATA['carrange'],
                   DATA['consoome'],
                   DATA['cmodel'],
+                  DATA['rating'],
+                  DATA['custRate'],
                 );
                 _imageUrls = DATA['curilist']
                     .replaceAll(" ", "")
@@ -371,7 +396,7 @@ class _AdvProlileState extends State<AdvProlile> {
                       height: 20,
                       alignment: Alignment.bottomLeft,
                       child: Icon(
-                        Icons.arrow_back,
+                        Icons.arrow_back_ios,
                         color: Colors.white,
                       ),
                     ),
@@ -677,40 +702,77 @@ class _AdvProlileState extends State<AdvProlile> {
                                   ),
                                 ),
                                 Positioned(
+                                  top: 65,
+                                  right: 140,
+                                  child: SmoothStarRating(
+                                      allowHalfRating: false,
+                                      onRated: (v) {
+//                                        rating = v;
+                                        setState(() {});
+                                      },
+                                      starCount: 5,
+                                      rating: widget.cRate,
+                                      //setting value
+                                      size: 15.0,
+                                      color: Colors.amber,
+                                      borderColor: Colors.grey,
+                                      spacing: 0.0),
+                                ),
+                                Positioned(
                                   top: 20,
                                   right: 5,
                                   child: Padding(
                                     padding: const EdgeInsets.all(5.0),
-                                    child: Row(
-                                      children: <Widget>[
-                                        advnNameclass == null
-                                            ? Text("")
-                                            : Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 8.0),
-                                                child: widget.cName == null
-                                                    ? Text("اسم غير معلوم")
-                                                    : Text(
-                                                        "المالك: ${widget.cName}",
-                                                        textDirection:
-                                                            TextDirection.rtl,
-                                                        textAlign:
-                                                            TextAlign.right,
-                                                        style: TextStyle(
-                                                            fontSize: 15.0,
-                                                            color: const Color(
-                                                                0xff171732),
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  UserRatingPage([""],Rating(widget.cId,"",""))),
+                                        );
+                                      },
+                                      child: Row(
+                                        children: <Widget>[
+                                          advnNameclass == null
+                                              ? Text("")
+                                              : Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 8.0),
+                                                  child: widget.cName == null
+                                                      ? Text("اسم غير معلوم")
+                                                      : Text(
+                                                          "المالك: ${widget.cName}",
+                                                          textDirection:
+                                                              TextDirection.rtl,
+                                                          textAlign:
+                                                              TextAlign.right,
+                                                          style: TextStyle(
+                                                              fontSize: 17.0,
+                                                              color:
+                                                                  Colors.blue,
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .underline,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              /*const Color(
+                                                      0xff171732)*/
 //                                                      fontFamily:
 //                                                          'Gamja Flower',
-                                                            fontStyle: FontStyle
-                                                                .normal),
-                                                      ),
-                                              ),
-                                        Icon(
-                                          Icons.person,
-                                          color: const Color(0xff171732),
-                                        ),
-                                      ],
+                                                              fontStyle:
+                                                                  FontStyle
+                                                                      .normal),
+                                                        ),
+                                                ),
+                                          Icon(
+                                            Icons.person,
+                                            color: const Color(0xff171732),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -804,7 +866,6 @@ class _AdvProlileState extends State<AdvProlile> {
                                     padding: const EdgeInsets.all(5.0),
                                     child: Row(
                                     children: <Widget>[
-
                                     advnNameclass==null?Text(""):
                                     Padding(
                                     padding: const EdgeInsets.only(top:8.0),
@@ -899,77 +960,82 @@ class _AdvProlileState extends State<AdvProlile> {
                                       ),
                                     ],
                                   ),
-
                                   textColor: Colors.white,
                                   color: const Color(0xff171732),
                                   onPressed: () {
-                                    DateTime startdate =
-                                        DateTime.parse(advnNameclass.cdate);
-                                    var newdate =
-                                        startdate.add(new Duration(days: 21));
-                                    DateTime now = DateTime.now();
-                                    var permissiondate =
-                                        startdate.add(new Duration(days: 10));
-
-                                    String b = newdate.month.toString();
-                                    if (b.length < 2) {
-                                      b = "0" + b;
-                                    }
-                                    String c = newdate.day.toString();
-                                    if (c.length < 2) {
-                                      c = "0" + c;
-                                    }
-                                    String d = newdate.hour.toString();
-                                    if (d.length < 2) {
-                                      d = "0" + d;
-                                    }
-                                    String e = newdate.minute.toString();
-                                    if (e.length < 2) {
-                                      e = "0" + e;
-                                    }
-                                    String date1 =
-                                        '${newdate.year}-${b}-${c} ${d}:${e}:00';
-
-                                    if (_userId == null) {
+                                    if (presscheck) {
                                       Toast.show(
-                                          "ابشر .. سجل دخول الاول طال عمرك",
+                                          "لا يمكن التمديد الان. حاول مرة اخرى...",
                                           context,
                                           duration: Toast.LENGTH_LONG,
                                           gravity: Toast.BOTTOM);
                                     } else {
-//                                      if (now.isAfter(permissiondate)) {
-                                      final advdatabaseReference =
-                                          FirebaseDatabase.instance
-                                              .reference()
-                                              .child("advdata");
-                                      advdatabaseReference
-                                          .child(widget.cId)
-                                          .child(widget.cDateID)
-                                          .update({
-                                        "cdate": date1,
-                                      }).then((_) {
-                                        setState(() {
-                                          advnNameclass.cdate = date1;
-                                          showNotification(
-                                              date1,
-                                              advnNameclass.ctitle,
-                                              advnNameclass.cId,
-                                              advnNameclass.chead,
-                                              _username);
-
-                                          Toast.show(
-                                              "$date1تم التمديد الى ", context,
-                                              duration: Toast.LENGTH_LONG,
-                                              gravity: Toast.BOTTOM);
+                                      presscheck = true;
+                                      DateTime startdate =
+                                          DateTime.parse(advnNameclass.cdate);
+                                      var newdate =
+                                          startdate.add(new Duration(days: 60));
+                                      // var permissiondate =
+                                      // startdate.add(new Duration(days: -20));
+                                      DateTime now = DateTime.now();
+                                      String b = newdate.month.toString();
+                                      if (b.length < 2) {
+                                        b = "0" + b;
+                                      }
+                                      String c = newdate.day.toString();
+                                      if (c.length < 2) {
+                                        c = "0" + c;
+                                      }
+                                      String d = newdate.hour.toString();
+                                      if (d.length < 2) {
+                                        d = "0" + d;
+                                      }
+                                      String e = newdate.minute.toString();
+                                      if (e.length < 2) {
+                                        e = "0" + e;
+                                      }
+                                      String date1 =
+                                          '${newdate.year}-${b}-${c} ${d}:${e}:00';
+                                      if (_userId == null) {
+                                        Toast.show(
+                                            "ابشر .. سجل دخول الاول طال عمرك",
+                                            context,
+                                            duration: Toast.LENGTH_LONG,
+                                            gravity: Toast.BOTTOM);
+                                      } else {
+                                        // if (now.isAfter(permissiondate)) {
+                                        final advdatabaseReference =
+                                            FirebaseDatabase.instance
+                                                .reference()
+                                                .child("advdata");
+                                        advdatabaseReference
+                                            .child(widget.cId)
+                                            .child(widget.cDateID)
+                                            .update({
+                                          "cdate": date1,
+                                        }).then((_) {
+                                          setState(() {
+                                            advnNameclass.cdate = date1;
+                                            showNotification(
+                                                date1,
+                                                advnNameclass.ctitle,
+                                                advnNameclass.cId,
+                                                advnNameclass.chead,
+                                                _username);
+                                            Toast.show("$date1تم التمديد الى ",
+                                                context,
+                                                duration: Toast.LENGTH_LONG,
+                                                gravity: Toast.BOTTOM);
+                                          });
                                         });
-                                      });
-//                                      } else {
-//                                        Toast.show(
-//                                            "يمكنك التجديد بعد مرور 10 ايام من موعد التجديد الاول او انتظار الاشعار",
-//                                            context,
-//                                            duration: Toast.LENGTH_LONG,
-//                                            gravity: Toast.BOTTOM);
-//                                      }
+                                        // } else {
+                                        //   Toast.show(
+                                        //       "يمكنك التجديد بعد مرور 10 ايام من موعد التجديد الاول او انتظار الاشعار",
+                                        //       context,
+                                        //       duration: Toast.LENGTH_LONG,
+                                        //       gravity: Toast.BOTTOM);
+                                        // }
+                                      }
                                     }
                                   },
 //
@@ -1000,7 +1066,6 @@ class _AdvProlileState extends State<AdvProlile> {
                                       ),
                                     ],
                                   ),
-
                                   textColor: Colors.white,
                                   color: const Color(0xff171732),
                                   onPressed: () {
@@ -1078,7 +1143,6 @@ class _AdvProlileState extends State<AdvProlile> {
                                     );
                                   }
                                 },
-
 //
                                 shape: new RoundedRectangleBorder(
                                     borderRadius:
@@ -1139,11 +1203,9 @@ class _AdvProlileState extends State<AdvProlile> {
                           InkWell(
                             onTap: () {
                               DateTime now = DateTime.now();
-
                               // String date1 ='${now.year}-${now.month}-${now.day}';// ${now.hour}:${now.minute}:00.000';
                               String date =
                                   '${now.year}-${now.month}-${now.day}-${now.hour}-${now.minute}-00';
-
                               if (_userId != null) {
                                 showDialog(
                                   context: context,
@@ -1314,7 +1376,6 @@ class _AdvProlileState extends State<AdvProlile> {
                                                     return 'ابشر .. لكن اكتب تعليق الاول طال عمرك';
                                                   }
                                                 },
-
                                                 onChanged: (value) {},
                                                 //  controller: controller,
                                                 decoration: InputDecoration(
@@ -1323,7 +1384,6 @@ class _AdvProlileState extends State<AdvProlile> {
                                                         fontSize: 15.0),
                                                     labelText: "التعليق",
                                                     // hintText: "التعليق",
-
 //                                prefixIcon: Icon(
 //                                  Icons.phone_iphone,
 //                                  color: Colors.pinkAccent,
@@ -1361,11 +1421,9 @@ class _AdvProlileState extends State<AdvProlile> {
                                                     duration: Toast.LENGTH_LONG,
                                                     gravity: Toast.BOTTOM);
                                               }
-
 //                                                setState(() {
 //                                                  _load2 = true;
 //                                                });
-
                                             }
                                           } else {
                                             Toast.show(
@@ -1425,7 +1483,6 @@ class _AdvProlileState extends State<AdvProlile> {
         FirebaseDatabase.instance.reference().child("Alarm").child(widget.cId);
     setState(() {
       DateTime now = DateTime.now();
-
       // String date1 ='${now.year}-${now.month}-${now.day}';// ${now.hour}:${now.minute}:00.000';
       String date =
           '${now.year}-${now.month}-${now.day}-${now.hour}-${now.minute}-00';
@@ -1460,7 +1517,6 @@ class _AdvProlileState extends State<AdvProlile> {
           commentlist.insert(0, commentclass);
           _commentController.text = "";
           //      var cursor = (5/commentlist.length)* _controller.position.maxScrollExtent;//specific item
-
           // _controller.animateTo(
           //   // NEW
           //   _controller.position.maxScrollExtent * 2, // NEW
@@ -1468,12 +1524,11 @@ class _AdvProlileState extends State<AdvProlile> {
           //   curve: Curves.ease, // NEW
           // );
         });
-
         databasealarm.push().set({
           'alarmid': databasealarm.push().key,
           'wid': widget.cId,
           'Name': _username == null ? "لا يوجد اسم" : _username,
-          'cType': "Comment",
+          'cType': "chat",
           'chead': widget.cDateID,
           'cDate': "${now.year.toString()}-${b}-${c} ${d}:${e}:${f}",
           'arrange': int.parse("${now.year.toString()}${b}${c}${d}${e}${f}")
@@ -1503,7 +1558,6 @@ class _AdvProlileState extends State<AdvProlile> {
 //            );
 //          });
         });
-
         //  _controller.animateTo(0.0,curve: Curves.easeInOut, duration: Duration(seconds: 1));
       }).catchError((e) {
         Toast.show(e, context,
@@ -1526,7 +1580,6 @@ class _AdvProlileState extends State<AdvProlile> {
 //          }
 //        });
 //      });
-
     // })
     // );
   }

@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:NajranGate/classes/DepartmentClass.dart';
 import 'package:NajranGate/screens/personal_page.dart';
@@ -247,8 +249,10 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
         child: ListTile(
         leading: Container(
           width: 50,
-          child: new Image.network(
-            curi,
+          child: new CachedNetworkImage(
+            imageUrl: curi,
+            placeholder: (context, url) => SpinKitCircle(color: const Color(0xff171732)),
+            errorWidget: (context, url, error) => Icon(Icons.error),
             fit: BoxFit.cover,
           ),
         ),

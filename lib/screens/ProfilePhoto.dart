@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,12 +8,16 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:NajranGate/classes/CityClass.dart';
 import 'package:NajranGate/screens/loginphone.dart';
+import 'package:photo_view/photo_view.dart';
+import 'package:photo_view/photo_view_gallery.dart';
 
 import '../FragmentSouqNajran.dart';
 
 class ProfilePhoto extends StatefulWidget {
   List<String> imageUrls;
+
   ProfilePhoto(this.imageUrls);
+
   @override
   _ProfilePhotoState createState() => _ProfilePhotoState();
 }
@@ -25,88 +30,105 @@ class _ProfilePhotoState extends State<ProfilePhoto> {
       body: Stack(
         children: <Widget>[
           Container(
-              //color: Colors.grey[200],
+            //color: Colors.grey[200],
 //          width: 300,
 //          height: 200,
-              child: widget.imageUrls == null
-                  ? SpinKitThreeBounce(
-                      size: 35,
-                      color: const Color(0xff171732),
-                    )
-                  :    Swiper(
-                loop: false,
-                duration: 1000,
-                autoplay: false,
-                autoplayDelay: 15000,
-                itemCount: widget.imageUrls.length,
-                pagination: new SwiperPagination(
-                  margin: new EdgeInsets.fromLTRB(
-                      0.0, 0.0, 0.0, 0.0),
-                  builder:
-                  new DotSwiperPaginationBuilder(
-                      color: Colors.grey,
-                      activeColor:
-                      const Color(0xff171732),
-                      size: 8.0,
-                      activeSize: 8.0),
-                ),
-                control: new SwiperControl(),
-                viewportFraction: 1,
-                scale: 0.1,
-                outer: true,
-                itemBuilder:
-                    (BuildContext context, int index) {
-                  return Image.network(
-                      widget.imageUrls[index],
-                      fit: BoxFit.contain, loadingBuilder:
-                      (BuildContext context,
-                      Widget child,
-                      ImageChunkEvent
-                      loadingProgress) {
-                    if (loadingProgress == null)
-                      return child;
-                    return SpinKitThreeBounce(
-                      color: const Color(0xff171732),
-                      size: 35,
-                    );
-                  });
-                },
+            child: widget.imageUrls == null
+                ? SpinKitThreeBounce(
+                    size: 35,
+                    color: const Color(0xff171732),
+                  )
+                :PhotoViewGallery.builder(
+              itemCount: widget.imageUrls.length,
+              builder: (context, index) {
+                return PhotoViewGalleryPageOptions(
+                  imageProvider: NetworkImage(widget.imageUrls[index]),
+                  minScale: PhotoViewComputedScale.contained * 0.8,
+                  maxScale: PhotoViewComputedScale.covered * 2,
+                );
+              },
+              scrollPhysics: BouncingScrollPhysics(),
+              backgroundDecoration: BoxDecoration(
+                color: Theme.of(context).canvasColor,
               ),
-              // Swiper(
-              //         loop: true,
-              //         duration: 1000,
-              //         autoplay: false,
-              //         autoplayDelay: 15000,
-              //         itemCount: widget.imageUrls.length,
-              //         pagination: new SwiperPagination(
-              //           margin: new EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-              //           builder: new DotSwiperPaginationBuilder(
-              //               color: Colors.grey,
-              //               activeColor: const Color(0xff171732),
-              //               size: 8.0,
-              //               activeSize: 8.0),
-              //         ),
-              //         control: new SwiperControl(),
-              //         viewportFraction: 1,
-              //         scale: 0.1,
-              //         outer: true,
-              //         // itemBuilder: (BuildContext context, int index) {
-              //         //   return InteractiveViewer(
-              //         //     minScale: 0.1,
-              //         //     maxScale: 8.6,
-              //         //     child: Image.network(widget.imageUrls[index],
-              //         //         fit: BoxFit.contain, loadingBuilder:
-              //         //             (BuildContext context, Widget child,
-              //         //                 ImageChunkEvent loadingProgress) {
-              //         //       if (loadingProgress == null) return child;
-              //         //       return SpinKitThreeBounce(
-              //         //         color: const Color(0xff171732),
-              //         //         size: 35,
-              //         //       );
-              //         //     }),
-              //         //   );
-              //         // },
-              //       )
+              loadingChild: Center(
+                child:   SpinKitCircle(
+                    color: const Color(0xff171732)),
+              ),
+              loadFailedChild: Icon(Icons.cancel),
+            ),
+
+
+//            Swiper(
+//                    loop: false,
+//                    duration: 1000,
+//                    autoplay: false,
+//                    autoplayDelay: 15000,
+//                    itemCount: widget.imageUrls.length,
+//                    pagination: new SwiperPagination(
+//                      margin: new EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+//                      builder: new DotSwiperPaginationBuilder(
+//                          color: Colors.grey,
+//                          activeColor: const Color(0xff171732),
+//                          size: 8.0,
+//                          activeSize: 8.0),
+//                    ),
+//                    control: new SwiperControl(),
+//                    viewportFraction: 1,
+//                    scale: 0.1,
+//                    outer: false,
+//                    itemBuilder: (BuildContext context, int index) {
+//                      return InteractiveViewer(
+//                        minScale: 0.1,
+//                        maxScale: 8.6,
+//                        child: Image.network(widget.imageUrls[index],
+//                            fit: BoxFit.contain, loadingBuilder:
+//                                (BuildContext context, Widget child,
+//                                    ImageChunkEvent loadingProgress) {
+//                          if (loadingProgress == null) return child;
+//                          return SpinKitThreeBounce(
+//                            color: const Color(0xff171732),
+//                            size: 35,
+//                          );
+//                        }),
+//                      );
+//                    },
+//                  ),
+            // Swiper(
+            //         loop: true,
+            //         duration: 1000,
+            //         autoplay: false,
+            //         autoplayDelay: 15000,
+            //         itemCount: widget.imageUrls.length,
+            //         pagination: new SwiperPagination(
+            //           margin: new EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+            //           builder: new DotSwiperPaginationBuilder(
+            //               color: Colors.grey,
+            //               activeColor: const Color(0xff171732),
+            //               size: 8.0,
+            //               activeSize: 8.0),
+            //         ),
+            //         control: new SwiperControl(),
+            //         viewportFraction: 1,
+            //         scale: 0.1,
+            //         outer: true,
+            //         // itemBuilder: (BuildContext context, int index) {
+            //         //   return InteractiveViewer(
+            //         //     minScale: 0.1,
+            //         //     maxScale: 8.6,
+            //         //     child: Image.network(widget.imageUrls[index],
+            //         //         fit: BoxFit.contain, loadingBuilder:
+            //         //             (BuildContext context, Widget child,
+            //         //                 ImageChunkEvent loadingProgress) {
+            //         //       if (loadingProgress == null) return child;
+            //         //       return SpinKitThreeBounce(
+            //         //         color: const Color(0xff171732),
+            //         //         size: 35,
+            //         //       );
+            //         //     }),
+            //         //   );
+            //         // },
+            //       )
           ),
           Column(
             children: <Widget>[
@@ -122,7 +144,7 @@ class _ProfilePhotoState extends State<ProfilePhoto> {
                     child: InkWell(
                         onTap: () => Navigator.pop(context),
                         child: Icon(
-                          Icons.arrow_back,
+                          Icons.arrow_back_ios,
                           color: Colors.white,
                         )),
                   ),
@@ -134,8 +156,8 @@ class _ProfilePhotoState extends State<ProfilePhoto> {
               Transform.translate(
                 offset: Offset(0.0, -42.0),
                 child:
-                // Adobe XD layer: 'logoBox' (shape)
-                Center(
+                    // Adobe XD layer: 'logoBox' (shape)
+                    Center(
                   child: Container(
                     width: 166.0,
                     height: 60.0,
@@ -161,7 +183,6 @@ class _ProfilePhotoState extends State<ProfilePhoto> {
               ),
             ],
           ),
-
         ],
       ),
     );

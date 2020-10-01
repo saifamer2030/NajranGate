@@ -66,7 +66,7 @@ class _LoginScreen2State extends State<LoginScreen2> {
                       child: InkWell(
                           onTap: () => Navigator.pop(context),
                           child: Icon(
-                            Icons.arrow_back,
+                            Icons.arrow_back_ios,
                             color: Colors.white,
                           )),
                     ),

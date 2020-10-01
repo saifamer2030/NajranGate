@@ -36,7 +36,7 @@ exports.sendAlarmNotification = functions.database.ref('/Alarm/{recieverUid}/{pu
             notification:{
                 // title : `رسالة جديدة من ${sen.val()}`,
                 title : `بوابة نجران - لديك اشعار جديد`,
-                body : `${sen.val()} - ${msg.val()}`,
+                body : `لديك ${msg.val()} جديد  `,
                 view : `${msg.val()}`,
                 click_action: 'FLUTTER_NOTIFICATION_CLICK',
                 badge: '1',

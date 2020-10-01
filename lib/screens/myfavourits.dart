@@ -1,4 +1,4 @@
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -14,10 +14,11 @@ import 'package:toast/toast.dart';
 import 'advprofile.dart';
 import 'loginmail.dart';
 
-
 class MyFav extends StatefulWidget {
   List<String> regionlist = [];
+
   MyFav(this.regionlist);
+
   @override
   _MyFavState createState() => _MyFavState();
 }
@@ -31,7 +32,7 @@ class _MyFavState extends State<MyFav> {
   String _userId;
 
   final databaseFav =
-  FirebaseDatabase.instance.reference().child("userFavourits");
+      FirebaseDatabase.instance.reference().child("userFavourits");
   bool isSearch = false;
   String filtter = '';
   TextEditingController searchcontroller = TextEditingController();
@@ -78,7 +79,6 @@ class _MyFavState extends State<MyFav> {
     searchcontroller.addListener(() {
       if (searchcontroller.text == '') {
         setState(() {
-
           filtter = '';
         });
       } else {
@@ -88,149 +88,142 @@ class _MyFavState extends State<MyFav> {
       }
     });
     FirebaseAuth.instance.currentUser().then((user) => user == null
-        ?
-    Navigator.of(context, rootNavigator: false).push(MaterialPageRoute(
-                                builder: (context) => LoginScreen2(widget.regionlist), maintainState: false))
+        ? Navigator.of(context, rootNavigator: false).push(MaterialPageRoute(
+            builder: (context) => SignIn(widget.regionlist),
+            maintainState: false))
         : setState(() {
             _userId = user.uid;
 
-      databaseFav
-                    .child(_userId)
+            databaseFav.child(_userId).once().then((DataSnapshot data1) {
+              var DATA1 = data1.value;
+              var keys1 = data1.value.keys;
+              print("jjjj$keys1");
+              print("jjjj$DATA1");
+
+              advlist.clear();
+              namelist.clear();
+              for (var individualkey1 in keys1) {
+                FavClass favclass = new FavClass(
+                  DATA1[individualkey1]['cId'],
+                  DATA1[individualkey1]['cChecked'],
+                  DATA1[individualkey1]['cDateID'],
+                );
+                // print("jjjj$");
+                ///////////////////////////////////
+                final advdatabaseReference =
+                    FirebaseDatabase.instance.reference().child("advdata");
+
+                advdatabaseReference
+                    .child(DATA1[individualkey1]['cId'])
+                    .child(DATA1[individualkey1]['cDateID'])
                     .once()
                     .then((DataSnapshot data1) {
-                  var DATA1 = data1.value;
-                  var keys1 = data1.value.keys;
-                  print("jjjj$keys1");
-                  print("jjjj$DATA1");
-
-                  advlist.clear();
-                  namelist.clear();
-                  for (var individualkey1 in keys1) {
-                    FavClass favclass = new FavClass(
-                      DATA1[individualkey1]['cId'],
-                      DATA1[individualkey1]['cChecked'],
-                      DATA1[individualkey1]['cDateID'],
+                  var DATA = data1.value;
+                  setState(() {
+                    AdvClass advnameclass = new AdvClass(
+                      DATA['cId'],
+                      DATA['cdate'],
+                      DATA['chead'],
+                      DATA['ctitle'],
+                      DATA['cdepart'],
+                      DATA['cregion'],
+                      DATA['cphone'],
+                      DATA['cprice'],
+                      DATA['cdetail'],
+                      DATA['cpublished'],
+                      DATA['curi'],
+                      DATA['curilist'],
+                      DATA['cagekm'],
+                      DATA['csale'],
+                      DATA['cauto'],
+                      DATA['coil'],
+                      DATA['cNew'],
+                      DATA['cno'],
+                      DATA['cdep11'],
+                      DATA['cdep22'],
+                      DATA['carrange'],
+                      DATA['consoome'],
+                      DATA['cmodel'],
                     );
-                    // print("jjjj$");
-                    ///////////////////////////////////
-                    final advdatabaseReference =FirebaseDatabase.instance.reference().child("advdata");
+                    /////////////////////////////////////
+                    DateTime now = DateTime.now();
+                    DateTime startdate = DateTime.parse("${DATA['cdate']}");
+                    var deltime = startdate.add(new Duration(days: 60));
 
-                    advdatabaseReference
-                        .child(DATA1[individualkey1]['cId']).child(DATA1[individualkey1]['cDateID'])
-                        .once()
-                        .then((DataSnapshot data1) {
-                      var DATA = data1.value;
-                      setState(() {
-                        AdvClass advnameclass = new AdvClass(
-                          DATA['cId'],
-                          DATA['cdate'],
-                          DATA['chead'],
-                          DATA['ctitle'],
-                          DATA['cdepart'],
-                          DATA['cregion'],
-                          DATA['cphone'],
-                          DATA['cprice'],
-                          DATA['cdetail'],
-                          DATA['cpublished'],
-                          DATA['curi'],
-                          DATA['curilist'],
-                          DATA['cagekm'],
-                          DATA['csale'],
-                          DATA['cauto'],
-                          DATA['coil'],
-                          DATA['cNew'],
-                          DATA['cno'],
-                          DATA['cdep11'],
-                          DATA['cdep22'],
-
-                          DATA['carrange'],
-                          DATA['consoome'],
-                          DATA['cmodel'],
-                        );
-                        /////////////////////////////////////
-                        DateTime now = DateTime.now();
-                        DateTime startdate = DateTime.parse("${DATA['cdate']}");
-                        var deltime = startdate.add(new Duration(days: 60));
-
-
-                        if (deltime.isAfter(now) ) {
-                          final userdatabaseReference =
-                          FirebaseDatabase.instance.reference().child("userdata");
-                          userdatabaseReference
-                              .child( DATA['cId'])
-                              .once()
-                              .then((DataSnapshot data1) {
-                            var DATA5 = data1.value;
+                    if (deltime.isAfter(now)) {
+                      final userdatabaseReference = FirebaseDatabase.instance
+                          .reference()
+                          .child("userdata");
+                      userdatabaseReference
+                          .child(DATA['cId'])
+                          .once()
+                          .then((DataSnapshot data1) {
+                        var DATA5 = data1.value;
+                        setState(() {
+                          UserDataClass userdata = new UserDataClass(
+                            DATA5['cName'],
+                            DATA5['cType'],
+                          );
+                          setState(() {
+                            AdvNameClass advnameclass = new AdvNameClass(
+                              DATA['cId'],
+                              DATA['cdate'],
+                              DATA['chead'],
+                              DATA['ctitle'],
+                              DATA['cdepart'],
+                              DATA['cregion'],
+                              DATA['cphone'],
+                              DATA['cprice'],
+                              DATA['cdetail'],
+                              DATA['cpublished'],
+                              DATA['curi'],
+                              DATA['curilist'],
+                              DATA['cagekm'],
+                              DATA['csale'],
+                              DATA['cauto'],
+                              DATA['coil'],
+                              DATA['cNew'],
+                              DATA['cno'],
+                              DATA['cdep11'],
+                              DATA['cdep22'],
+                              DATA5['cName'],
+                              DATA5['cType'],
+                              DATA['carrange'],
+                              DATA['consoome'],
+                              DATA['cmodel'],
+                              DATA['rating'],
+                              DATA['custRate'],
+                            );
                             setState(() {
-                              UserDataClass userdata = new UserDataClass(
-                                DATA5['cName'],
-                                DATA5['cType'],
-                              );
+                              advlist.add(advnameclass);
+                              costantList.add(advnameclass);
                               setState(() {
-                                AdvNameClass advnameclass = new AdvNameClass(
-                                  DATA['cId'],
-                                  DATA['cdate'],
-                                  DATA['chead'],
-                                  DATA['ctitle'],
-                                  DATA['cdepart'],
-                                  DATA['cregion'],
-                                  DATA['cphone'],
-                                  DATA['cprice'],
-                                  DATA['cdetail'],
-                                  DATA['cpublished'],
-                                  DATA['curi'],
-                                  DATA['curilist'],
-                                  DATA['cagekm'],
-                                  DATA['csale'],
-                                  DATA['cauto'],
-                                  DATA['coil'],
-                                  DATA['cNew'],
-                                  DATA['cno'],
-                                  DATA['cdep11'],
-                                  DATA['cdep22'],
-
-                                  DATA5['cName'],
-                                  DATA5['cType'],
-
-                                  DATA['carrange'],
-                                  DATA['consoome'],
-                                  DATA['cmodel'],
-                                );
-                                setState(() {
-                                  advlist.add(advnameclass);
-                                  costantList.add(advnameclass);
-                                  setState(() {
-                                    advlist.sort((adv1, adv2) =>
-                                        adv2.carrange.compareTo(adv1.carrange));
-
-                                  });
-                                });
+                                advlist.sort((adv1, adv2) =>
+                                    adv2.carrange.compareTo(adv1.carrange));
                               });
-
-
                             });
                           });
-
-                        }else{
-                          final databaseFav =
-                          FirebaseDatabase.instance.reference().child("userFavourits").child(_userId);
-
-                          databaseFav
-                              .child(_userId+DATA1[individualkey1]['cDateID']).remove();
-
-                        }
-                        //////////////////////////////
-
-
-                        ////////////////////////////////////
+                        });
                       });
+                    } else {
+                      final databaseFav = FirebaseDatabase.instance
+                          .reference()
+                          .child("userFavourits")
+                          .child(_userId);
 
-                    });
+                      databaseFav
+                          .child(_userId + DATA1[individualkey1]['cDateID'])
+                          .remove();
+                    }
+                    //////////////////////////////
 
-                  }
+                    ////////////////////////////////////
+                  });
                 });
-           //   }
-          //  });
+              }
+            });
+            //   }
+            //  });
           }));
   }
 
@@ -240,12 +233,10 @@ class _MyFavState extends State<MyFav> {
   @override
   Widget build(BuildContext context) {
     Widget loadingIndicator = _load
-        ? new Container(
-            child:Text("لا يوجد مفضلة")
-
+        ? new Container(child: Text("لا يوجد مفضلة")
 
             //SpinKitCircle(color: const Color(0xff171732),),
-          )
+            )
         : new Container();
     TextStyle textStyle = Theme.of(context).textTheme.subtitle;
     return Scaffold(
@@ -275,23 +266,21 @@ class _MyFavState extends State<MyFav> {
           Column(
             children: <Widget>[
               Container(
-                width:  MediaQuery.of(context).size.width,
+                width: MediaQuery.of(context).size.width,
                 height: 65.0,
                 decoration: BoxDecoration(
-
                   color: const Color(0xff171732),
                 ),
               ),
               Transform.translate(
                 offset: Offset(0.0, -42.0),
                 child:
-                // Adobe XD layer: 'logoBox' (shape)
-                Center(
+                    // Adobe XD layer: 'logoBox' (shape)
+                    Center(
                   child: Container(
                     width: 166.0,
                     height: 60.0,
-                    child:
-                    Padding(
+                    child: Padding(
                       padding: const EdgeInsets.only(top: 20.0),
                       child: Text(
                         'بوابة نجران',
@@ -316,7 +305,8 @@ class _MyFavState extends State<MyFav> {
           Expanded(
               child: advlist.length == 0
                   ? Center(
-                      child:  loadingIndicator,)
+                      child: loadingIndicator,
+                    )
                   : new ListView.builder(
                       physics: BouncingScrollPhysics(),
                       controller: _controller,
@@ -345,43 +335,54 @@ class _MyFavState extends State<MyFav> {
                               advlist[index].cNew,
                               advlist[index].cno,
                               advlist[index].cname,
+                              advlist[index].rating,
+                              advlist[index].custRate,
                             ),
                             onTap: () {});
-                      })
-
-          )
+                      }))
         ],
       ),
     );
   }
 
-
-
   Widget firebasedata(
-      int position,
-      int length,
-      String cId,
-      String cdate,
-      String chead,
-      String ctitle,
-      String cdepart,
-      String cregion,
-      String cphone,
-      String cprice,
-      String cdetail,
-      bool cpublished,
-      String curi,
-      String curilist,
-      String cagekm,
-      String csale,
-      String cauto,
-      String coil,
-      String cNew,
-      String cno,
-      String cname,
+    int position,
+    int length,
+    String cId,
+    String cdate,
+    String chead,
+    String ctitle,
+    String cdepart,
+    String cregion,
+    String cphone,
+    String cprice,
+    String cdetail,
+    bool cpublished,
+    String curi,
+    String curilist,
+    String cagekm,
+    String csale,
+    String cauto,
+    String coil,
+    String cNew,
+    String cno,
+    String cname,
+    String rating,
+    int custRate,
+  ) {
+    var cRate = 0.0;
+    if (rating == null && custRate == null) {
+      rating = "0";
+      custRate = 0;
 
-      ) {
+      if (custRate > 0) {
+        cRate = double.parse(rating) / custRate;
+      }
+    }
 
+    if (custRate > 0) {
+      cRate = double.parse(rating) / custRate;
+    }
     return Padding(
       padding: const EdgeInsets.all(2.0),
       child: Card(
@@ -399,100 +400,106 @@ class _MyFavState extends State<MyFav> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => AdvProlile(cId, chead, cname)));
+                      builder: (context) =>
+                          AdvProlile(cId, chead, cname, cRate)));
             } else {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => AdvProlile(cId, chead, cname)));
+                      builder: (context) =>
+                          AdvProlile(cId, chead, cname, cRate)));
             }
           },
           child: Container(
 //            width: MediaQuery.of(context).size.width,
               child: Row(
 //                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Column(
                 children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      Container(
-                        color: Colors.white,
-                        child: Stack(
-                          children: <Widget>[
-                            Center(
-                              child: curi == "a"
-                                  ? new Image.asset(
-                                "assets/images/ic_bluecar.png",
-                              )
-                                  : new Image.network(
-                                curi,
-                                fit: BoxFit.fitHeight,
-                              ),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(2.0),
-                                color: const Color(0xff444460),
-                              ),
-                              child: Text(
-                                cdepart,
-                                textDirection: TextDirection.rtl,
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-//                                          fontFamily: 'Estedad-Black',
-                                    fontStyle: FontStyle.normal),
-                              ),
-                            ),
-                          ],
+                  Container(
+                    color: Colors.white,
+                    child: Stack(
+                      children: <Widget>[
+                        Center(
+                          child: curi == "a"
+                              ? new Image.asset(
+                                  "assets/images/ic_bluecar.png",
+                                )
+                              : new CachedNetworkImage(
+                                  imageUrl: curi,
+                                  placeholder: (context, url) => SpinKitCircle(
+                                      color: const Color(0xff171732)),
+                                  errorWidget: (context, url, error) =>
+                                      Icon(Icons.error),
+                                  fit: BoxFit.fitHeight,
+                                ),
                         ),
-                        width: 100,
-                        height: 90,
-                      ),
-                      Container(
-                          width: 100,
+                        Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(2.0),
-                            color: Colors.black12,
+                            color: const Color(0xff444460),
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 5),
-                            child: Text(
-                              "منذ: $cdate",
-                              textDirection: TextDirection.rtl,
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 10,
-//                                  fontFamily: 'Estedad-Black',
-                                  fontStyle: FontStyle.normal),
-                            ),
-                          )),
-                    ],
-                  ),
-                  Container(
-                    height: 130,
-                    child: Stack(
-                      //alignment: Alignment.bottomCenter,
-                      children: <Widget>[
-                        Positioned(
-                          top: 0,
-                          right: 0,
-                          child: Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Text(
-                              "$ctitle",
-                              textDirection: TextDirection.rtl,
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                  color: Colors.green,
-//                                  fontFamily: 'Estedad-Black',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15.0,
-                                  fontStyle: FontStyle.normal),
-                            ),
+                          child: Text(
+                            cdepart,
+                            textDirection: TextDirection.rtl,
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+//                                          fontFamily: 'Estedad-Black',
+                                fontStyle: FontStyle.normal),
                           ),
                         ),
+                      ],
+                    ),
+                    width: 100,
+                    height: 90,
+                  ),
+                  Container(
+                      width: 100,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(2.0),
+                        color: Colors.black12,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Text(
+                          "منذ: $cdate",
+                          textDirection: TextDirection.rtl,
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 10,
+//                                  fontFamily: 'Estedad-Black',
+                              fontStyle: FontStyle.normal),
+                        ),
+                      )),
+                ],
+              ),
+              Container(
+                height: 130,
+                child: Stack(
+                  //alignment: Alignment.bottomCenter,
+                  children: <Widget>[
+                    Positioned(
+                      top: 0,
+                      right: 0,
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Text(
+                          "$ctitle",
+                          textDirection: TextDirection.rtl,
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                              color: Colors.green,
+//                                  fontFamily: 'Estedad-Black',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15.0,
+                              fontStyle: FontStyle.normal),
+                        ),
+                      ),
+                    ),
 //                        cmodel != null
 //                            ? Positioned(
 //                          top: 30,
@@ -524,77 +531,78 @@ class _MyFavState extends State<MyFav> {
 //                          ),
 //                        )
 //                            : Container(),
-                        Positioned(
-                          top: 100,
-                          right: 0,
-                          child: Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  "$cregion",
-                                  textDirection: TextDirection.rtl,
-                                  textAlign: TextAlign.right,
-                                  style: TextStyle(
-//                                      fontFamily: 'Estedad-Black',
-                                      fontSize: 10.0,
-                                      fontStyle: FontStyle.normal),
-                                ),
-                                new Icon(
-                                  Icons.location_on,
-                                  color: Colors.black,
-                                  size: 15,
-                                ),
-                                SizedBox(
-                                  height: _minimumPadding,
-                                  width: _minimumPadding * 4,
-                                ),
-                                SizedBox(
-                                  height: _minimumPadding,
-                                  width: _minimumPadding,
-                                ),
-                                Text(
-                                  cname != null ? "$cname" : "اسم غير معلوم",
-                                  textDirection: TextDirection.rtl,
-                                  textAlign: TextAlign.right,
-                                  style: TextStyle(
-//                                      fontFamily: 'Estedad-Black',
-                                      fontSize: 10.0,
-                                      fontStyle: FontStyle.normal),
-                                ),
-                                new Icon(
-                                  Icons.person,
-                                  color: Colors.black,
-                                  size: 15,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                    Positioned(
+                      top: 100,
+                      right: 0,
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 0, right: 0, top: 0, bottom: 0),
-                              child: Text(
-                                "                                                                    ",
-                                textDirection: TextDirection.rtl,
-                                textAlign: TextAlign.right,
-                              ),
+                            Text(
+                              "$cregion",
+                              textDirection: TextDirection.rtl,
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+//                                      fontFamily: 'Estedad-Black',
+                                  fontSize: 10.0,
+                                  fontStyle: FontStyle.normal),
+                            ),
+                            new Icon(
+                              Icons.location_on,
+                              color: Colors.black,
+                              size: 15,
+                            ),
+                            SizedBox(
+                              height: _minimumPadding,
+                              width: _minimumPadding * 4,
+                            ),
+                            SizedBox(
+                              height: _minimumPadding,
+                              width: _minimumPadding,
+                            ),
+                            Text(
+                              cname != null ? "$cname" : "اسم غير معلوم",
+                              textDirection: TextDirection.rtl,
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+//                                      fontFamily: 'Estedad-Black',
+                                  fontSize: 10.0,
+                                  fontStyle: FontStyle.normal),
+                            ),
+                            new Icon(
+                              Icons.person,
+                              color: Colors.black,
+                              size: 15,
                             ),
                           ],
                         ),
+                      ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 0, right: 0, top: 0, bottom: 0),
+                          child: Text(
+                            "                                                                    ",
+                            textDirection: TextDirection.rtl,
+                            textAlign: TextAlign.right,
+                          ),
+                        ),
                       ],
                     ),
-                  ),
-                ],
-              )),
+                  ],
+                ),
+              ),
+            ],
+          )),
         ),
       ),
     );
   }
+
   void _onDropDownItemSelectedtype(String newValueSelected) {
     setState(() {
       this._typecurrentItemSelected = newValueSelected;

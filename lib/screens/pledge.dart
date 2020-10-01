@@ -66,7 +66,7 @@ class __pledgeState extends State<Pledge> {
                     child: InkWell(
                         onTap: () => Navigator.pop(context),
                         child: Icon(
-                          Icons.arrow_back,
+                          Icons.arrow_back_ios,
                           color: Colors.white,
                         )),
                   ),
@@ -121,41 +121,43 @@ class __pledgeState extends State<Pledge> {
                         padding: const EdgeInsets.only(right: 10.0, left: 10.0),
                         child: Column(
                           children: <Widget>[
-                            Text(
-                              " بِسْمِ اللَّـهِ الرَّحْمَـٰنِ الرَّحِيمِ",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                top: 20.0,
-                              ),
-                              child: Text(
-                                  "وَأَوْفُواْ بِعَهْدِ ٱللَّهِ إِذَا عَٰهَدتُّمْ وَلَا تَنقُضُواْ"
-                                  " ٱلْأَيْمَٰنَ بَعْدَ تَوْكِيدِهَا وَقَدْ جَعَلْتُمُ ٱللَّهَ عَلَيْكُمْ كَفِيلًا ۚإِنَّ ٱللَّهَ يَعْلَمُ مَا تَفْعَلُون\nَ",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  )),
-                            ),
-                            Text(" صِّدٍَّقٍَّ آلِّلِّهِّ آلِّعََّظِِّيِّمِِّ",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                )),
-                            Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: .5,
-                              color: Colors.grey,
-                            ),
+//                            Text(
+//                              " بِسْمِ اللَّـهِ الرَّحْمَـٰنِ الرَّحِيمِ",
+//                              style: TextStyle(
+//                                fontWeight: FontWeight.bold,
+//                              ),
+//                            ),
+//                            Padding(
+//                              padding: const EdgeInsets.only(
+//                                top: 20.0,
+//                              ),
+//                              child: Text(
+//                                  "وَأَوْفُواْ بِعَهْدِ ٱللَّهِ إِذَا عَٰهَدتُّمْ وَلَا تَنقُضُواْ"
+//                                  " ٱلْأَيْمَٰنَ بَعْدَ تَوْكِيدِهَا وَقَدْ جَعَلْتُمُ ٱللَّهَ عَلَيْكُمْ كَفِيلًا ۚإِنَّ ٱللَّهَ يَعْلَمُ مَا تَفْعَلُون\nَ",
+//                                  style: TextStyle(
+//                                    fontSize: 16,
+//                                    fontWeight: FontWeight.bold,
+//                                  )),
+//                            ),
+//                            Text(" صِّدٍَّقٍَّ آلِّلِّهِّ آلِّعََّظِِّيِّمِِّ",
+//                                style: TextStyle(
+//                                  fontWeight: FontWeight.bold,
+//                                )),
+//                            Container(
+//                              width: MediaQuery.of(context).size.width,
+//                              height: .5,
+//                              color: Colors.grey,
+//                            ),
                             Padding(
                               padding: const EdgeInsets.only(
                                 top: 10.0,
                               ),
                               child: Text(
-                                  "اتعهد واقسم بالله انا المعلن ان ادفع عمولة التطبيق وهي ١٪ من قيمة الخدمة في حالة إتمامها عن طريق التطبيق او بسبب التطبيق وان هذة العمولة هي امانة في ذمتي. ملاحظة عمولة التطبيق هي علي المعلن ولا تبرأ ذمة المعلن من العمولة إلا في حالة دفعها",
+                                  "عمولة بوابة نجران ١% في ذمة البائع في السلع أو مقدم الخدمة في الخدمات ولاتبرأ ذمته الا بدفع العمولة",
                                   style: TextStyle(
                                     fontSize: 16,
+                                    height: 2,
+                                    wordSpacing: 3.5,
                                     fontWeight: FontWeight.bold,
                                   )),
                             ),
@@ -199,9 +201,11 @@ class __pledgeState extends State<Pledge> {
                                 top: 10.0,
                               ),
                               child: Text(
-                                  "اتعهد انا المعلن ان جميع المعلومات التي اذكرها بالاعلان صحيحة وفي القسم الصحيح واتعهد بان الصور التي سوف يتم عرضها هي صور حديثة لنفس الخدمة وليست لخدمة اخري مشابهة.",
+                                  "الاشارة الى ان بوابة نجران هو سبب معرفتك عن السلعة او الخدمة في ذمة المشتري أو المستفيد.",
                                   style: TextStyle(
                                     fontSize: 16,
+                                    height: 2,
+                                    wordSpacing: 6.0,
                                     fontWeight: FontWeight.bold,
                                   )),
                             ),
@@ -245,7 +249,7 @@ class __pledgeState extends State<Pledge> {
                                 top: 10.0,
                               ),
                               child: Text(
-                                  "اتعهد انا المعلن بان اقوم بدفع العمولة خلال اقل من ١٠ ايام من تاريخ استلام كامل سعر الخدمة.",
+                                  "دفع العمولة خلال مدة اقصاها ١٠ ايام.",
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,

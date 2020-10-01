@@ -57,9 +57,9 @@ class _SplashState extends State<Splash> {
 //    _initFirebaseMessaging();
 
     Future.delayed(Duration(seconds: 0), () async {
-      try {
-        final result = await InternetAddress.lookup('google.com');
-        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+//      try {
+//        final result = await InternetAddress.lookup('google.com');
+//        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
           regiondatabaseReference = FirebaseDatabase.instance;
 //          regiondatabaseReference.setPersistenceEnabled(true);
 //          regiondatabaseReference.setPersistenceCacheSizeBytes(10000000);
@@ -88,8 +88,13 @@ class _SplashState extends State<Splash> {
             init(regionlist);
             //   print("llllllll"+regionlist.toString());
           });
-        }
-      } on SocketException catch (_) {
+//        }else{
+//          Navigator.pushReplacement(
+//              context,
+//              MaterialPageRoute(
+//                  builder: (context) => FragmentSouq1(["لا يوجد بيانات"])));
+//        }
+//      } on SocketException catch (_) {
         regiondatabaseReference = FirebaseDatabase.instance;
 //        regiondatabaseReference.setPersistenceEnabled(true);
 //        regiondatabaseReference.setPersistenceCacheSizeBytes(10000000);
@@ -121,20 +126,20 @@ class _SplashState extends State<Splash> {
               MaterialPageRoute(
                   builder: (context) => FragmentSouq1(regionlist)));
           print("llllllll" + regionlist.toString());
-        }).timeout(Duration(seconds: 0), onTimeout: () {
+        }).timeout(Duration(seconds: 3), onTimeout: () {
           setState(() {
             regionlist.length == 0
-                ? Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ConnectionScreen(regionlist)))
+                ?    Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => FragmentSouq1(["لا يوجد بيانات"])))
                 : Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                         builder: (context) => FragmentSouq1(regionlist)));
           });
         });
-      }
+//      }
     });
   }
 

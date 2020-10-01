@@ -172,7 +172,7 @@ class __PersonalPageState extends State<PersonalPage> {
                       child: InkWell(
                           onTap: () => Navigator.pop(context),
                           child: Icon(
-                            Icons.arrow_back,
+                            Icons.arrow_back_ios,
                             color: Colors.white,
                           )),
                     ),
@@ -306,17 +306,17 @@ class __PersonalPageState extends State<PersonalPage> {
                                     padding: const EdgeInsets.only(right: 8),
                                     child: Icon(Icons.phone_iphone),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 8),
-                                    child: InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            showAlertDialogphone(
-                                                context, _cMobile);
-                                          });
-                                        },
-                                        child: Icon(Icons.mode_edit)),
-                                  )
+//                                  Padding(
+//                                    padding: const EdgeInsets.only(left: 8),
+//                                    child: InkWell(
+//                                        onTap: () {
+//                                          setState(() {
+//                                            showAlertDialogphone(
+//                                                context, _cMobile);
+//                                          });
+//                                        },
+//                                        child: Icon(Icons.mode_edit)),
+//                                  )
                                 ],
                               ),
                             ),
@@ -444,7 +444,7 @@ class __PersonalPageState extends State<PersonalPage> {
   }
 
   showAlertDialogname(BuildContext context, name) {
-    nameController = TextEditingController(text: name);
+//    nameController = TextEditingController(text: name);
 
     // set up the buttons
     Widget cancelButton = FlatButton(

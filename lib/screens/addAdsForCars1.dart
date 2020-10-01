@@ -105,7 +105,7 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
      context,
      new MaterialPageRoute(
          builder: (context) =>
-         new AdvProlile(payload.split(",")[0], payload.split(",")[1], payload.split(",")[2])),
+         new AdvProlile(payload.split(",")[0], payload.split(",")[1], payload.split(",")[2],0.0)),
    );
     }
 //    await Navigator.push(
@@ -174,14 +174,6 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
             ////////////////////////
           }));
 
-    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-    var android = AndroidInitializationSettings('@drawable/ic_lancher');
-    var ios = IOSInitializationSettings();
-    var initSettings = InitializationSettings(android, ios);
-    flutterLocalNotificationsPlugin.initialize(
-      initSettings,
-      onSelectNotification: onSelectNotification,
-    );
   }
 
   /**
@@ -291,9 +283,19 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
     });
   }
 
-  showNotification(date1, title, _userId, head, name) async {
+  showNotification(date1, title, _userId, head, name,arange) async {
+
+    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    var android = AndroidInitializationSettings('@drawable/ic_lancher');
+    var ios = IOSInitializationSettings();
+    var initSettings = InitializationSettings(android, ios);
+    flutterLocalNotificationsPlugin.initialize(
+      initSettings,
+      onSelectNotification: onSelectNotification,
+    );
+
     DateTime scheduledNotificationDateTime =
-        DateTime.parse('$date1').add(new Duration(days: 45));
+    DateTime.now().add(new Duration(days: 45));
 //    DateTime scheduledNotificationDateTime = DateTime.now();
 
 //    DateTime scheduledNotificationDateTime = new DateTime(
@@ -321,7 +323,7 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
 //        gravity: Toast.BOTTOM);
 
     await flutterLocalNotificationsPlugin.schedule(
-        111,
+        arange-202000000000,
         'تذكير بحذف الاعلان',
         'عزيزى العميل سيتم حذف اعلان $title بعد اسبوعبن يرجى عمل تمديد له',
         scheduledNotificationDateTime,
@@ -361,7 +363,7 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
                       child: InkWell(
                           onTap: () => Navigator.pop(context),
                           child: Icon(
-                            Icons.arrow_back,
+                            Icons.arrow_back_ios,
                             color: Colors.white,
                           )),
                     ),
@@ -1726,8 +1728,6 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
           storageRef.child('$_userId$now.jpg').putFile(file);
       var Imageurl = await (await uploadTask.onComplete).ref.getDownloadURL();
     //  print("oooo8");
-      Toast.show("تم تحميل صورة طال عمرك", context,
-          duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
       setState(() {
         url1 = Imageurl.toString();
         urlList.add(url1);
@@ -1740,6 +1740,9 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
         createRecord(urlList);
       }
     }
+
+    Toast.show("تم تحميل الصور طال عمرك", context,
+        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
     setState(() {
       _load2 = true;
     });
@@ -1843,7 +1846,7 @@ class _AddAdsForCars1State extends State<AddAdsForCars1> {
                 _character5 = SingingCharacter5.no;
                 _value2.text = "";
               });
-              showNotification(date1, _titleController.text, _userId, idkey, _cName);
+              showNotification(date1, _titleController.text, _userId, idkey, _cName,arrange);
 
               showAlertDialog(context);
             }).catchError((e) {

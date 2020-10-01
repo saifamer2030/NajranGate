@@ -47,7 +47,7 @@ class EditAdsForCars extends StatefulWidget {
   List<String> regionlist = [];
   String cdep11;
   String cdep22;
-
+  int arrange;
   EditAdsForCars(this.position, this.length, this.cId,
   this.cdate,
   this.chead,
@@ -71,7 +71,7 @@ class EditAdsForCars extends StatefulWidget {
       this.regionlist,
       this.cdep11,
       this.cdep22,
-      this.cmodel,
+      this.cmodel,this.arrange
   );
 
   @override
@@ -128,7 +128,7 @@ class _EditAdsForCarsState extends State<EditAdsForCars> {
        context,
        new MaterialPageRoute(
            builder: (context) =>
-           new AdvProlile(payload.split(",")[0], payload.split(",")[1], payload.split(",")[2])),
+           new AdvProlile(payload.split(",")[0], payload.split(",")[1], payload.split(",")[2],0.0)),
       );
     }
 
@@ -220,6 +220,9 @@ class _EditAdsForCarsState extends State<EditAdsForCars> {
       ////////////////////////
     }));
 
+
+  }
+  showNotification(date1,title,_userId,head,name) async {
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     var android = AndroidInitializationSettings('@drawable/ic_lancher');
     var ios = IOSInitializationSettings();
@@ -228,10 +231,7 @@ class _EditAdsForCarsState extends State<EditAdsForCars> {
       initSettings,
       onSelectNotification: onSelectNotification,
     );
-  }
-  showNotification(date1,title,_userId,head,name) async {
-
-    DateTime scheduledNotificationDateTime =DateTime.parse('$date1').add(new Duration(days: 45));
+    DateTime scheduledNotificationDateTime = DateTime.now().add(new Duration(days: 45));
    // DateTime scheduledNotificationDateTime = DateTime.now();
 
 //    DateTime scheduledNotificationDateTime = new DateTime(
@@ -259,7 +259,7 @@ class _EditAdsForCarsState extends State<EditAdsForCars> {
 //        gravity: Toast.BOTTOM);
 
     await flutterLocalNotificationsPlugin.schedule(
-        111,
+        widget.arrange-202000000000,
         'تذكير بحذف الاعلان',
         'عزيزى العميل سيتم حذف اعلان $title بعد اسبوعين يرجى عمل تمديد له',
         scheduledNotificationDateTime,
@@ -454,8 +454,7 @@ print("hhhhhhhhh");
       storageRef.child('$_userId$now.jpg').putFile(file);
       var Imageurl = await (await uploadTask.onComplete).ref.getDownloadURL();
       print("oooo8");
-      Toast.show("تم تحميل صورة طال عمرك", context,
-          duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+
       setState(() {
         url1 = Imageurl.toString();
         _imageUrls.add(url1);
@@ -468,6 +467,8 @@ print("hhhhhhhhh");
         createRecord();
       }
     }
+    Toast.show("تم تحميل الصور طال عمرك", context,
+        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
     setState(() {
       _load2 = true;
     });
@@ -515,7 +516,7 @@ print("hhhhhhhhh");
                       child: InkWell(
                           onTap: () => Navigator.pop(context),
                           child: Icon(
-                            Icons.arrow_back,
+                            Icons.arrow_back_ios,
                             color: Colors.white,
                           )),
                     ),
@@ -1763,10 +1764,10 @@ print("jjjjjjjj///$_userId///${widget.chead}");
 
       }).whenComplete(() {
         //   Toast.show("تم إرسال طلبك للمراجعه بنجاح",context,duration: Toast.LENGTH_LONG,gravity:  Toast.BOTTOM);
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => MyAdvertisement(widget.regionlist)));
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (context) => MyAdvertisement(widget.regionlist)));
 
         //showInSnackBar("تم إرسال طلبك للمراجعه بنجاح");
         setState(() {

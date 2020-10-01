@@ -24,6 +24,8 @@ class AdvNameClass {
   int carrange;
   bool consoome;
   String cmodel;
+  String rating;
+  int custRate;
   AdvNameClass(
   this.cId,
   this.cdate,
@@ -50,6 +52,8 @@ class AdvNameClass {
       this.carrange,
       this.consoome,
       this.cmodel,
+      this.rating,
+      this.custRate
       );
 
 
