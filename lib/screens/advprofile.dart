@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'dart:typed_data';
-
-import 'package:NajranGate/screens/UserRating/RatingClass.dart';
-import 'package:NajranGate/screens/UserRating/UserRatingPage.dart';
+import 'package:NajranGate/screens/UserRatingForADV/RatingClass.dart';
+import 'package:NajranGate/screens/UserRatingForUser/RatingClass.dart';
+import 'package:NajranGate/screens/UserRatingForUser/UserRatingPageForUser.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -24,6 +24,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'ModelsForChating/chat.dart';
 import 'ProfilePhoto.dart';
+import 'UserRatingForADV/UserRatingPageForADV.dart';
 
 class AdvProlile extends StatefulWidget {
   String cId;
@@ -70,11 +71,8 @@ class _AdvProlileState extends State<AdvProlile> {
       await Navigator.push(
         context,
         new MaterialPageRoute(
-            builder: (context) => new AdvProlile(
-                payload.split(",")[0],
-                payload.split(",")[1],
-                payload.split(",")[2],
-               0.0)),
+            builder: (context) => new AdvProlile(payload.split(",")[0],
+                payload.split(",")[1], payload.split(",")[2], 0.0)),
       );
       return;
     }
@@ -582,41 +580,47 @@ class _AdvProlileState extends State<AdvProlile> {
                                                 .child(widget.cId +
                                                     widget.cDateID);
                                             if (favcheck) {
-                                              databaseFav.set({
-                                                'cId': widget.cId,
-                                                'FavChecked': favcheck,
-                                                'cDateID': widget.cDateID,
-                                              });
-                                              databasealarm.push().set({
-                                                'alarmid':
-                                                    databasealarm.push().key,
-                                                'wid': widget.cId,
-                                                'Name': _username == null
-                                                    ? "لا يوجد اسم"
-                                                    : _username,
-                                                'cType': "love",
-                                                'chead': widget.cDateID,
-                                                'cDate':
-                                                    "${now.year.toString()}-${b}-${c} ${d}:${e}:${f}",
-                                                'arrange': int.parse(
-                                                    "${now.year.toString()}${b}${c}${d}${e}${f}")
-                                              });
-                                              if (widget.cName == null) {
-                                                widget.cName =
-                                                    " اسم غير معلوم ";
-                                                Toast.show(
-                                                    "${widget.cName} تم اضافتة فى المفضلة  ",
-                                                    context,
-                                                    duration: Toast.LENGTH_LONG,
-                                                    gravity: Toast.BOTTOM);
+                                              if (_userId != widget.cId) {
+                                                databaseFav.set({
+                                                  'cId': widget.cId,
+                                                  'FavChecked': favcheck,
+                                                  'cDateID': widget.cDateID,
+                                                });
+                                                databasealarm.push().set({
+                                                  'alarmid':
+                                                      databasealarm.push().key,
+                                                  'wid': widget.cId,
+                                                  'Name': _username == null
+                                                      ? "لا يوجد اسم"
+                                                      : _username,
+                                                  'cType': "love",
+                                                  'chead': widget.cDateID,
+                                                  'cDate':
+                                                      "${now.year.toString()}-${b}-${c} ${d}:${e}:${f}",
+                                                  'arrange': int.parse(
+                                                      "${now.year.toString()}${b}${c}${d}${e}${f}")
+                                                });
+                                                if (widget.cName == null) {
+                                                  widget.cName =
+                                                      " اسم غير معلوم ";
+                                                  Toast.show(
+                                                      "${widget.cName} تم اضافتة فى المفضلة  ",
+                                                      context,
+                                                      duration:
+                                                          Toast.LENGTH_LONG,
+                                                      gravity: Toast.BOTTOM);
+                                                }
                                               }
                                             } else {
-                                              databaseFav.set(null);
-
-                                              Toast.show("تم الحذف فى المفضلة",
-                                                  context,
-                                                  duration: Toast.LENGTH_SHORT,
-                                                  gravity: Toast.BOTTOM);
+                                              if (_userId != widget.cId) {
+                                                databaseFav.set(null);
+                                                Toast.show(
+                                                    "تم الحذف فى المفضلة",
+                                                    context,
+                                                    duration:
+                                                        Toast.LENGTH_SHORT,
+                                                    gravity: Toast.BOTTOM);
+                                              }
                                             }
 
                                             ////////////////*************************
@@ -628,22 +632,23 @@ class _AdvProlileState extends State<AdvProlile> {
                                         child: Padding(
                                           padding: const EdgeInsets.only(
                                               top: 10.0, bottom: 10.0),
-                                          child: favcheck
-                                              ? Icon(
-                                                  Icons.favorite,
-                                                  size: 40.0,
-                                                  color: Colors.red,
-                                                )
-////
-                                              : Column(
-                                                  children: <Widget>[
-                                                    Icon(
-                                                      Icons.favorite_border,
+                                          child:
+                                              favcheck && _userId != widget.cId
+                                                  ? Icon(
+                                                      Icons.favorite,
                                                       size: 40.0,
                                                       color: Colors.red,
+                                                    )
+////
+                                                  : Column(
+                                                      children: <Widget>[
+                                                        Icon(
+                                                          Icons.favorite_border,
+                                                          size: 40.0,
+                                                          color: Colors.red,
+                                                        ),
+                                                      ],
                                                     ),
-                                                  ],
-                                                ),
                                         ),
                                       ),
                                     )),
@@ -702,21 +707,45 @@ class _AdvProlileState extends State<AdvProlile> {
                                   ),
                                 ),
                                 Positioned(
-                                  top: 65,
-                                  right: 140,
-                                  child: SmoothStarRating(
-                                      allowHalfRating: false,
-                                      onRated: (v) {
-//                                        rating = v;
-                                        setState(() {});
-                                      },
-                                      starCount: 5,
-                                      rating: widget.cRate,
-                                      //setting value
-                                      size: 15.0,
-                                      color: Colors.amber,
-                                      borderColor: Colors.grey,
-                                      spacing: 0.0),
+                                  top: 85,
+                                  right: 130,
+                                  child: InkWell(
+                                    onTap: () {
+                                      if(_userId != widget.cId){
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  UserRatingPage(
+                                                      [""],
+                                                      widget.cDateID,
+                                                      Rating(
+                                                          widget.cId, "", ""))),
+                                        );
+                                      }else{
+                                        null;
+                                      }
+
+                                    },
+                                    child: Container(
+                                      width: 80,
+                                      height: 30,
+                                      child: SmoothStarRating(
+                                          isReadOnly: true,
+//                                      allowHalfRating: false,
+//                                      onRated: (v) {
+////                                        rating = v;
+//                                        setState(() {});
+//                                      },
+                                          starCount: 5,
+                                          rating: widget.cRate,
+                                          //setting value
+                                          size: 15.0,
+                                          color: Colors.amber,
+                                          borderColor: Colors.grey,
+                                          spacing: 0.0),
+                                    ),
+                                  ),
                                 ),
                                 Positioned(
                                   top: 20,
@@ -725,12 +754,19 @@ class _AdvProlileState extends State<AdvProlile> {
                                     padding: const EdgeInsets.all(5.0),
                                     child: InkWell(
                                       onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  UserRatingPage([""],Rating(widget.cId,"",""))),
-                                        );
+                                        _userId != widget.cId
+                                            ? Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        UserRatingPageForUser(
+                                                            [""],
+                                                            RatingForUser(
+                                                                widget.cId,
+                                                                "",
+                                                                ""))),
+                                              )
+                                            : null;
                                       },
                                       child: Row(
                                         children: <Widget>[
@@ -1133,14 +1169,16 @@ class _AdvProlileState extends State<AdvProlile> {
                                         duration: Toast.LENGTH_LONG,
                                         gravity: Toast.BOTTOM);
                                   } else {
-                                    Navigator.push(
-                                      context,
-                                      new MaterialPageRoute(
-                                          builder: (BuildContext context) =>
-                                              new ChatPage(
-                                                  name: widget.cName,
-                                                  uid: widget.cId)),
-                                    );
+                                    if (_userId != widget.cId) {
+                                      Navigator.push(
+                                        context,
+                                        new MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                new ChatPage(
+                                                    name: widget.cName,
+                                                    uid: widget.cId)),
+                                      );
+                                    }
                                   }
                                 },
 //
@@ -1207,55 +1245,59 @@ class _AdvProlileState extends State<AdvProlile> {
                               String date =
                                   '${now.year}-${now.month}-${now.day}-${now.hour}-${now.minute}-00';
                               if (_userId != null) {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      new CupertinoAlertDialog(
-                                    title: new Text("تنبية"),
-                                    content: new Text(
-                                        "تبغي ترسل بلاغ إساءة لهذا الاعلان"),
-                                    actions: [
-                                      CupertinoDialogAction(
-                                          isDefaultAction: false,
-                                          child: new FlatButton(
-                                            onPressed: () {
-                                              ReferenceNotice.child(
-                                                      widget.cDateID)
-                                                  .push()
-                                                  .child(widget.cId)
-                                                  .set({
-                                                'NameUserForAdv': widget.cName,
-                                                'NameUserForReport':
-                                                    _username == null
-                                                        ? "لا يوجد اسم"
-                                                        : _username,
-                                                'DateAdv': widget.cDateID,
-                                                'DateReport': date,
-                                                'UserIdForAdv': widget.cId,
-                                                'UserIdForReport': _userId,
-                                              }).then((_) {
-                                                print(
-                                                    "##############$_username");
-                                                Toast.show(
-                                                    "ابشر ... سيتم مراجعة بلاغك",
-                                                    context,
-                                                    duration: Toast.LENGTH_LONG,
-                                                    gravity: Toast.BOTTOM);
-                                                Navigator.of(context).pop();
-                                              });
-                                            },
-                                            child: Text("موافق"),
-                                          )),
-                                      CupertinoDialogAction(
-                                          isDefaultAction: false,
-                                          child: new FlatButton(
-                                            onPressed: () =>
-                                                Navigator.pop(context),
-                                            child: Text("إلغاء"),
-                                          )),
-                                    ],
-                                  ),
-                                );
+                                if (_userId != widget.cId) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        new CupertinoAlertDialog(
+                                      title: new Text("تنبية"),
+                                      content: new Text(
+                                          "تبغي ترسل بلاغ إساءة لهذا الاعلان"),
+                                      actions: [
+                                        CupertinoDialogAction(
+                                            isDefaultAction: false,
+                                            child: new FlatButton(
+                                              onPressed: () {
+                                                ReferenceNotice.child(
+                                                        widget.cDateID)
+                                                    .push()
+                                                    .child(widget.cId)
+                                                    .set({
+                                                  'NameUserForAdv':
+                                                      widget.cName,
+                                                  'NameUserForReport':
+                                                      _username == null
+                                                          ? "لا يوجد اسم"
+                                                          : _username,
+                                                  'DateAdv': widget.cDateID,
+                                                  'DateReport': date,
+                                                  'UserIdForAdv': widget.cId,
+                                                  'UserIdForReport': _userId,
+                                                }).then((_) {
+                                                  print(
+                                                      "##############$_username");
+                                                  Toast.show(
+                                                      "ابشر ... سيتم مراجعة بلاغك",
+                                                      context,
+                                                      duration:
+                                                          Toast.LENGTH_LONG,
+                                                      gravity: Toast.BOTTOM);
+                                                  Navigator.of(context).pop();
+                                                });
+                                              },
+                                              child: Text("موافق"),
+                                            )),
+                                        CupertinoDialogAction(
+                                            isDefaultAction: false,
+                                            child: new FlatButton(
+                                              onPressed: () =>
+                                                  Navigator.pop(context),
+                                              child: Text("إلغاء"),
+                                            )),
+                                      ],
+                                    ),
+                                  );
+                                }
                               } else {
                                 Toast.show(
                                     "ابشر .. سجل دخول الاول طال عمرك", context,

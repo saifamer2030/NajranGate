@@ -66,6 +66,12 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
   FirebaseDatabase advdatabaseReference;
   FirebaseDatabase departmentsdatabaseReference;
   FirebaseDatabase departments1databaseReference;
+  Query _query;
+  FirebaseAuth _firebaseAuth;
+  String _cRating = "0";
+  int _cCustRate = 0;
+
+
   bool isSearch = false;
   String filtter = '';
   TextEditingController searchcontroller = TextEditingController();
@@ -144,6 +150,29 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
   @override
   void initState() {
     super.initState();
+    _firebaseAuth = FirebaseAuth.instance;
+//    getUserName();
+//    FirebaseAuth.instance.currentUser().then((user) => user == null
+//        ? null
+//        : setState(() {
+//      _userId = user.uid;
+//      userdatabaseReference
+//          .reference()
+//          .child("userdata")
+//          .child(_userId)
+//          .child("cType")
+//          .once()
+//          .then((DataSnapshot snapshot) {
+//        setState(() {
+//          if (snapshot.value != null) {
+//            setState(() {
+//              _userType = snapshot.value;
+//            });
+//          } else {}
+//        });
+//      });
+//    });
+
     DateTime now = DateTime.now();
     indyearlist = new List<String>.generate(
         50,
@@ -1451,7 +1480,8 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
                               advlist[index].rating,
                               advlist[index].custRate,
                             ),
-                            onTap: () {});
+                            onTap: () {
+                            });
                       }))
         ],
       ),
@@ -1488,16 +1518,12 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
     if (rating == null && custRate == null) {
       rating = "0";
       custRate = 0;
-
-      if (custRate > 0) {
-        cRate = double.parse(rating) / custRate;
-      }
     }
 
     if (custRate > 0) {
       cRate = double.parse(rating) / custRate;
     }
-
+    print("##############$custRate#############$cdepart");
     return Padding(
       padding: const EdgeInsets.all(2.0),
       child: Card(
@@ -1650,11 +1676,12 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
                         top: 90,
                         right: 10,
                         child: SmoothStarRating(
-                            allowHalfRating: false,
-                            onRated: (v) {
-//                                        rating = v;
-                              setState(() {});
-                            },
+                            isReadOnly:true,
+//                            allowHalfRating: false,
+//                            onRated: (v) {
+////                                        rating = v;
+//                              setState(() {});
+//                            },
                             starCount: 5,
                             rating: cRate,
                             //setting value
@@ -2070,6 +2097,32 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
         ),
       ),
     );
+  }
+
+  void getUserName() async {
+    FirebaseUser usr = await _firebaseAuth.currentUser();
+    if (usr != null) {
+      userdatabaseReference
+          .reference()
+          .child("userdata")
+          .child(usr.uid)
+          .once()
+          .then((DataSnapshot snapshot) {
+        Map<dynamic, dynamic> values = snapshot.value;
+//        var result = values['rating'].reduce((a, b) => a + b) / values.length;
+
+        if (values != null) {
+          /*HelperFunc.showToast("hii ${values['cName']}", Colors.red);
+          */
+          setState(() {
+            _cRating = values['rating'].toString();
+            _cCustRate = values['custRate'].hashCode;
+            print("$_cRating###########///////$_cCustRate");
+//            _userId = usr.uid;
+          });
+        }
+      });
+    }
   }
 
   void _onDropDownItemSelectedindyear(String newValueSelected) {
