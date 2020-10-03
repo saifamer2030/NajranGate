@@ -66,5 +66,13 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+    <array>
+        <string>com.arabdevelopers.souqnagran</string>
+    </array>
+    <key>UIBackgroundModes</key>
+        <array>
+                <string>audio</string>
+        </array>
 </dict>
 </plist>

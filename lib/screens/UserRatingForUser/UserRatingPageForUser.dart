@@ -20,7 +20,7 @@ class UserRatingPageForUser extends StatefulWidget {
 
 final mDatabase = FirebaseDatabase.instance.reference();
 
-final ratingReference = FirebaseDatabase.instance.reference().child('Rating');
+final ratingReference = FirebaseDatabase.instance.reference().child('RatingForUser');
 final ratingAvrageReference =
     FirebaseDatabase.instance.reference().child('userdata');
 
@@ -106,7 +106,7 @@ class _UserRatingPageForUserState extends State<UserRatingPageForUser> {
                           padding: const EdgeInsets.only(top: 50.0),
                           child: Center(
                               child: Text(
-                            "تقييمك يدعم تحسين الخدمة",
+                            "تقييمك للعضو يدعم تحسين الخدمة",
                             style: TextStyle(fontSize: 20.0),
                           )),
                         ),

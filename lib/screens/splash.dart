@@ -61,8 +61,8 @@ class _SplashState extends State<Splash> {
 //        final result = await InternetAddress.lookup('google.com');
 //        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
           regiondatabaseReference = FirebaseDatabase.instance;
-//          regiondatabaseReference.setPersistenceEnabled(true);
-//          regiondatabaseReference.setPersistenceCacheSizeBytes(10000000);
+          regiondatabaseReference.setPersistenceEnabled(true);
+          regiondatabaseReference.setPersistenceCacheSizeBytes(5000000);
 
 //          final regiondatabaseReference =
 //          FirebaseDatabase.instance.reference().child("citydatabase");

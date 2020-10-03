@@ -41,7 +41,7 @@ class _UserRatingPageState extends State<UserRatingPage> {
   @override
   void initState() {
     super.initState();
-    _query = mDatabase.child('Rating');
+    _query = mDatabase.child('RatingForADV');
     _firebaseAuth = FirebaseAuth.instance;
     getRatingAvrage();
     // ربط الايتم بالقيم
@@ -108,7 +108,7 @@ class _UserRatingPageState extends State<UserRatingPage> {
                           padding: const EdgeInsets.only(top: 50.0),
                           child: Center(
                               child: Text(
-                            "تقييمك يدعم تحسين الخدمة",
+                            "تقييمك للإعلان يدعم تحسين الخدمة",
                             style: TextStyle(fontSize: 20.0),
                           )),
                         ),

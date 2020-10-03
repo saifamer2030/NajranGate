@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:NajranGate/screens/UserRatingForADV/RatingClass.dart';
 import 'package:NajranGate/screens/UserRatingForUser/RatingClass.dart';
 import 'package:NajranGate/screens/UserRatingForUser/UserRatingPageForUser.dart';
+import 'package:NajranGate/screens/profileUserVeiw.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -48,6 +49,8 @@ class _AdvProlileState extends State<AdvProlile> {
   bool favcheck = false;
   Map map = Map<String, Uint8List>();
   bool presscheck = false;
+  FirebaseAuth _firebaseAuth;
+  FirebaseDatabase userdatabaseReference;
 
   //List<OrderDetailClass> orderlist = [];
   List<CommentClass> commentlist = [];
@@ -144,6 +147,9 @@ class _AdvProlileState extends State<AdvProlile> {
   @override
   void initState() {
     super.initState();
+
+    _firebaseAuth = FirebaseAuth.instance;
+    getUserName();
 
     final userdatabaseReference =
         FirebaseDatabase.instance.reference().child("userdata");
@@ -711,7 +717,7 @@ class _AdvProlileState extends State<AdvProlile> {
                                   right: 130,
                                   child: InkWell(
                                     onTap: () {
-                                      if(_userId != widget.cId){
+                                      if (_userId != widget.cId) {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -722,95 +728,104 @@ class _AdvProlileState extends State<AdvProlile> {
                                                       Rating(
                                                           widget.cId, "", ""))),
                                         );
-                                      }else{
+                                      } else {
                                         null;
                                       }
-
                                     },
-                                    child: Container(
-                                      width: 80,
-                                      height: 30,
-                                      child: SmoothStarRating(
-                                          isReadOnly: true,
+                                    child: _userId != widget.cId
+                                        ? Container(
+                                            width: 80,
+                                            height: 30,
+                                            child: SmoothStarRating(
+                                                isReadOnly: true,
 //                                      allowHalfRating: false,
 //                                      onRated: (v) {
 ////                                        rating = v;
 //                                        setState(() {});
 //                                      },
-                                          starCount: 5,
-                                          rating: widget.cRate,
-                                          //setting value
-                                          size: 15.0,
-                                          color: Colors.amber,
-                                          borderColor: Colors.grey,
-                                          spacing: 0.0),
-                                    ),
+                                                starCount: 5,
+                                                rating: widget.cRate,
+                                                //setting value
+                                                size: 15.0,
+                                                color: Colors.amber,
+                                                borderColor: Colors.grey,
+                                                spacing: 0.0),
+                                          )
+                                        : Container(),
                                   ),
                                 ),
                                 Positioned(
                                   top: 20,
                                   right: 5,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: InkWell(
-                                      onTap: () {
-                                        _userId != widget.cId
-                                            ? Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        UserRatingPageForUser(
-                                                            [""],
-                                                            RatingForUser(
-                                                                widget.cId,
-                                                                "",
-                                                                ""))),
-                                              )
-                                            : null;
-                                      },
-                                      child: Row(
-                                        children: <Widget>[
-                                          advnNameclass == null
-                                              ? Text("")
-                                              : Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          top: 8.0),
-                                                  child: widget.cName == null
-                                                      ? Text("اسم غير معلوم")
-                                                      : Text(
-                                                          "المالك: ${widget.cName}",
-                                                          textDirection:
-                                                              TextDirection.rtl,
-                                                          textAlign:
-                                                              TextAlign.right,
-                                                          style: TextStyle(
-                                                              fontSize: 17.0,
-                                                              color:
-                                                                  Colors.blue,
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .underline,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              /*const Color(
+                                  child: _userId != widget.cId
+                                      ? Padding(
+                                          padding: const EdgeInsets.all(5.0),
+                                          child: InkWell(
+                                            onTap: () {
+                                              _userId != widget.cId
+                                                  ? Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              profileUserVeiw(
+                                                                  widget.cId,
+                                                                  widget.cRate,
+                                                                  widget.cName,
+                                                                  cPhone)),
+                                                    )
+                                                  : null;
+                                              print(
+                                                  "@@@@@@@@@@@@@@@@@@@@@@@${widget.cId}+${widget.cRate}+${widget.cName}+${cPhone}");
+                                            },
+                                            child: Row(
+                                              children: <Widget>[
+                                                advnNameclass == null
+                                                    ? Text("")
+                                                    : Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(top: 8.0),
+                                                        child: widget.cName ==
+                                                                null
+                                                            ? Text(
+                                                                "اسم غير معلوم")
+                                                            : Text(
+                                                                "المالك: ${widget.cName}",
+                                                                textDirection:
+                                                                    TextDirection
+                                                                        .rtl,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .right,
+                                                                style:
+                                                                    TextStyle(
+                                                                        fontSize:
+                                                                            17.0,
+                                                                        color: Colors
+                                                                            .blue,
+                                                                        decoration:
+                                                                            TextDecoration
+                                                                                .underline,
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .bold,
+                                                                        /*const Color(
                                                       0xff171732)*/
 //                                                      fontFamily:
 //                                                          'Gamja Flower',
-                                                              fontStyle:
-                                                                  FontStyle
-                                                                      .normal),
-                                                        ),
+                                                                        fontStyle:
+                                                                            FontStyle.normal),
+                                                              )),
+                                                Icon(
+                                                  Icons.person,
+                                                  color:
+                                                      const Color(0xff171732),
                                                 ),
-                                          Icon(
-                                            Icons.person,
-                                            color: const Color(0xff171732),
+                                              ],
+                                            ),
                                           ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
+                                        )
+                                      : Container(),
                                 ),
                                 Positioned(
                                   top: 45,
@@ -1222,6 +1237,7 @@ class _AdvProlileState extends State<AdvProlile> {
                                         gravity: Toast.BOTTOM);
                                   } else {
                                     if (advnNameclass.cphone != null) {
+                                      cPhone == advnNameclass.cphone;
                                       _makePhoneCall(
                                           'tel:${advnNameclass.cphone}');
                                     } else {
@@ -1754,7 +1770,17 @@ class _AdvProlileState extends State<AdvProlile> {
         elevation: 10.0,
         margin: EdgeInsets.all(1),
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            _userId != commentlist[index].cuserid
+                ? Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new ChatPage(
+                            name: commentlist[index].cname,
+                            uid: commentlist[index].cuserid)),
+                  )
+                : null;
+          },
           child: Container(
               padding: EdgeInsets.all(8),
               child: Container(
@@ -1882,6 +1908,32 @@ class _AdvProlileState extends State<AdvProlile> {
         ),
       ),
     );
+  }
+
+  void getUserName() async {
+    FirebaseUser usr = await _firebaseAuth.currentUser();
+    if (usr != null) {
+      userdatabaseReference = FirebaseDatabase.instance;
+      userdatabaseReference
+          .reference()
+          .child("userdata")
+          .child(usr.uid)
+          .once()
+          .then((DataSnapshot snapshot) {
+        Map<dynamic, dynamic> values = snapshot.value;
+//        var result = values['rating'].reduce((a, b) => a + b) / values.length;
+
+        if (values != null) {
+          /*HelperFunc.showToast("hii ${values['cName']}", Colors.red);
+          */
+          setState(() {
+            cPhone = values['cPhone'].toString();
+            print("###########///////$cPhone");
+//            _userId = usr.uid;
+          });
+        }
+      });
+    }
   }
 
   Future<void> _makePhoneCall(String url) async {

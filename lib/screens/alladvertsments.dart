@@ -71,7 +71,6 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
   String _cRating = "0";
   int _cCustRate = 0;
 
-
   bool isSearch = false;
   String filtter = '';
   TextEditingController searchcontroller = TextEditingController();
@@ -188,7 +187,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
 
     departmentsdatabaseReference = FirebaseDatabase.instance;
     departmentsdatabaseReference.setPersistenceEnabled(true);
-    departmentsdatabaseReference.setPersistenceCacheSizeBytes(10000);
+    departmentsdatabaseReference.setPersistenceCacheSizeBytes(1000000);
 //
 //    final departmentsdatabaseReference =
 //        FirebaseDatabase.instance.reference().child("Departments");
@@ -277,7 +276,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
     setState(() {
       advdatabaseReference = FirebaseDatabase.instance;
       advdatabaseReference.setPersistenceEnabled(true);
-      advdatabaseReference.setPersistenceCacheSizeBytes(10000);
+      advdatabaseReference.setPersistenceCacheSizeBytes(1000000);
 
 //      final advdatabaseReference =
 //          FirebaseDatabase.instance.reference().child("advdata");
@@ -337,7 +336,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
                 /////////////////////////////////////
                 userdatabaseReference = FirebaseDatabase.instance;
                 userdatabaseReference.setPersistenceEnabled(true);
-                userdatabaseReference.setPersistenceCacheSizeBytes(10000);
+                userdatabaseReference.setPersistenceCacheSizeBytes(1000000);
 
 //                final userdatabaseReference =
 //                    FirebaseDatabase.instance.reference().child("userdata");
@@ -499,7 +498,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
               } else {
                 advdatabaseReference = FirebaseDatabase.instance;
                 advdatabaseReference.setPersistenceEnabled(true);
-                advdatabaseReference.setPersistenceCacheSizeBytes(10000);
+                advdatabaseReference.setPersistenceCacheSizeBytes(1000000);
 
 //                final advdatabaseReference =
 //                    FirebaseDatabase.instance.reference().child("advdata");
@@ -968,7 +967,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
                               departments1databaseReference
                                   .setPersistenceEnabled(true);
                               departments1databaseReference
-                                  .setPersistenceCacheSizeBytes(10000);
+                                  .setPersistenceCacheSizeBytes(1000000);
 //                                    final departments1databaseReference =
 //                                        FirebaseDatabase.instance
 //                                            .reference()
@@ -1444,45 +1443,45 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
                 )
               : Container(),
           Expanded(
-              child: advlist.length == 0
-                  ? Center(
-                      child: loadingIndicator,
-                    )
-                  : new ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      controller: _controller,
-                      itemCount: advlist.length,
-                      itemBuilder: (BuildContext ctxt, int index) {
-                        return InkWell(
-                            child: firebasedata(
-                              index,
-                              advlist.length,
-                              advlist[index].cId,
-                              advlist[index].cdate,
-                              advlist[index].chead,
-                              advlist[index].ctitle,
-                              advlist[index].cdepart,
-                              advlist[index].cregion,
-                              advlist[index].cphone,
-                              advlist[index].cprice,
-                              advlist[index].cdetail,
-                              advlist[index].cpublished,
-                              advlist[index].curi,
-                              advlist[index].curilist,
-                              advlist[index].cagekm,
-                              advlist[index].csale,
-                              advlist[index].cauto,
-                              advlist[index].coil,
-                              advlist[index].cNew,
-                              advlist[index].cno,
-                              advlist[index].cname,
-                              advlist[index].cmodel,
-                              advlist[index].rating,
-                              advlist[index].custRate,
-                            ),
-                            onTap: () {
-                            });
-                      }))
+            child: advlist.length == 0
+                ? Center(
+                    child: loadingIndicator,
+                  )
+                : new ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    controller: _controller,
+                    itemCount: advlist.length,
+                    itemBuilder: (BuildContext ctxt, int index) {
+                      return InkWell(
+                          child: firebasedata(
+                            index,
+                            advlist.length,
+                            advlist[index].cId,
+                            advlist[index].cdate,
+                            advlist[index].chead,
+                            advlist[index].ctitle,
+                            advlist[index].cdepart,
+                            advlist[index].cregion,
+                            advlist[index].cphone,
+                            advlist[index].cprice,
+                            advlist[index].cdetail,
+                            advlist[index].cpublished,
+                            advlist[index].curi,
+                            advlist[index].curilist,
+                            advlist[index].cagekm,
+                            advlist[index].csale,
+                            advlist[index].cauto,
+                            advlist[index].coil,
+                            advlist[index].cNew,
+                            advlist[index].cno,
+                            advlist[index].cname,
+                            advlist[index].cmodel,
+                            advlist[index].rating,
+                            advlist[index].custRate,
+                          ),
+                          onTap: () {});
+                    }),
+          )
         ],
       ),
     );
@@ -1676,7 +1675,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
                         top: 90,
                         right: 10,
                         child: SmoothStarRating(
-                            isReadOnly:true,
+                            isReadOnly: true,
 //                            allowHalfRating: false,
 //                            onRated: (v) {
 ////                                        rating = v;
@@ -1804,7 +1803,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
 
             departments1databaseReference = FirebaseDatabase.instance;
             departments1databaseReference.setPersistenceEnabled(true);
-            departments1databaseReference.setPersistenceCacheSizeBytes(10000);
+            departments1databaseReference.setPersistenceCacheSizeBytes(1000000);
 //            final departments1databaseReference = FirebaseDatabase.instance
 //                .reference()
 //                .child("Departments1")
