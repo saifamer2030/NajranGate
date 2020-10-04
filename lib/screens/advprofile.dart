@@ -717,20 +717,29 @@ class _AdvProlileState extends State<AdvProlile> {
                                   right: 130,
                                   child: InkWell(
                                     onTap: () {
-                                      if (_userId != widget.cId) {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  UserRatingPage(
-                                                      [""],
-                                                      widget.cDateID,
-                                                      Rating(
-                                                          widget.cId, "", ""))),
-                                        );
-                                      } else {
-                                        null;
+                                      if(_userId != null){
+                                        if (_userId != widget.cId) {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    UserRatingPage(
+                                                        [""],
+                                                        widget.cDateID,
+                                                        Rating(
+                                                            widget.cId, "", ""))),
+                                          );
+                                        } else {
+                                          null;
+                                        }
+                                      }else{
+                                        Toast.show(
+                                            "ابشر ولكن سجل في بوابة نجران اولاً",
+                                            context,
+                                            duration: Toast.LENGTH_LONG,
+                                            gravity: Toast.BOTTOM);
                                       }
+
                                     },
                                     child: _userId != widget.cId
                                         ? Container(
@@ -762,18 +771,27 @@ class _AdvProlileState extends State<AdvProlile> {
                                           padding: const EdgeInsets.all(5.0),
                                           child: InkWell(
                                             onTap: () {
-                                              _userId != widget.cId
-                                                  ? Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              profileUserVeiw(
-                                                                  widget.cId,
-                                                                  widget.cRate,
-                                                                  widget.cName,
-                                                                  cPhone)),
-                                                    )
-                                                  : null;
+                                              if(_userId != null){
+                                                _userId != widget.cId
+                                                    ? Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          profileUserVeiw(
+                                                              widget.cId,
+                                                              widget.cRate,
+                                                              widget.cName,
+                                                              cPhone)),
+                                                )
+                                                    : null;
+                                              }else{
+                                                Toast.show(
+                                                    "ابشر ولكن سجل في بوابة نجران اولاً",
+                                                    context,
+                                                    duration: Toast.LENGTH_LONG,
+                                                    gravity: Toast.BOTTOM);
+                                              }
+
                                               print(
                                                   "@@@@@@@@@@@@@@@@@@@@@@@${widget.cId}+${widget.cRate}+${widget.cName}+${cPhone}");
                                             },

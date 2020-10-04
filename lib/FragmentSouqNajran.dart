@@ -68,6 +68,7 @@ class _Fragment1SouqState extends State<FragmentSouq1> {
   @override
   void initState() {
     super.initState();
+
     _firebaseMessaging.subscribeToTopic('Alarm');
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {

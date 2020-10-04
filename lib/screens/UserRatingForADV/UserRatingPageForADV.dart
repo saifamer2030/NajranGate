@@ -41,7 +41,7 @@ class _UserRatingPageState extends State<UserRatingPage> {
   @override
   void initState() {
     super.initState();
-    _query = mDatabase.child('RatingForADV');
+    _query = mDatabase.child('Rating');
     _firebaseAuth = FirebaseAuth.instance;
     getRatingAvrage();
     // ربط الايتم بالقيم

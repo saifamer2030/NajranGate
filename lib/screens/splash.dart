@@ -58,11 +58,10 @@ class _SplashState extends State<Splash> {
 
     Future.delayed(Duration(seconds: 0), () async {
 //      try {
-//        final result = await InternetAddress.lookup('google.com');
-//        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+
           regiondatabaseReference = FirebaseDatabase.instance;
           regiondatabaseReference.setPersistenceEnabled(true);
-          regiondatabaseReference.setPersistenceCacheSizeBytes(5000000);
+//          regiondatabaseReference.setPersistenceCacheSizeBytes(1000000);
 
 //          final regiondatabaseReference =
 //          FirebaseDatabase.instance.reference().child("citydatabase");
@@ -96,8 +95,8 @@ class _SplashState extends State<Splash> {
 //        }
 //      } on SocketException catch (_) {
         regiondatabaseReference = FirebaseDatabase.instance;
-//        regiondatabaseReference.setPersistenceEnabled(true);
-//        regiondatabaseReference.setPersistenceCacheSizeBytes(10000000);
+        regiondatabaseReference.setPersistenceEnabled(true);
+//        regiondatabaseReference.setPersistenceCacheSizeBytes(1000000);
 
 //          final regiondatabaseReference =
 //          FirebaseDatabase.instance.reference().child("citydatabase");

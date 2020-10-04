@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:NajranGate/screens/loginmail.dart';
+import 'package:NajranGate/screens/privcy_policy.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -33,6 +34,7 @@ class _SignInState extends State<SignIn> {
 //  var _initpassword = '';
 //  var _initpasswordconf = '';
   bool _load = false;
+  bool checkedValue = false;
 
 //  final userdatabaseReference =
 //  FirebaseDatabase.instance.reference().child("userdata");
@@ -174,6 +176,7 @@ class _SignInState extends State<SignIn> {
                               ),
                             ),
                           )),
+
                       Padding(
                         padding: const EdgeInsets.all(30.0),
                         child: Container(
@@ -198,25 +201,34 @@ class _SignInState extends State<SignIn> {
                             color: const Color(0xff171732),
                             onPressed: () async {
                               if (_formKey.currentState.validate()) {
-                                try {
-                                  final result = await InternetAddress.lookup(
-                                      'google.com');
-                                  if (result.isNotEmpty &&
-                                      result[0].rawAddress.isNotEmpty) {
-                                    //  print('connected');
-                                    loginUserphone(
-                                        _phoneController.text.trim(), context);
-                                    setState(() {
-                                      _load = true;
-                                    });
+                                if(checkedValue){
+                                  try {
+                                    final result = await InternetAddress.lookup(
+                                        'google.com');
+
+                                    if (result.isNotEmpty &&
+                                        result[0].rawAddress.isNotEmpty) {
+                                      //  print('connected');
+                                      loginUserphone(
+                                          _phoneController.text.trim(), context);
+                                      setState(() {
+                                        _load = true;
+                                      });
+                                    }
+                                  } on SocketException catch (_) {
+                                    //  print('not connected');
+                                    Toast.show(
+                                        "برجاء مراجعة الاتصال بالشبكة", context,
+                                        duration: Toast.LENGTH_LONG,
+                                        gravity: Toast.BOTTOM);
                                   }
-                                } on SocketException catch (_) {
-                                  //  print('not connected');
+                                }else{
                                   Toast.show(
-                                      "برجاء مراجعة الاتصال بالشبكة", context,
+                                      "برجاء الموافقة علي سياسة الاستخدام", context,
                                       duration: Toast.LENGTH_LONG,
                                       gravity: Toast.BOTTOM);
                                 }
+
                                 //loginUserphone(_phoneController.text.trim(), context);
 
                               } else
@@ -228,6 +240,34 @@ class _SignInState extends State<SignIn> {
                           ),
                         ),
                       ),
+
+                      CheckboxListTile(
+                        title: InkWell(
+                          onTap: (){
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        PrivcyPolicy()));
+                          },
+                          child: Text("اوافق علي سياسة الاستخدام",
+                            textAlign: TextAlign.right
+                          ,style: TextStyle(
+                              color: Colors.blue,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.underline,
+
+                            ),),
+                        ),
+                        value: checkedValue,
+                        onChanged: (newValue) {
+                          setState(() {
+                            checkedValue = newValue;
+                          });
+                        },
+                        controlAffinity: ListTileControlAffinity.trailing, //  <-- leading Checkbox
+                      )
                     ],
                   )),
             ),

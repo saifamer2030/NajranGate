@@ -249,45 +249,45 @@ class _profileUserVeiwState extends State<profileUserVeiw> {
                                         new BorderRadius.circular(10.0)),
                               ),
                             ),
-                            Container(
-                              width: 150 /*MediaQuery.of(context).size.width*/,
-                              height: 40,
-                              child: new RaisedButton(
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: <Widget>[
-                                    new Text(
-                                      "تواصل برقم الجوال",
-                                      style: TextStyle(
-                                        color: const Color(0xff171732),
-                                        fontSize: 10,
-                                      ),
-                                    ),
-                                    Icon(
-                                      Icons.phone,
-                                      color: const Color(0xff171732),
-                                    ),
-                                  ],
-                                ),
-                                textColor: const Color(0xff171732),
-                                color: Colors.grey[400],
-                                onPressed: () {
-                                  if (widget.cphone != null) {
-                                    _makePhoneCall('tel:${widget.cphone}');
-                                  } else {
-                                    Toast.show("حاول تاني طال عمرك", context,
-                                        duration: Toast.LENGTH_LONG,
-                                        gravity: Toast.BOTTOM);
-                                  }
-                                },
-
+//                            Container(
+//                              width: 150 /*MediaQuery.of(context).size.width*/,
+//                              height: 40,
+//                              child: new RaisedButton(
+//                                child: Row(
+//                                  mainAxisAlignment:
+//                                      MainAxisAlignment.spaceEvenly,
+//                                  children: <Widget>[
+//                                    new Text(
+//                                      "تواصل برقم الجوال",
+//                                      style: TextStyle(
+//                                        color: const Color(0xff171732),
+//                                        fontSize: 10,
+//                                      ),
+//                                    ),
+//                                    Icon(
+//                                      Icons.phone,
+//                                      color: const Color(0xff171732),
+//                                    ),
+//                                  ],
+//                                ),
+//                                textColor: const Color(0xff171732),
+//                                color: Colors.grey[400],
+//                                onPressed: () {
+//                                  if (widget.cphone != null) {
+//                                    _makePhoneCall('tel:${widget.cphone}');
+//                                  } else {
+//                                    Toast.show("حاول تاني طال عمرك", context,
+//                                        duration: Toast.LENGTH_LONG,
+//                                        gravity: Toast.BOTTOM);
+//                                  }
+//                                },
 //
-                                shape: new RoundedRectangleBorder(
-                                    borderRadius:
-                                        new BorderRadius.circular(10.0)),
-                              ),
-                            ),
+////
+//                                shape: new RoundedRectangleBorder(
+//                                    borderRadius:
+//                                        new BorderRadius.circular(10.0)),
+//                              ),
+//                            ),
                           ],
                         ),
                       ),

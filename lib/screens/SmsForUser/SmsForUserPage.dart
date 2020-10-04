@@ -83,7 +83,7 @@ class _SmsForUserPage extends State<SmsForUserPage> {
                     child: InkWell(
                       onTap: () => Navigator.pop(context),
                       child: Container(
-                        alignment: Alignment.bottomLeft,
+                        alignment: Alignment.centerLeft,
                         width: 20,
                         height: 20,
                         child: InkWell(

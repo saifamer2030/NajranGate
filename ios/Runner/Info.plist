@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>com.arabdevelopers.souqnagran</string>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -43,6 +47,7 @@
 	<string> لاستخدام الاستديو لارسال الصور اثناء المحادثة او اثناء رفع الاعلان You must allow access to your studio in order to send pictures via chat or upload them as personal photos</string>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>audio</string>
 		<string>fetch</string>
 		<string>processing</string>
 		<string>remote-notification</string>
@@ -66,13 +71,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>BGTaskSchedulerPermittedIdentifiers</key>
-    <array>
-        <string>com.arabdevelopers.souqnagran</string>
-    </array>
-    <key>UIBackgroundModes</key>
-        <array>
-                <string>audio</string>
-        </array>
 </dict>
 </plist>
