@@ -21,7 +21,7 @@ class UserRatingPage extends StatefulWidget {
 
 final mDatabase = FirebaseDatabase.instance.reference();
 
-final ratingReference = FirebaseDatabase.instance.reference().child('Rating');
+final ratingReference = FirebaseDatabase.instance.reference().child('UserRatingPageForADV');
 final ratingAvrageReference =
     FirebaseDatabase.instance.reference().child('advdata');
 

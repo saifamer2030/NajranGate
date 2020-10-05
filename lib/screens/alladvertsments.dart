@@ -1,9 +1,15 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:NajranGate/FragmentSouqNajran.dart';
+import 'package:NajranGate/screens/ModelsForChating/chat.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:NajranGate/classes/AdvClass.dart';
@@ -149,6 +155,8 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
   @override
   void initState() {
     super.initState();
+    registerNotification();
+    configLocalNotification();
     _firebaseAuth = FirebaseAuth.instance;
 //    getUserName();
 //    FirebaseAuth.instance.currentUser().then((user) => user == null
@@ -2195,27 +2203,141 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
     fcmReference.child(_userId).set({"Token": token});
   }
 
-/**
+  /**
 
-    update(String token) async {
-    DatabaseReference databaseReference = new FirebaseDatabase().reference();
-    fcmReference.child(_userId).set({"Token": token});
-    }
-    void _onDropDownItemSelectedtype(String newValueSelected) {
-    setState(() {
-    this._typecurrentItemSelected = newValueSelected;
+      update(String token) async {
+      DatabaseReference databaseReference = new FirebaseDatabase().reference();
+      fcmReference.child(_userId).set({"Token": token});
+      }
+      void _onDropDownItemSelectedtype(String newValueSelected) {
+      setState(() {
+      this._typecurrentItemSelected = newValueSelected;
+      });
+      if (newValueSelected == 'طلبات') {
+      orderlist.clear();
+      orderlist.addAll(costantList);
+      filterSearchResults("طلب");
+      } else if (newValueSelected == 'عروض') {
+      orderlist.clear();
+      orderlist.addAll(costantList);
+      filterSearchResults("عرض");
+      } else if (newValueSelected == 'الكل') {
+      filterSearchResults('');
+      }
+      }**/
+  void registerNotification() {
+    firebaseMessaging.requestNotificationPermissions(
+      const IosNotificationSettings(sound: true, badge: true, alert: true),
+    );
+    firebaseMessaging.configure(onMessage: (Map<String, dynamic> message) {
+      print('onMessage: $message');
+
+      showNotification(message['notification']);
+      return;
+    }, onResume: (Map<String, dynamic> message) {
+      print('onResume: $message');
+      final notification = message['data'];
+//      handleRouting(notification);
+      _serialiseAndNavigate(message);
+      return;
+    },
+
+        // onBackgroundMessage: Platform.isIOS ? null : myBackgroundMessageHandler,
+
+        onLaunch: (Map<String, dynamic> message) {
+      print('onLaunch: $message');
+      final notification = message['data'];
+      _serialiseAndNavigate(message);
+//      handleRouting(notification);
+      return;
     });
-    if (newValueSelected == 'طلبات') {
-    orderlist.clear();
-    orderlist.addAll(costantList);
-    filterSearchResults("طلب");
-    } else if (newValueSelected == 'عروض') {
-    orderlist.clear();
-    orderlist.addAll(costantList);
-    filterSearchResults("عرض");
-    } else if (newValueSelected == 'الكل') {
-    filterSearchResults('');
-    }
-    }**/
+  }
 
+  void configLocalNotification() {
+    var initializationSettingsAndroid =
+        new AndroidInitializationSettings('@drawable/ic_launcher');
+    var initializationSettingsIOS = new IOSInitializationSettings(
+      defaultPresentAlert: true,
+      requestSoundPermission: true,
+      defaultPresentSound: true,
+      requestAlertPermission: true,
+    );
+    var initializationSettings = new InitializationSettings(
+        initializationSettingsAndroid, initializationSettingsIOS);
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: selectNotification);
+  }
+
+  void showNotification(message) async {
+    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+      Platform.isAndroid
+          ? 'com.arabdevelopers.souqnagran'
+          : 'com.arabdevelopers.souqnagran',
+      'NajranGate',
+      'your channel description',
+      playSound: true,
+      enableVibration: true,
+      importance: Importance.Max,
+      priority: Priority.High,
+    );
+    var iOSPlatformChannelSpecifics = new IOSNotificationDetails(
+      presentSound: true,
+      presentAlert: true,
+    );
+    var platformChannelSpecifics = new NotificationDetails(
+        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.show(0, message['title'].toString(),
+        message['body'].toString(), platformChannelSpecifics,
+        payload: json.encode(message));
+  }
+
+  // ignore: missing_return
+  void _serialiseAndNavigate(dynamic message) {
+    var notificationData = message['data'];
+    var WIdChat = notificationData['id'];
+    var IdDateAdv = notificationData['idAdv'];
+    var CType = notificationData['CType'];
+    print("#########$WIdChat#######################");
+    print("#########$IdDateAdv#######################");
+    print("#########$CType#######################");
+
+    // Navigate to the create post view
+    if (CType == 'chat') {
+      Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (context) => ChatPage(
+                  uid: WIdChat,
+                )),
+      );
+    }
+    if (CType == 'comment') {
+      Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (context) =>
+                AdvProlile(WIdChat, IdDateAdv, "إعلانك", 0.0)),
+      );
+    }
+    if (CType == "love") {
+      Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (context) => ChatPage(
+                  uid: WIdChat,
+                )),
+      );
+    }
+  }
+
+  Future selectNotification(payload) async {
+    print('notification payload: ' + payload);
+    if (payload['view'] == "chat") {
+      await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => FragmentSouq1(widget.regionlist)),
+      );
+    }
+  }
 }

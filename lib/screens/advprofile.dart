@@ -717,7 +717,7 @@ class _AdvProlileState extends State<AdvProlile> {
                                   right: 130,
                                   child: InkWell(
                                     onTap: () {
-                                      if(_userId != null){
+                                      if (_userId != null) {
                                         if (_userId != widget.cId) {
                                           Navigator.push(
                                             context,
@@ -726,20 +726,19 @@ class _AdvProlileState extends State<AdvProlile> {
                                                     UserRatingPage(
                                                         [""],
                                                         widget.cDateID,
-                                                        Rating(
-                                                            widget.cId, "", ""))),
+                                                        Rating(widget.cId, "",
+                                                            ""))),
                                           );
                                         } else {
                                           null;
                                         }
-                                      }else{
+                                      } else {
                                         Toast.show(
                                             "ابشر ولكن سجل في بوابة نجران اولاً",
                                             context,
                                             duration: Toast.LENGTH_LONG,
                                             gravity: Toast.BOTTOM);
                                       }
-
                                     },
                                     child: _userId != widget.cId
                                         ? Container(
@@ -771,20 +770,22 @@ class _AdvProlileState extends State<AdvProlile> {
                                           padding: const EdgeInsets.all(5.0),
                                           child: InkWell(
                                             onTap: () {
-                                              if(_userId != null){
+                                              if (_userId != null) {
                                                 _userId != widget.cId
                                                     ? Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          profileUserVeiw(
-                                                              widget.cId,
-                                                              widget.cRate,
-                                                              widget.cName,
-                                                              cPhone)),
-                                                )
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                profileUserVeiw(
+                                                                    widget.cId,
+                                                                    widget
+                                                                        .cRate,
+                                                                    widget
+                                                                        .cName,
+                                                                    cPhone)),
+                                                      )
                                                     : null;
-                                              }else{
+                                              } else {
                                                 Toast.show(
                                                     "ابشر ولكن سجل في بوابة نجران اولاً",
                                                     context,
@@ -908,9 +909,18 @@ class _AdvProlileState extends State<AdvProlile> {
                                               advnNameclass.ctitle,
                                               map,
                                               'image/jpg',
-                                              text: advnNameclass.ctitle +
+                                              text: "آعجبني هذا الاعلان في بوابة نجران:" +
                                                   "\n\n" +
-                                                  advnNameclass.cdetail);
+                                                  advnNameclass.ctitle +
+                                                  "\n\n" +
+                                                  advnNameclass.cdetail +
+                                                  "\n\n" +
+                                                  "للتواصل " +
+                                                  cPhone +
+                                                  "\n\n" +
+                                                  "حمل التطبيق الان" +
+                                                  "\n\n" +
+                                                  "https://apps.apple.com/sa/app/id1528216979?l=ar");
                                         } catch (e) {
                                           print('error: $e');
                                         }
@@ -1604,7 +1614,7 @@ class _AdvProlileState extends State<AdvProlile> {
           'alarmid': databasealarm.push().key,
           'wid': widget.cId,
           'Name': _username == null ? "لا يوجد اسم" : _username,
-          'cType': "chat",
+          'cType': "comment",
           'chead': widget.cDateID,
           'cDate': "${now.year.toString()}-${b}-${c} ${d}:${e}:${f}",
           'arrange': int.parse("${now.year.toString()}${b}${c}${d}${e}${f}")
