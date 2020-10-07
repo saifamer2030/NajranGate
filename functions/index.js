@@ -20,6 +20,8 @@ exports.sendAlarmNotification = functions.database.ref('/Alarm/{recieverUid}/{pu
 
           const userName = admin.database().ref(`/userdata/${recUid}/cName`).once('value');
           const msge = admin.database().ref(`/Alarm/${recUid}/${pushId}/cType`).once('value');
+          const wid = admin.database().ref(`/Alarm/${recUid}/${pushId}/wid`).once('value');
+          const cheadid = admin.database().ref(`/Alarm/${recUid}/${pushId}/chead`).once('value');
 
           // Get the follower profile.
         //   const getFollowerProfilePromise = admin.database()
@@ -28,26 +30,31 @@ exports.sendAlarmNotification = functions.database.ref('/Alarm/{recieverUid}/{pu
         // const getFollowerProfilePromise = admin.database()
         // .ref(`/Alarm/${recUid}/${pushId}/cType`).once('value');
     
-        const results = await Promise.all([ msge ,userName ]);
+        const results = await Promise.all([ msge ,userName,wid,cheadid ]);
           const msg = results[0];
           const sen = results[1];
+          const id = results[2];
+          const idhead = results[3];
 
           const payload = {
             notification:{
-                // title : `رسالة جديدة من ${sen.val()}`,
+                 title : `رسالة جديدة من ${sen.val()}`,
                 title : `بوابة نجران - لديك اشعار جديد`,
                 body : `لديك ${msg.val()} جديد  `,
-                view : `${msg.val()}`,
                 click_action: 'FLUTTER_NOTIFICATION_CLICK',
+                id:`${id.val()}`,
                 badge: '1',
                 sound: 'default'
-
             },
-             'data': {
-                          'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-                          'id': '1',
-                          'status': 'done',
-                        },
+            data:{
+                click_action: 'FLUTTER_NOTIFICATION_CLICK',
+                id:`${id.val()}`,
+                idAdv:`${idhead.val()}`,
+                CType:`${msg.val()}`,
+
+
+            }
+
         };
     
         return admin.database().ref(`/Fcm-Token/${recUid}`).once('value').then(allToken => {

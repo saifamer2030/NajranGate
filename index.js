@@ -20,6 +20,7 @@ exports.sendAlarmNotification = functions.database.ref('/Alarm/{recieverUid}/{pu
 
           const userName = admin.database().ref(`/userdata/${recUid}/cName`).once('value');
           const msge = admin.database().ref(`/Alarm/${recUid}/${pushId}/cType`).once('value');
+          const wid = admin.database().ref(`/Alarm/${recUid}/${pushId}/wid`).once('value');
 
           // Get the follower profile.
         //   const getFollowerProfilePromise = admin.database()
@@ -28,21 +29,23 @@ exports.sendAlarmNotification = functions.database.ref('/Alarm/{recieverUid}/{pu
         // const getFollowerProfilePromise = admin.database()
         // .ref(`/Alarm/${recUid}/${pushId}/cType`).once('value');
     
-        const results = await Promise.all([ msge ,userName ]);
+        const results = await Promise.all([ msge ,userName,wid ]);
           const msg = results[0];
           const sen = results[1];
+          const Cid = results[2];
 
           const payload = {
             notification:{
                 // title : `رسالة جديدة من ${sen.val()}`,
                 title : `بوابة نجران - لديك اشعار جديد`,
-                body : `${sen.val()} - ${msg.val()}`,
-                click_action : 'FLUTTER_NOTIFICATION_CLICK' ,
-                badge : '1',
-                icon: 'https://firebasestorage.googleapis.com/v0/b/souqnagran-49abe.appspot.com/o/logo%2Fsouqnagran.png?alt=media&token=8e8f8ff2-0855-4e67-9a44-aff2811448e7',
-                sound : 'default',
+                body : `لديك ${msg.val()} جديد  `,
+                click_action: 'FLUTTER_NOTIFICATION_CLICK',
+                id:`${Cid.val()}`,
+                badge: '1',
+                sound: 'default'
 
-            }
+            },
+
         };
     
         return admin.database().ref(`/Fcm-Token/${recUid}`).once('value').then(allToken => {

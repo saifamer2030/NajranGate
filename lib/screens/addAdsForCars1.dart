@@ -2013,6 +2013,17 @@ class _MyForm3State extends State<MyForm3> {
         });
         // }
       }
+
+      setState(() {
+        departlist1.add( new DepartmentClass(
+            "id",
+            "${widget.dep} اخري",
+            null,
+            "",
+            Colors.white,
+            false,100
+        ));
+      });
     });
   }
 

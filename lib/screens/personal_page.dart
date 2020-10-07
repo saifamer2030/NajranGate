@@ -2,9 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:toast/toast.dart';
-
 import '../FragmentSouqNajran.dart';
 import 'bottomsheet_widget.dart';
 import 'privcy_policy.dart';
@@ -25,6 +23,7 @@ class __PersonalPageState extends State<PersonalPage> {
   final double _minimumPadding = 5.0;
   TextEditingController phoneController;
   TextEditingController nameController;
+  bool exist=false;
 
   FirebaseAuth _firebaseAuth;
   String _cName = "";
@@ -160,7 +159,6 @@ class __PersonalPageState extends State<PersonalPage> {
                   width: MediaQuery.of(context).size.width,
                   height: 65.0,
                   decoration: BoxDecoration(
-
                     color: const Color(0xff171732),
                   ),
                   child: InkWell(
@@ -242,7 +240,8 @@ class __PersonalPageState extends State<PersonalPage> {
                       )),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 30, left: 8, right: 8),
+                      padding:
+                          const EdgeInsets.only(top: 30, left: 8, right: 8),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
@@ -269,6 +268,7 @@ class __PersonalPageState extends State<PersonalPage> {
                                   padding: const EdgeInsets.only(left: 8),
                                   child: InkWell(
                                       onTap: () {
+
                                         setState(() {
                                           showAlertDialogname(context, _cName);
                                         });
@@ -358,7 +358,8 @@ class __PersonalPageState extends State<PersonalPage> {
                                       setState(() {
                                         showDialog(
                                             context: context,
-                                            builder: (context) => MyForm4(_cType,
+                                            builder: (context) => MyForm4(
+                                                _cType,
                                                 onSubmit4: onSubmit4));
                                       });
                                     },
@@ -387,7 +388,7 @@ class __PersonalPageState extends State<PersonalPage> {
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: InkWell(
-                        onTap: (){
+                        onTap: () {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
@@ -398,15 +399,21 @@ class __PersonalPageState extends State<PersonalPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Center(
-                                child: Text("إتفاقية الاستخدام",style: TextStyle(
-                                  fontSize: 10,
-                                  color: Colors.blue,
-                                  fontWeight: FontWeight.bold,
-                                ),),
+                                child: Text(
+                                  "إتفاقية الاستخدام",
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    color: Colors.blue,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 5),
-                                child: Text("*",style: TextStyle(color: Colors.red),),
+                                child: Text(
+                                  "*",
+                                  style: TextStyle(color: Colors.red),
+                                ),
                               )
                             ],
                           ),
@@ -462,20 +469,51 @@ class __PersonalPageState extends State<PersonalPage> {
         style: TextStyle(color: Colors.black),
       ),
       onPressed: () {
-        setState(() {
-          if (_formKey.currentState.validate()) {
-            final userdatabaseReference =
-                FirebaseDatabase.instance.reference().child("userdata");
-            userdatabaseReference.child(_userId).update({
-              "cName": nameController.text,
-            }).then((_) {
-              setState(() {
-                _cName = nameController.text;
-                Navigator.of(context).pop();
-              });
-            });
+        FirebaseDatabase.instance
+            .reference()
+            .child("userdata")
+            .once()
+            .then((DataSnapshot snapshot) {
+          var KEYS = snapshot.value.keys;
+          var DATA = snapshot.value;
+       //  print("llll$DATA");
+          for (var map in KEYS) {
+            if (DATA.containsKey(map)) {
+              if (DATA[map].containsKey("cName")) {
+                if (DATA[map]["cName"]==nameController.text) {
+                  exist=true;
+                }else{
+                 // exist=false;
+                }
+              }
+            }
           }
-        });
+        }).then((value) {
+          print("bbbb$value");
+          if(exist){
+            exist=false;
+            Toast.show("هذا الاسم موجود لدينا. برجاء اختيار اسم اخر",context,duration: Toast.LENGTH_LONG,gravity:  Toast.BOTTOM);
+        }else{
+          setState(() {
+             exist=false;
+            if (_formKey.currentState.validate()) {
+              final userdatabaseReference =
+              FirebaseDatabase.instance.reference().child("userdata");
+              userdatabaseReference.child(_userId).update({
+                "cName": nameController.text,
+              }).then((_) {
+                setState(() {
+                  _cName = nameController.text;
+                });
+              });
+            }
+          });
+        }
+        Navigator.of(context).pop();});
+
+
+        //
+
       },
     );
 
@@ -772,7 +810,6 @@ class _SheetButtonState extends State<SheetButton> {
 
               setState(() {
                 success = true;
-
               });
 
               await Future.delayed(Duration(seconds: 1));

@@ -39,7 +39,9 @@ class _ChatState extends State<ChatPage> {
 
   picker() async {
     DateTime time = DateTime.now();
-    String formattedDate = intl.DateFormat('hh:mm').format(time);
+    DateTime now = DateTime.now();
+
+    String formattedDate = intl.DateFormat('hh:mm - dd-mm-yyyy').format(time);
     File img = await ImagePicker.pickImage(source: ImageSource.gallery);
     // File img = await ImagePicker.pickImage(source: ImageSource.camera);
     if (img != null) {
@@ -96,7 +98,7 @@ class _ChatState extends State<ChatPage> {
   Widget build(BuildContext context) {
     // TODO: implement build
     DateTime time = DateTime.now();
-    String formattedDate = intl.DateFormat('hh:mm').format(time);
+    String formattedDate = intl.DateFormat('hh:mm - dd-mm-yyyy').format(time);
 
     return new Scaffold(
       backgroundColor: const Color(0xffffffff),
@@ -175,133 +177,7 @@ class _ChatState extends State<ChatPage> {
               ),
             ],
           ),
-//                Padding(
-//                  padding: EdgeInsets.only(
-//                      top: _minimumPadding * 22,
-//                      left: _minimumPadding,
-//                      right: _minimumPadding),
-//                  child: Container(
-//                    width: MediaQuery.of(context).size.width,
-//                    height: 80,
-//                    child: Row(
-//                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                      children: <Widget>[
-//                        new RaisedButton(
-//                          child: new Text("طلب تتبع"),
-//                          textColor: Colors.white,
-//                          color: Colors.grey,
-//                          onPressed: () {},
-//
-//                          //#48B2E1
-//                          shape: new RoundedRectangleBorder(
-//                              borderRadius: new BorderRadius.circular(10.0)),
-//                        ),
-//                        new RaisedButton(
-//                          textColor: Colors.white,
-//                          color: const Color(0xff48B2E1),
-//                          onPressed: () {
-//
-//
-////                            Navigator.push(
-////                              context,
-////                              new MaterialPageRoute(
-////                                  builder: (BuildContext context) =>
-////                                  new UserRatingPage(Rating(widget.uid,"" , "",))),
-////                            );
-//                          },
-//
-//                          //#48B2E1
-//                          shape: new RoundedRectangleBorder(
-//                              borderRadius: new BorderRadius.circular(10.0)),
-//                          child: Row(
-//                            children: <Widget>[
-//                              Text(
-//                                'إتمام الصفقة',
-//                                style: TextStyle(color: Colors.white),
-//                              ),
-//                              Icon(
-//                                Icons.thumb_up,
-//                                color: Colors.white,
-//                              )
-//                            ],
-//                          ),
-//                        ),
-//                      ],
-//                    ),
-//                  ),
-//                ),
-////                Padding(
-////                  padding: EdgeInsets.only(
-////                      top: _minimumPadding * 40,
-////                      left: _minimumPadding * 2,
-////                      right: _minimumPadding * 2),
-////                  child: InkWell(
-////                    onTap: () {
-////                      Navigator.pop(context);
-////                    },
-////                    child: Container(
-////                      width: MediaQuery.of(context).size.width,
-////                      height: 80.0,
-////                      decoration: BoxDecoration(
-////                        borderRadius: BorderRadius.circular(10.0),
-////                        color: const Color(0xffe5e5e5),
-////                        boxShadow: [
-////                          BoxShadow(
-////                              color: const Color(0x33000000), blurRadius: 3)
-////                        ],
-////                      ),
-////                      child: Row(
-////                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-////                        children: <Widget>[
-////                          Icon(
-////                            Icons.call,
-////                            color: Colors.lightBlueAccent,
-////                          ),
-////                          Row(
-////                            children: <Widget>[
-////                              Padding(
-////                                padding: const EdgeInsets.all(8.0),
-////                                child: Text(widget.name,
-////                                    style: new TextStyle(
-////                                      color: Colors.lightBlueAccent,
-////                                      fontSize: 16,
-////                                    )),
-////                              ),
-////                              new Container(
-////                                child: new Text(widget.name[0],
-////                                    style: new TextStyle(
-////                                        color: Colors.lightBlueAccent,
-////                                        fontSize: 30,
-////                                        fontWeight: FontWeight.w900)),
-////                                decoration: new BoxDecoration(
-////                                    shape: BoxShape.circle,
-////                                    color: Colors.grey[400]),
-////                                padding: new EdgeInsets.all(20.0),
-////                              ),
-////                              Icon(
-////                                Icons.keyboard_arrow_right,
-////                                color: Colors.lightBlueAccent,
-////                              ),
-////                            ],
-////                          ),
-////
-//////                        Container(
-//////                          height: 50,
-//////                          width: 50,
-//////                          decoration: BoxDecoration(
-//////                              shape: BoxShape.circle,
-//////                              image: new DecorationImage(
-//////                                fit: BoxFit.cover,
-//////                                image: // NetworkImage(_imgUrl)
-//////                                    new AssetImage(
-//////                                        "assets/images/ic_driver.png"),
-//////                              )),
-//////                        ),
-////                        ],
-////                      ),
-////                    ),
-////                  ),
-////                ),
+
 
                  new Positioned(
                       child: isLoaded
@@ -529,24 +405,25 @@ class Bubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bg = isMe ? const Color(0xff171732) : const Color(0xff171732);
+    final bg = isMe ? const Color(0xffBC6A0B) : const Color(0xff171732);
     final align = isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start;
-    final icon = delivered ? Icons.done : Icons.done;
+    final icon = delivered ? Icons.done_outline : Icons.done_all;
     final radius = isMe
         ? BorderRadius.only(
-      topLeft: Radius.circular(10.0),
-      bottomLeft: Radius.circular(10.0),
-      bottomRight: Radius.circular(10.0),
+      topLeft: Radius.circular(25.0),
+      bottomLeft: Radius.circular(25.0),
+      bottomRight: Radius.circular(25.0),
     )
         : BorderRadius.only(
-//            topRight: Radius.circular(10.0),
-      bottomLeft: Radius.circular(10.0),
-      bottomRight: Radius.circular(10.0),
+            topRight: Radius.circular(25.0),
+      bottomLeft: Radius.circular(25.0),
+      bottomRight: Radius.circular(25.0),
     );
     return Column(
       crossAxisAlignment: align,
       children: <Widget>[
         Container(
+//          width: MediaQuery.of(context).size.width,
           margin: const EdgeInsets.all(3.0),
           padding: const EdgeInsets.all(8.0),
           decoration: BoxDecoration(
@@ -554,19 +431,22 @@ class Bubble extends StatelessWidget {
               BoxShadow(
                   blurRadius: .5,
                   spreadRadius: 1.0,
-                  color: Colors.black.withOpacity(.12))
+                  color: Colors.blue)
             ],
             color: bg,
             borderRadius: radius,
           ),
           child: Stack(
             children: <Widget>[
+
               img == null
                   ? Padding(
                 padding: EdgeInsets.all(15.0),
                 child: Text(message,style: TextStyle(
                   color: Colors.white
-                ),),
+                ),
+//                  textAlign: TextAlign.right,
+                ),
               )
                   : Padding(
                 padding: EdgeInsets.all(15.0),
@@ -577,25 +457,28 @@ class Bubble extends StatelessWidget {
                   ),
                 ),
               ),
-              Positioned(
-                bottom: 0.0,
-                right: 0.0,
+              Container(
+                width: 150/*MediaQuery.of(context).size.width*/,
+
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Text(time,
                         style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 8.0,
+                            color: Colors.white,
+                            fontSize: 8.0,
+                            fontWeight: FontWeight.bold
                         )),
-                    SizedBox(width: 3.0),
-                    Icon(
-                      icon,
-                      size: 10.0,
-                      color: Colors.black38,
-                    )
+//                    SizedBox(width: 3.0),
+//                    Icon(
+//                      icon,
+//                      size: 10.0,
+//                      color: Colors.white,
+//                    )
                   ],
                 ),
-              )
+
+              ),
             ],
           ),
         )

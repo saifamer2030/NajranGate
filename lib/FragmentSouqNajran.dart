@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:NajranGate/screens/ModelsForChating/chat.dart';
 import 'package:NajranGate/screens/ModelsForChating/home.dart';
+import 'package:NajranGate/screens/advprofile.dart';
 import 'package:NajranGate/screens/loginmail.dart';
 import 'package:NajranGate/screens/myadvertisement.dart';
 import 'package:NajranGate/screens/splash.dart';
@@ -68,34 +70,6 @@ class _Fragment1SouqState extends State<FragmentSouq1> {
   @override
   void initState() {
     super.initState();
-
-    _firebaseMessaging.subscribeToTopic('Alarm');
-    _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        print("onMessage: $message");
-        final notification = message['notification'];
-
-        showNotification(message['notification']);
-//        handleRouting(notification);
-        _serialiseAndNavigate(notification);
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        print("onLaunch: $message");
-
-        final notification = message['notification'];
-
-//        handleRouting(notification);
-        _serialiseAndNavigate(notification);
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print("onResume: $message");
-        final notification = message['notification'];
-//        handleRouting(notification);
-        _serialiseAndNavigate(notification);
-      },
-    );
-    _firebaseMessaging.requestNotificationPermissions(
-        const IosNotificationSettings(sound: true, badge: true, alert: true));
     _firebaseAuth = FirebaseAuth.instance;
     FirebaseAuth.instance.currentUser().then((user) => user == null
         ? null
@@ -217,9 +191,7 @@ class _Fragment1SouqState extends State<FragmentSouq1> {
     // Toast.show("kkkkkkkkkkk"+widget.regionlist.toString(),context,duration: Toast.LENGTH_SHORT,gravity:  Toast.BOTTOM);
 //print("kkkkkklllllkkkkk"+FragmentSouq1.regionlist.toString());
 
-//    registerNotification();
 
-    configLocalNotification();
 
     setState(() {
       currentScreen = AllAdvertesmenta(widget.regionlist);
@@ -463,137 +435,7 @@ class _Fragment1SouqState extends State<FragmentSouq1> {
     }
   }
 
-  void registerNotification() {
-    firebaseMessaging.requestNotificationPermissions(
-      const IosNotificationSettings(sound: true, badge: true, alert: true),
-    );
-    firebaseMessaging.configure(onMessage: (Map<String, dynamic> message) {
-      print('onMessage: $message');
 
-      showNotification(message['notification']);
-      final notification = message['data'];
-//      handleRouting(notification);
-      _serialiseAndNavigate(notification);
-      return;
-    }, onResume: (Map<String, dynamic> message) {
-      print('onResume: $message');
-      final notification = message['data'];
-//      handleRouting(notification);
-      _serialiseAndNavigate(notification);
-      return;
-    },
-
-        // onBackgroundMessage: Platform.isIOS ? null : myBackgroundMessageHandler,
-
-        onLaunch: (Map<String, dynamic> message) {
-      print('onLaunch: $message');
-      final notification = message['data'];
-      _serialiseAndNavigate(notification);
-//      handleRouting(notification);
-      return;
-    });
-  }
-
-  void configLocalNotification() {
-    var initializationSettingsAndroid =
-        new AndroidInitializationSettings('@drawable/ic_launcher');
-    var initializationSettingsIOS = new IOSInitializationSettings(
-      defaultPresentAlert: true,
-      requestSoundPermission: true,
-      defaultPresentSound: true,
-      requestAlertPermission: true,
-    );
-    var initializationSettings = new InitializationSettings(
-        initializationSettingsAndroid, initializationSettingsIOS);
-    flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: selectNotification);
-  }
-
-  void showNotification(message) async {
-    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-      Platform.isAndroid
-          ? 'com.arabdevelopers.souqnagran'
-          : 'com.arabdevelopers.souqnagran',
-      'NajranGate',
-      'your channel description',
-      playSound: true,
-      enableVibration: true,
-      importance: Importance.Max,
-      priority: Priority.High,
-    );
-    var iOSPlatformChannelSpecifics = new IOSNotificationDetails(
-      presentSound: true,
-      presentAlert: true,
-    );
-    var platformChannelSpecifics = new NotificationDetails(
-        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-    await flutterLocalNotificationsPlugin.show(0, message['title'].toString(),
-        message['body'].toString(), platformChannelSpecifics,
-        payload: json.encode(message));
-  }
-
-  // ignore: missing_return
-  void _serialiseAndNavigate(dynamic message) {
-    var notificationData = message['notification'];
-    var view = notificationData['view'];
-    print("#########$view");
-    if (view != null) {
-      // Navigate to the create post view
-      if (view == 'chat') {
-        Navigator.push(
-          context,
-          new MaterialPageRoute(builder: (context) => HomePage()),
-        );
-      }
-    }
-  }
-
-  Future<dynamic> myBackgroundMessageHandler(
-      Map<String, dynamic> message) async {
-    print("_backgroundMessageHandler");
-    if (message.containsKey('data')) {
-      // Handle data message
-      final dynamic data = message['data'];
-      print("_backgroundMessageHandler data: ${data}");
-    }
-
-    if (message.containsKey('notification')) {
-      // Handle notification message
-      final dynamic notification = message['notification'];
-      print("_backgroundMessageHandler notification: ${notification}");
-      Fimber.d("=====>myBackgroundMessageHandler $message");
-    }
-    return Future<void>.value();
-  }
-
-//  Future<dynamic> myBackgroundMessageHandler(
-//      Map<String, dynamic> message) async {
-//    print("_backgroundMessageHandler");
-//    if (message.containsKey('data')) {
-//      // Handle data message
-//      final dynamic data = message['data'];
-//      print("_backgroundMessageHandler data: $data");
-//    }
-//
-//    if (message.containsKey('notification')) {
-//      // Handle notification message
-//      final dynamic notification = message['notification'];
-//      print("_backgroundMessageHandler notification: $notification");
-//      Fimber.d("=====>myBackgroundMessageHandler $message");
-//    }
-//    return Future<void>.value();
-//  }
-
-  Future selectNotification(payload) async {
-    print('notification payload: ' + payload);
-    if (payload['view'] == "chat") {
-      await Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => FragmentSouq1(widget.regionlist)),
-      );
-    }
-  }
 
   Future<void> _makePhoneCall(String url) async {
     if (await canLaunch(url)) {
@@ -636,8 +478,7 @@ class _MyFloatingButtonState extends State<MyFloatingButton> {
               FirebaseAuth.instance.currentUser().then((user) => user == null
                   ? Navigator.of(context, rootNavigator: false).push(
                       MaterialPageRoute(
-                          builder: (context) => SignIn
-                            (widget.regionlist),
+                          builder: (context) => SignIn(widget.regionlist),
                           maintainState: false))
                   : setState(() {
                       var sheetController = showBottomSheet(
