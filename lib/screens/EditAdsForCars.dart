@@ -1954,6 +1954,8 @@ class _MyForm3State extends State<MyForm3> {
                       debugPrint('VAL = $val');
                       _currentValue = val;
                       _currentValue1=departlist1[i].title;
+                      widget.onSubmit3(_currentValue1.toString()+","+_currentValue.toString());
+                      Navigator.pop(context);
                     });
                   },
                 ))
