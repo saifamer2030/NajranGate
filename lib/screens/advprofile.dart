@@ -918,7 +918,13 @@ class _AdvProlileState extends State<AdvProlile> {
                                                   "للتواصل " +
                                                   cPhone +
                                                   "\n\n" +
-                                                  "حمل التطبيق الان" +
+                                                  "حمل التطبيق الان:" +
+                                                  "\n\n" +
+                                                  "الاندرويد:" +
+                                                  "\n\n" +
+                                                  "https://play.google.com/store/apps/details?id=com.arabdevelopers.souqnagran" +
+                                                  "\n\n" +
+                                                  "الايفون:" +
                                                   "\n\n" +
                                                   "https://apps.apple.com/sa/app/id1528216979?l=ar");
                                         } catch (e) {

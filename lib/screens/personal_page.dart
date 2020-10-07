@@ -2,9 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:toast/toast.dart';
-
 import '../FragmentSouqNajran.dart';
 import 'bottomsheet_widget.dart';
 import 'privcy_policy.dart';
@@ -160,7 +158,6 @@ class __PersonalPageState extends State<PersonalPage> {
                   width: MediaQuery.of(context).size.width,
                   height: 65.0,
                   decoration: BoxDecoration(
-
                     color: const Color(0xff171732),
                   ),
                   child: InkWell(
@@ -242,7 +239,8 @@ class __PersonalPageState extends State<PersonalPage> {
                       )),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 30, left: 8, right: 8),
+                      padding:
+                          const EdgeInsets.only(top: 30, left: 8, right: 8),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
@@ -269,6 +267,7 @@ class __PersonalPageState extends State<PersonalPage> {
                                   padding: const EdgeInsets.only(left: 8),
                                   child: InkWell(
                                       onTap: () {
+
                                         setState(() {
                                           showAlertDialogname(context, _cName);
                                         });
@@ -358,7 +357,8 @@ class __PersonalPageState extends State<PersonalPage> {
                                       setState(() {
                                         showDialog(
                                             context: context,
-                                            builder: (context) => MyForm4(_cType,
+                                            builder: (context) => MyForm4(
+                                                _cType,
                                                 onSubmit4: onSubmit4));
                                       });
                                     },
@@ -387,7 +387,7 @@ class __PersonalPageState extends State<PersonalPage> {
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: InkWell(
-                        onTap: (){
+                        onTap: () {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
@@ -398,15 +398,21 @@ class __PersonalPageState extends State<PersonalPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Center(
-                                child: Text("إتفاقية الاستخدام",style: TextStyle(
-                                  fontSize: 10,
-                                  color: Colors.blue,
-                                  fontWeight: FontWeight.bold,
-                                ),),
+                                child: Text(
+                                  "إتفاقية الاستخدام",
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    color: Colors.blue,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 5),
-                                child: Text("*",style: TextStyle(color: Colors.red),),
+                                child: Text(
+                                  "*",
+                                  style: TextStyle(color: Colors.red),
+                                ),
                               )
                             ],
                           ),
@@ -462,20 +468,45 @@ class __PersonalPageState extends State<PersonalPage> {
         style: TextStyle(color: Colors.black),
       ),
       onPressed: () {
-        setState(() {
-          if (_formKey.currentState.validate()) {
-            final userdatabaseReference =
+        Future<bool> rootFirebaseIsExists(
+            DatabaseReference
+            databaseReference) async {
+          DataSnapshot snapshot =
+          await databaseReference.once();
+          if (snapshot.value != nameController.text) {
+            setState(() {
+              if (_formKey.currentState.validate()) {
+                final userdatabaseReference =
                 FirebaseDatabase.instance.reference().child("userdata");
-            userdatabaseReference.child(_userId).update({
-              "cName": nameController.text,
-            }).then((_) {
-              setState(() {
-                _cName = nameController.text;
-                Navigator.of(context).pop();
-              });
+                userdatabaseReference.child(_userId).update({
+                  "cName": nameController.text,
+                }).then((_) {
+                  setState(() {
+                    _cName = nameController.text;
+                    Navigator.of(context).pop();
+                  });
+                });
+              }
             });
+            print(
+                "Item doesn't exist in the db");
+          } else {
+            print("Item exists in the db");
+            Toast.show("تم تحميل الصور طال عمرك", context,
+                duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+
           }
-        });
+          return snapshot.value != nameController.text;
+        }
+
+        print("exists?");
+        rootFirebaseIsExists(FirebaseDatabase
+            .instance
+            .reference()
+            .child("userdata")
+            .child('cName')
+);
+
       },
     );
 
@@ -772,7 +803,6 @@ class _SheetButtonState extends State<SheetButton> {
 
               setState(() {
                 success = true;
-
               });
 
               await Future.delayed(Duration(seconds: 1));
