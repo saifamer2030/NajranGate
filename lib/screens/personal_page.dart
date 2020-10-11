@@ -449,6 +449,25 @@ class __PersonalPageState extends State<PersonalPage> {
       ),
     ));
   }
+  void showInSnackBar2(String value) {
+    _scaffoldKey.currentState.showSnackBar(new SnackBar(
+      content: Row(
+        children: <Widget>[
+          Icon(
+            Icons.warning,
+            color: Colors.yellow,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: new Text(
+              value,
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ],
+      ),
+    ));
+  }
 
   showAlertDialogname(BuildContext context, name) {
 //    nameController = TextEditingController(text: name);
@@ -492,7 +511,9 @@ class __PersonalPageState extends State<PersonalPage> {
           print("bbbb$value");
           if(exist){
             exist=false;
-            Toast.show("هذا الاسم موجود لدينا. برجاء اختيار اسم اخر",context,duration: Toast.LENGTH_LONG,gravity:  Toast.BOTTOM);
+            return showInSnackBar2(
+                "هذا الاسم موجود لدينا. برجاء اختيار اسم اخر");
+//            Toast.show("هذا الاسم موجود لدينا. برجاء اختيار اسم اخر",context,duration: Toast.LENGTH_LONG,gravity:  Toast.BOTTOM);
         }else{
           setState(() {
              exist=false;

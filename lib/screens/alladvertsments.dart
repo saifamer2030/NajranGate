@@ -195,7 +195,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
 
     departmentsdatabaseReference = FirebaseDatabase.instance;
     departmentsdatabaseReference.setPersistenceEnabled(true);
-    departmentsdatabaseReference.setPersistenceCacheSizeBytes(1000000);
+//    departmentsdatabaseReference.setPersistenceCacheSizeBytes(1000000);
 //
 //    final departmentsdatabaseReference =
 //        FirebaseDatabase.instance.reference().child("Departments");
@@ -284,7 +284,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
     setState(() {
       advdatabaseReference = FirebaseDatabase.instance;
       advdatabaseReference.setPersistenceEnabled(true);
-      advdatabaseReference.setPersistenceCacheSizeBytes(1000000);
+//      advdatabaseReference.setPersistenceCacheSizeBytes(1000000);
 
 //      final advdatabaseReference =
 //          FirebaseDatabase.instance.reference().child("advdata");
@@ -344,7 +344,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
                 /////////////////////////////////////
                 userdatabaseReference = FirebaseDatabase.instance;
                 userdatabaseReference.setPersistenceEnabled(true);
-                userdatabaseReference.setPersistenceCacheSizeBytes(1000000);
+//                userdatabaseReference.setPersistenceCacheSizeBytes(1000000);
 
 //                final userdatabaseReference =
 //                    FirebaseDatabase.instance.reference().child("userdata");
@@ -506,7 +506,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
               } else {
                 advdatabaseReference = FirebaseDatabase.instance;
                 advdatabaseReference.setPersistenceEnabled(true);
-                advdatabaseReference.setPersistenceCacheSizeBytes(1000000);
+//                advdatabaseReference.setPersistenceCacheSizeBytes(1000000);
 
 //                final advdatabaseReference =
 //                    FirebaseDatabase.instance.reference().child("advdata");
@@ -974,8 +974,8 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
 
                               departments1databaseReference
                                   .setPersistenceEnabled(true);
-                              departments1databaseReference
-                                  .setPersistenceCacheSizeBytes(1000000);
+//                              departments1databaseReference
+//                                  .setPersistenceCacheSizeBytes(1000000);
 //                                    final departments1databaseReference =
 //                                        FirebaseDatabase.instance
 //                                            .reference()
@@ -1250,7 +1250,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
                                         setState(() {
                                           departlist2.add(new DepartmentClass(
                                             "",
-                                            "${departlist[index].title} اخري",
+                                            "${departlist1[index].title} اخري",
                                             null,
                                             "https://firebasestorage.googleapis.com/v0/b/souqnagran-49abe.appspot.com/o/departments1%2Fhiclipart.com%20(10).png?alt=media&token=7ea64e1a-5170-45ef-bca0-e6adf272dead",
                                             const Color(0xff8C8C96),
@@ -1570,9 +1570,13 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
                     child: Stack(
                       children: <Widget>[
                         Center(
-                          child: curi == "a"
-                              ? new Image.asset(
-                                  "assets/images/ic_bluecar.png",
+                          child: curi == "a" || curi == null
+                              ? new CachedNetworkImage(
+                                  imageUrl: "assets/images/ic_defult.png",
+                                  placeholder: (context, url) => SpinKitCircle(
+                                      color: const Color(0xff171732)),
+                                  errorWidget: (context, url, error) =>
+                                      Icon(Icons.error),
                                 )
                               : new CachedNetworkImage(
                                   imageUrl: curi,
@@ -1811,7 +1815,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
 
             departments1databaseReference = FirebaseDatabase.instance;
             departments1databaseReference.setPersistenceEnabled(true);
-            departments1databaseReference.setPersistenceCacheSizeBytes(1000000);
+//            departments1databaseReference.setPersistenceCacheSizeBytes(1000000);
 //            final departments1databaseReference = FirebaseDatabase.instance
 //                .reference()
 //                .child("Departments1")

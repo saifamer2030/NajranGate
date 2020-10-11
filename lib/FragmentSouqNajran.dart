@@ -23,6 +23,7 @@ import 'package:NajranGate/screens/myfavourits.dart';
 import 'package:NajranGate/screens/personal_page.dart';
 import 'package:NajranGate/screens/loginphone.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:toast/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -42,6 +43,7 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     new FlutterLocalNotificationsPlugin();
 
 class _Fragment1SouqState extends State<FragmentSouq1> {
+  DateTime backbuttonpressedTime;
   // Properties & Variables needed
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   int currentTab = 3; // to keep track of active tab index
@@ -205,9 +207,12 @@ class _Fragment1SouqState extends State<FragmentSouq1> {
     // final List<Widget> children = screens( );
 
     return Scaffold(
-      body: PageStorage(
-        child: currentScreen,
-        bucket: bucket,
+      body: WillPopScope(
+        onWillPop: onWillPop,
+        child: PageStorage(
+          child: currentScreen,
+          bucket: bucket,
+        ),
       ),
       key: navigatorKey,
       floatingActionButton: MyFloatingButton(widget.regionlist),
@@ -420,14 +425,29 @@ class _Fragment1SouqState extends State<FragmentSouq1> {
       ),
     );
   }
+  Future<bool> onWillPop() async {
+    DateTime currentTime = DateTime.now();
+    //Statement 1 Or statement2
+    bool backButton = backbuttonpressedTime == null ||
+        currentTime.difference(backbuttonpressedTime) > Duration(seconds: 3);
 
+    if (backButton) {
+      backbuttonpressedTime = currentTime;
+      Fluttertoast.showToast(
+          msg: 'للخروج من بوابة نجران اضغط الرجوع مرتين',
+          backgroundColor: Colors.black,
+          textColor: Colors.white);
+      return false;
+    }
+    return true;
+  }
   void handleRouting(dynamic notification) {
     switch (notification['view']) {
       case 'chat':
         Navigator.of(context).push(
             MaterialPageRoute(builder: (BuildContext context) => HomePage()));
         break;
-      case 'Comment':
+      case 'comment':
         Navigator.of(context).push(MaterialPageRoute(
             builder: (BuildContext context) =>
                 MyAdvertisement(widget.regionlist)));

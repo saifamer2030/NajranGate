@@ -155,7 +155,7 @@ class _SplashState extends State<Splash> {
             MaterialPageRoute(
                 builder: (context) => FragmentSouq1(regionlist)));
         print("llllllll" + regionlist.toString());
-      }).timeout(Duration(seconds: 3), onTimeout: () {
+      }).timeout(Duration(seconds: 4), onTimeout: () {
         setState(() {
           regionlist.length == 0
               ? Navigator.pushReplacement(

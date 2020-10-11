@@ -21,8 +21,7 @@ class AlarmaClass {
     this.alarmid = model["alarmid"];
     this.Name = model["Name"];
     this.cType = model["cType"];
-    this.cDate = model['cDate'];
-    this.cDate = model['chead'];
+    this.cDate = model['cDateID'];
     this.arrange = model['arrange'];
   }
 

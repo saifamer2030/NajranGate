@@ -11,24 +11,33 @@ import 'RatingClass.dart';
 class UserRatingPageForUser extends StatefulWidget {
   List<String> regionlist = [];
   final RatingForUser rating;
+  String DateId;
 
-  UserRatingPageForUser(this.regionlist, this.rating);
+  UserRatingPageForUser(this.regionlist, this.DateId, this.rating);
 
   @override
-  _UserRatingPageForUserState createState() => new _UserRatingPageForUserState();
+  _UserRatingPageForUserState createState() =>
+      new _UserRatingPageForUserState();
 }
 
 final mDatabase = FirebaseDatabase.instance.reference();
 
-final ratingReference = FirebaseDatabase.instance.reference().child('UserRatingPageForUser');
+final ratingReference =
+    FirebaseDatabase.instance.reference().child('UserRatingPageForUser');
 final ratingAvrageReference =
     FirebaseDatabase.instance.reference().child('userdata');
+final ratingAvrageReference1 =
+    FirebaseDatabase.instance.reference().child('advdata');
+final ratingAvrageReference2 =
+    FirebaseDatabase.instance.reference().child('NoRatingAgain');
 
 class _UserRatingPageForUserState extends State<UserRatingPageForUser> {
   List<RatingForUser> itemsRate;
   var Rate = 0.0;
   var _averageRating, _totalRate;
   int _totalCust;
+  var _averageRating1, _totalRate1;
+  int _totalCust1;
   FirebaseAuth _firebaseAuth;
   Query _query;
 
@@ -40,7 +49,7 @@ class _UserRatingPageForUserState extends State<UserRatingPageForUser> {
   @override
   void initState() {
     super.initState();
-    _query = mDatabase.child('Rating');
+    _query = mDatabase.child('UserRatingPageForUser');
     _firebaseAuth = FirebaseAuth.instance;
     getRatingAvrage();
     // ربط الايتم بالقيم
@@ -72,6 +81,36 @@ class _UserRatingPageForUserState extends State<UserRatingPageForUser> {
 //          });
 //        }
     });
+    mDatabase
+        .child("advdata")
+        .child(widget.rating.id)
+        .child(widget.DateId)
+        .once()
+        .then((DataSnapshot snapshot) {
+      Map<dynamic, dynamic> values = snapshot.value;
+
+      ///var result = values['Rate'] / values.length;
+      //print(result);
+      if (_totalRate1 != null && _totalCust1 != null) {
+        setState(() {
+          _totalRate1 = values['rating'];
+          _totalCust1 = values['custRate'];
+        });
+      } else {
+        setState(() {
+          _totalRate1 = "0.0";
+          _totalCust1 = 0;
+        });
+      }
+
+//        if (values != null) {
+//          /*HelperFunc.showToast("hii ${values['cName']}", Colors.red);
+//          */
+//          setState(() {
+//            _cName = values['cName'].toString();
+//          });
+//        }
+    });
   }
 
   /// هذا الفانكشن لغلق الداتا بيز ///
@@ -93,7 +132,6 @@ class _UserRatingPageForUserState extends State<UserRatingPageForUser> {
       body: Container(
         child: Stack(
           children: <Widget>[
-
             Form(
               child: Column(
                 children: [
@@ -101,7 +139,6 @@ class _UserRatingPageForUserState extends State<UserRatingPageForUser> {
                     child: ListView(
                       physics: BouncingScrollPhysics(),
                       children: <Widget>[
-
                         Padding(
                           padding: const EdgeInsets.only(top: 50.0),
                           child: Center(
@@ -118,7 +155,8 @@ class _UserRatingPageForUserState extends State<UserRatingPageForUser> {
                               direction: Axis.horizontal,
                               allowHalfRating: true,
                               itemCount: 5,
-                              itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                              itemPadding:
+                                  EdgeInsets.symmetric(horizontal: 4.0),
                               itemBuilder: (context, _) => Icon(
                                 Icons.star,
                                 color: Colors.amber,
@@ -139,41 +177,40 @@ class _UserRatingPageForUserState extends State<UserRatingPageForUser> {
                             child: Text("${Rate}"),
                           ),
                         ),
-                         Container(
-                      height: 170,
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 20.0, right: 10.0, left: 10.0, bottom: 10.0),
-                            child: Card(
-                              elevation: 0.0,
-                              color: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: Directionality(
-                                textDirection: TextDirection.rtl,
-                                child: TextFormField(
-                                  controller: _commentController,
-                                  onChanged: (value) {},
-                                  //  controller: controller,
-                                  maxLines: 5,
-                                  decoration: InputDecoration(
-                                      contentPadding:
-                                      new EdgeInsets.symmetric(
-                                          vertical: 20.0),
-
-                                      labelText: "اكتب تعليق هنا",
-                                      hintText: "اكتب تعليق هنا",
-                                      prefixIcon: Icon(Icons.comment),
-                                      border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.all(Radius.circular(10.0)))),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-
+//                         Container(
+//                      height: 170,
+//                          child: Padding(
+//                            padding: const EdgeInsets.only(
+//                                top: 20.0, right: 10.0, left: 10.0, bottom: 10.0),
+//                            child: Card(
+//                              elevation: 0.0,
+//                              color: Colors.white,
+//                              shape: RoundedRectangleBorder(
+//                                borderRadius: BorderRadius.circular(5),
+//                              ),
+//                              child: Directionality(
+//                                textDirection: TextDirection.rtl,
+//                                child: TextFormField(
+//                                  controller: _commentController,
+//                                  onChanged: (value) {},
+//                                  //  controller: controller,
+//                                  maxLines: 5,
+//                                  decoration: InputDecoration(
+//                                      contentPadding:
+//                                      new EdgeInsets.symmetric(
+//                                          vertical: 20.0),
+//
+//                                      labelText: "اكتب تعليق هنا",
+//                                      hintText: "اكتب تعليق هنا",
+//                                      prefixIcon: Icon(Icons.comment),
+//                                      border: OutlineInputBorder(
+//                                          borderRadius:
+//                                              BorderRadius.all(Radius.circular(10.0)))),
+//                                ),
+//                              ),
+//                            ),
+//                          ),
+//                        ),
                       ],
                     ),
                   ),
@@ -188,7 +225,7 @@ class _UserRatingPageForUserState extends State<UserRatingPageForUser> {
                           textColor: Colors.white,
                           color: const Color(0xff171732),
                           onPressed: () {
-                            getUser(com: _commentController.text);
+                            getUser(/*com: _commentController.text*/);
                           },
                           shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(15.0)),
@@ -205,24 +242,41 @@ class _UserRatingPageForUserState extends State<UserRatingPageForUser> {
     );
   }
 
-  void getUser({String com}) async {
-    if (_totalRate == null && _totalCust == null) {
+  void getUser(/*{String com}*/) async {
+    if (_totalRate == null &&
+        _totalCust == null &&
+        _totalRate1 == null &&
+        _totalCust1 == null) {
       setState(() {
         _totalRate = "0.0";
         _totalCust = 0;
+        _totalRate1 = "0.0";
+        _totalCust1 = 0;
       });
     }
 
     FirebaseUser usr = await _firebaseAuth.currentUser();
-    if (usr != null && com != "" && Rate != 0.0) {
+    if (usr != null /*&& com != "" */ && Rate != 0.0) {
       ratingReference.child(widget.rating.id).child(usr.uid).set({
         'Comment': _commentController.text,
         'Rate': Rate,
       });
       print('total rate $_totalRate');
-      ratingAvrageReference
+      ratingAvrageReference2
           .child(widget.rating.id)
+          .child(widget.DateId)
+          .child(usr.uid)
+          .set({
+        'isRating': true
+      });
+      ratingAvrageReference1
+          .child(widget.rating.id)
+          .child(widget.DateId)
           .update({
+        'rating': (double.parse(_totalRate1) + Rate.round()).toString(),
+        'custRate': _totalCust1 + 1
+      });
+      ratingAvrageReference.child(widget.rating.id).update({
         'rating': (double.parse(_totalRate) + Rate.round()).toString(),
         'custRate': _totalCust + 1
       }).then((_) {

@@ -1,4 +1,3 @@
-
 import 'package:NajranGate/screens/ModelsForChating/chat.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -13,7 +12,9 @@ import 'loginmail.dart';
 
 class MyAlarms extends StatefulWidget {
   List<String> regionlist = [];
+
   MyAlarms(this.regionlist);
+
   @override
   _MyAlarmsState createState() => _MyAlarmsState();
 }
@@ -35,8 +36,8 @@ class _MyAlarmsState extends State<MyAlarms> {
 
     FirebaseAuth.instance.currentUser().then((user) => user == null
         ? Navigator.of(context, rootNavigator: false).push(MaterialPageRoute(
-        builder: (context) => SignIn(widget.regionlist), maintainState: false))
-
+            builder: (context) => SignIn(widget.regionlist),
+            maintainState: false))
         : setState(() {
             _userId = user.uid;
             final databasealarm =
@@ -83,7 +84,9 @@ class _MyAlarmsState extends State<MyAlarms> {
   Widget build(BuildContext context) {
     Widget loadingIndicator = _load
         ? new Container(
-            child: SpinKitCircle(color: const Color(0xff171732),),
+            child: SpinKitCircle(
+              color: const Color(0xff171732),
+            ),
           )
         : new Container();
     TextStyle textStyle = Theme.of(context).textTheme.subtitle;
@@ -95,7 +98,6 @@ class _MyAlarmsState extends State<MyAlarms> {
         child: FittedBox(
           child: FloatingActionButton(
             heroTag: "unique5",
-
             onPressed: () {
               _controller.animateTo(0.0,
                   curve: Curves.easeInOut, duration: Duration(seconds: 1));
@@ -115,23 +117,21 @@ class _MyAlarmsState extends State<MyAlarms> {
           Column(
             children: <Widget>[
               Container(
-                width:  MediaQuery.of(context).size.width,
+                width: MediaQuery.of(context).size.width,
                 height: 65.0,
                 decoration: BoxDecoration(
-
                   color: const Color(0xff171732),
                 ),
               ),
               Transform.translate(
                 offset: Offset(0.0, -42.0),
                 child:
-                // Adobe XD layer: 'logoBox' (shape)
-                Center(
+                    // Adobe XD layer: 'logoBox' (shape)
+                    Center(
                   child: Container(
                     width: 166.0,
                     height: 60.0,
-                    child:
-                    Padding(
+                    child: Padding(
                       padding: const EdgeInsets.only(top: 20.0),
                       child: Text(
                         'بوابة نجران',
@@ -156,36 +156,35 @@ class _MyAlarmsState extends State<MyAlarms> {
 //          Padding(
 //            padding: const EdgeInsets.only(top: 100),
 //            child:
-            Expanded(
-                child: Center(
-              child: alarmlist.length == 0
-                  ? new Center(
-                     child:Text("لا يوجد إشعارات")
+          Expanded(
+              child: Center(
+            child: alarmlist.length == 0
+                ? new Center(child: Text("لا يوجد إشعارات")
 
                     // loadingIndicator,
                     )
-                  : new ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      controller: _controller,
-                      // reverse: true,
-                      itemCount: alarmlist.length,
-                      itemBuilder: (BuildContext ctxt, int index) {
-                        return InkWell(
-                          child: _firebasedata(
-                            index,
-                            alarmlist.length,
-                            alarmlist[index].alarmid,
-                            alarmlist[index].wid,
-                            alarmlist[index].Name,
-                            alarmlist[index].cType,
-                            alarmlist[index].cDate,
-                            alarmlist[index].chead,
-                            alarmlist[index].arrange,
-                          ),
-                        );
-                      }),
-            )),
-         // ),
+                : new ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    controller: _controller,
+//                     reverse: true,
+                    itemCount: alarmlist.length,
+                    itemBuilder: (BuildContext ctxt, int index) {
+                      return InkWell(
+                        child: _firebasedata(
+                          index,
+                          alarmlist.length,
+                          alarmlist[index].alarmid,
+                          alarmlist[index].wid,
+                          alarmlist[index].Name,
+                          alarmlist[index].cType,
+                          alarmlist[index].cDate,
+                          alarmlist[index].chead,
+                          alarmlist[index].arrange,
+                        ),
+                      );
+                    }),
+          )),
+          // ),
         ],
       ),
     );
@@ -199,7 +198,7 @@ class _MyAlarmsState extends State<MyAlarms> {
     String Name,
     String cType,
     String cDate,
-        String chead,
+    String chead,
     int arrange,
   ) {
     return Padding(
@@ -235,18 +234,17 @@ class _MyAlarmsState extends State<MyAlarms> {
                     }
                   });
                 });
-              }else if(cType == "love" || cType == "Comment"){
+              } else if (cType == "love" || cType == "comment") {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            AdvProlile(wid, chead,Name,0.0)));
-
+                            AdvProlile(wid, chead, Name, 0.0)));
               }
             });
           },
           child: Container(
-            height: 70,
+              height: 70,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
@@ -283,7 +281,7 @@ class _MyAlarmsState extends State<MyAlarms> {
                                           //    fontWeight: FontWeight.bold
                                         ),
                                       )
-                                    : Text(
+                                   :Text(
                                         " رسالة جديدة من $Name",
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
@@ -293,9 +291,12 @@ class _MyAlarmsState extends State<MyAlarms> {
                                         ),
                                       ),
                               ),
-
                             ],
                           ),
+//                          Text(
+//                            "$cDate",
+//                            style: TextStyle(fontSize: 10),
+//                          ),
                           new Icon(
                             Icons.person,
                             color: Colors.black,

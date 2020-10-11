@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -33,7 +34,7 @@ class _ChatState extends State<ChatPage> {
   TextEditingController _controller;
   List<Message> chatHolder;
   File image;
-  String _cName =" ";
+  String _cName = " ";
   String _imgUrl = "";
   bool isLoaded = false;
 
@@ -41,13 +42,13 @@ class _ChatState extends State<ChatPage> {
     DateTime time = DateTime.now();
     DateTime now = DateTime.now();
 
-    String formattedDate = intl.DateFormat('hh:mm - dd-mm-yyyy').format(time);
+    String formattedDate = intl.DateFormat('dd MMM kk:mm').format(time);
     File img = await ImagePicker.pickImage(source: ImageSource.gallery);
     // File img = await ImagePicker.pickImage(source: ImageSource.camera);
     if (img != null) {
       int timestamp = new DateTime.now().millisecondsSinceEpoch;
       StorageReference storageReference =
-      FirebaseStorage.instance.ref().child("PhotoChating");
+          FirebaseStorage.instance.ref().child("PhotoChating");
 
       StorageUploadTask uploadTask = storageReference
           .child("img_" + timestamp.toString() + ".jpg")
@@ -98,7 +99,7 @@ class _ChatState extends State<ChatPage> {
   Widget build(BuildContext context) {
     // TODO: implement build
     DateTime time = DateTime.now();
-    String formattedDate = intl.DateFormat('hh:mm - dd-mm-yyyy').format(time);
+    String formattedDate = intl.DateFormat('dd MMM kk:mm').format(time);
 
     return new Scaffold(
       backgroundColor: const Color(0xffffffff),
@@ -150,8 +151,8 @@ class _ChatState extends State<ChatPage> {
               Transform.translate(
                 offset: Offset(0.0, -42.0),
                 child:
-                // Adobe XD layer: 'logoBox' (shape)
-                Center(
+                    // Adobe XD layer: 'logoBox' (shape)
+                    Center(
                   child: Container(
                     width: 166.0,
                     height: 60.0,
@@ -177,101 +178,91 @@ class _ChatState extends State<ChatPage> {
               ),
             ],
           ),
-
-
-                 new Positioned(
-                      child: isLoaded
-                          ? chatHolder.length == 0
-                          ? Center(child: Text("لا توجد محادثة"))
-                          : Padding(
-                            padding: const EdgeInsets.only(top:100 ),
-                            child: ListView.builder(
-                        physics: BouncingScrollPhysics(),
-                        itemBuilder: (BuildContext ctxt, int index) {
-                            if (chatHolder[index].senderUser ==
-                                user.uid) {
-                              if (chatHolder[index].img != null) {
-                                print("this Me =" +
-                                    chatHolder[index].img);
+          new Positioned(
+              child: isLoaded
+                  ? chatHolder.length == 0
+                      ? Center(child: Text("لا توجد محادثة"))
+                      : Padding(
+                          padding: const EdgeInsets.only(top: 100),
+                          child: ListView.builder(
+                            physics: BouncingScrollPhysics(),
+                            itemBuilder: (BuildContext ctxt, int index) {
+                              if (chatHolder[index].senderUser == user.uid) {
+                                if (chatHolder[index].img != null) {
+                                  print("this Me =" + chatHolder[index].img);
+                                }
+                                return Bubble(
+                                  message: chatHolder[index].message,
+                                  time: chatHolder[index].timeData,
+                                  delivered: true,
+                                  isMe: true,
+                                  img: chatHolder[index].img,
+                                );
+                              } else {
+                                return new Bubble(
+                                  message: chatHolder[index].message,
+                                  time: chatHolder[index].timeData,
+                                  delivered: false,
+                                  isMe: false,
+                                  img: chatHolder[index].img,
+                                );
                               }
-                              return Bubble(
-                                message: chatHolder[index].message,
-                                time: chatHolder[index].timeData,
-                                delivered: true,
-                                isMe: true,
-                                img: chatHolder[index].img,
-                              );
-                            } else {
-                              return new Bubble(
-                                message: chatHolder[index].message,
-                                time: chatHolder[index].timeData,
-                                delivered: false,
-                                isMe: false,
-                                img: chatHolder[index].img,
-                              );
-                            }
-                        },
-                        itemCount: chatHolder.length,
-                        padding: new EdgeInsets.fromLTRB(0, 0, 0, 70),
+                            },
+                            itemCount: chatHolder.length,
+                            padding: new EdgeInsets.fromLTRB(0, 0, 0, 70),
+                          ),
+                        )
+                  : Center(
+                      child: SpinKitPumpingHeart(
+                        color: const Color(0xff171732),
                       ),
-                          )
-                          : Center(
-                        child: SpinKitPumpingHeart(
-                          color: const Color(0xff171732),
+                    )),
+          new Positioned(
+              child: new Align(
+            alignment: FractionalOffset.bottomCenter,
+            child: new Container(
+              child: new Row(
+                children: <Widget>[
+                  Expanded(
+                    child: new Padding(
+                      child: Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: new TextField(
+                          keyboardType: TextInputType.multiline,
+                          textInputAction: TextInputAction.newline,
+                          maxLines: null,
+                          decoration: new InputDecoration.collapsed(
+                            hintText: "اكتب رساله هنا",
+                          ),
+                          controller: _controller,
                         ),
-                      )),
-
-                new Positioned(
-                    child: new Align(
-                      alignment: FractionalOffset.bottomCenter,
-                      child: new Container(
-                        child: new Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: new Padding(
-                                child: Directionality(
-                                  textDirection: TextDirection.rtl,
-                                  child: new TextField(
-                                    keyboardType: TextInputType.multiline,
-                                    textInputAction: TextInputAction.newline,
-                                    maxLines: null,
-                                    decoration: new InputDecoration.collapsed(
-                                      hintText: "اكتب رساله هنا",
-                                    ),
-                                    controller: _controller,
-                                  ),
-                                ),
-                                padding: EdgeInsets.fromLTRB(10.0, 0, 10, 0),
-                              ),
-                            ),
-                            new IconButton(
-                                icon: new Icon(
-                                  Icons.insert_photo,
-                                  color: const Color(0xff171732),
-                                ),
-                                onPressed: () => picker()),
-                            new IconButton(
-                              onPressed: () => sendMessage(
-                                  msg: _controller.text,
-                                  img: null,
-                                  time: formattedDate),
-                              icon: new Icon(
-                                Icons.send,
-                                color: const Color(0xff171732),
-                              ),
-                            ),
-                          ],
-                        ),
-                        decoration: new BoxDecoration(
-                            borderRadius:
-                            new BorderRadius.all(Radius.circular(25.0)),
-                            color: Colors.white,
-                            border: Border.all(color: Colors.black)),
-                        margin: EdgeInsets.all(10.0),
                       ),
-                    ))
-
-
+                      padding: EdgeInsets.fromLTRB(10.0, 0, 10, 0),
+                    ),
+                  ),
+                  new IconButton(
+                      icon: new Icon(
+                        Icons.insert_photo,
+                        color: const Color(0xff171732),
+                      ),
+                      onPressed: () => picker()),
+                  new IconButton(
+                    onPressed: () => sendMessage(
+                        msg: _controller.text, img: null, time: formattedDate),
+                    icon: new Icon(
+                      Icons.send,
+                      color: const Color(0xff171732),
+                    ),
+                  ),
+                ],
+              ),
+              decoration: new BoxDecoration(
+                  borderRadius: new BorderRadius.all(Radius.circular(25.0)),
+                  color: Colors.white,
+                  border: Border.all(color: Colors.black)),
+              margin: EdgeInsets.all(10.0),
+            ),
+          ))
         ],
       ),
     );
@@ -280,7 +271,7 @@ class _ChatState extends State<ChatPage> {
   getLoggedInUser() async {
     DateTime now = DateTime.now();
     int dateNow =
-    int.parse('${now.year}${now.month}${now.day}${now.hour}${now.minute}');
+        int.parse('${now.year}${now.month}${now.day}${now.hour}${now.minute}');
     user = await _auth.currentUser();
     reference1 = FirebaseDatabase.instance
         .reference()
@@ -341,7 +332,7 @@ class _ChatState extends State<ChatPage> {
 //    String formattedDate = DateFormat('yyyy-MM-dd hh:mm').format(time);
     DateTime now = DateTime.now();
     int dateNow =
-    int.parse('${now.year}${now.month}${now.day}${now.hour}${now.minute}');
+        int.parse('${now.year}${now.month}${now.day}${now.hour}${now.minute}');
 
     if (msg != "") {
       setState(() {
@@ -356,8 +347,6 @@ class _ChatState extends State<ChatPage> {
       map.putIfAbsent("recevdName", () => widget.name);
       map.putIfAbsent("timeData", () => time);
 
-
-
 //      mapalarm.putIfAbsent("alarmid", () => widget.uid);
 //      mapalarm.putIfAbsent("Name", () => _cName);
 //      mapalarm.putIfAbsent("arrange", () => "$dateNow");
@@ -368,8 +357,7 @@ class _ChatState extends State<ChatPage> {
       reference3.set(widget.uid);
       reference4.set(user.uid);
       //reference5.push().set(mapalarm);
-      final databasealarm = FirebaseDatabase
-          .instance
+      final databasealarm = FirebaseDatabase.instance
           .reference()
           .child("Alarm")
           .child(widget.uid);
@@ -379,8 +367,8 @@ class _ChatState extends State<ChatPage> {
         'wid': user.uid,
         'Name': _cName,
         'cType': "chat",
-        'cDateID':"$now",
-        'arrange':int.parse("$dateNow")
+        'cDateID': "$dateNow",
+        'arrange': int.parse("$dateNow")
       });
 
       _controller.clear();
@@ -410,15 +398,15 @@ class Bubble extends StatelessWidget {
     final icon = delivered ? Icons.done_outline : Icons.done_all;
     final radius = isMe
         ? BorderRadius.only(
-      topLeft: Radius.circular(25.0),
-      bottomLeft: Radius.circular(25.0),
-      bottomRight: Radius.circular(25.0),
-    )
+            topLeft: Radius.circular(25.0),
+            bottomLeft: Radius.circular(25.0),
+            bottomRight: Radius.circular(25.0),
+          )
         : BorderRadius.only(
             topRight: Radius.circular(25.0),
-      bottomLeft: Radius.circular(25.0),
-      bottomRight: Radius.circular(25.0),
-    );
+            bottomLeft: Radius.circular(25.0),
+            bottomRight: Radius.circular(25.0),
+          );
     return Column(
       crossAxisAlignment: align,
       children: <Widget>[
@@ -428,38 +416,38 @@ class Bubble extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           decoration: BoxDecoration(
             boxShadow: [
-              BoxShadow(
-                  blurRadius: .5,
-                  spreadRadius: 1.0,
-                  color: Colors.blue)
+              BoxShadow(blurRadius: .5, spreadRadius: 1.0, color: Colors.blue)
             ],
             color: bg,
             borderRadius: radius,
           ),
           child: Stack(
             children: <Widget>[
-
               img == null
                   ? Padding(
-                padding: EdgeInsets.all(15.0),
-                child: Text(message,style: TextStyle(
-                  color: Colors.white
-                ),
+                      padding: EdgeInsets.all(15.0),
+                      child: Text(
+                        message, style: TextStyle(color: Colors.white),
 //                  textAlign: TextAlign.right,
-                ),
-              )
+                      ),
+                    )
                   : Padding(
-                padding: EdgeInsets.all(15.0),
-                child: InkWell(
-                  onTap: () => null,
-                  child: Container(
-                    child: Image.network(img),
-                  ),
-                ),
-              ),
+                      padding: EdgeInsets.all(15.0),
+                      child: InkWell(
+                        onTap: () => null,
+                        child: Container(
+                          child: CachedNetworkImage(
+                            imageUrl: img,
+                            placeholder: (context, url) =>
+                                SpinKitCircle(color: const Color(0xff171732)),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
+                          ),
+                        ),
+                      ),
+                    ),
               Container(
-                width: 150/*MediaQuery.of(context).size.width*/,
-
+                width: 150 /*MediaQuery.of(context).size.width*/,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
@@ -467,8 +455,7 @@ class Bubble extends StatelessWidget {
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 8.0,
-                            fontWeight: FontWeight.bold
-                        )),
+                            fontWeight: FontWeight.bold)),
 //                    SizedBox(width: 3.0),
 //                    Icon(
 //                      icon,
@@ -477,7 +464,6 @@ class Bubble extends StatelessWidget {
 //                    )
                   ],
                 ),
-
               ),
             ],
           ),

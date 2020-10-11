@@ -27,6 +27,7 @@ class _profileUserVeiwState extends State<profileUserVeiw> {
   String _userId;
   String ranking = "";
 
+
   @override
   void initState() {
     super.initState();
@@ -57,14 +58,18 @@ class _profileUserVeiwState extends State<profileUserVeiw> {
               });
             });
 
+
             ////////////////////////
           }));
 
-    //ranking
+
+
+
   }
 
   @override
   Widget build(BuildContext context) {
+
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -154,27 +159,18 @@ class _profileUserVeiwState extends State<profileUserVeiw> {
                       // RatingUser
                       Padding(
                         padding: const EdgeInsets.only(top: 20),
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => UserRatingPageForUser(
-                                      [""], RatingForUser(widget.cId, "", ""))),
-                            );
-                          },
                           child: Center(
                             child: SmoothStarRating(
                                 isReadOnly: true,
                                 starCount: 5,
-                                rating: widget.cRate,
+                                rating:widget.cRate,
                                 //setting value
                                 size: 30.0,
                                 color: Colors.amber,
                                 borderColor: Colors.grey,
                                 spacing: 0.0),
                           ),
-                        ),
+
                       ),
 
                       Padding(
@@ -207,13 +203,14 @@ class _profileUserVeiwState extends State<profileUserVeiw> {
                         padding: const EdgeInsets.only(
                             top: 100, right: 10, left: 10),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Container(
-                              width: 150 /*MediaQuery.of(context).size.width*/,
+                              width: 300 /*MediaQuery.of(context).size.width*/,
                               height: 40,
                               child: new RaisedButton(
                                 child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
 //                              mainAxisAlignment:
 //                              MainAxisAlignment.spaceEvenly,
                                   children: <Widget>[
@@ -224,9 +221,12 @@ class _profileUserVeiwState extends State<profileUserVeiw> {
                                         fontSize: 10,
                                       ),
                                     ),
-                                    Icon(
-                                      Icons.mail_outline,
-                                      color: const Color(0xff171732),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10),
+                                      child: Icon(
+                                        Icons.chat,
+                                        color: const Color(0xff171732),
+                                      ),
                                     ),
                                   ],
                                 ),

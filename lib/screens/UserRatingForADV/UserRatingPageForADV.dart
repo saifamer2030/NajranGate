@@ -13,7 +13,7 @@ class UserRatingPage extends StatefulWidget {
   String DateId;
   final Rating rating;
 
-  UserRatingPage(this.regionlist, this.DateId, this.rating);
+  UserRatingPage(this.regionlist,this.DateId,  this.rating);
 
   @override
   _UserRatingPageState createState() => new _UserRatingPageState();
@@ -141,40 +141,40 @@ class _UserRatingPageState extends State<UserRatingPage> {
                             child: Text("${Rate}"),
                           ),
                         ),
-                         Container(
-                      height: 170,
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 20.0, right: 10.0, left: 10.0, bottom: 10.0),
-                            child: Card(
-                              elevation: 0.0,
-                              color: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: Directionality(
-                                textDirection: TextDirection.rtl,
-                                child: TextFormField(
-                                  controller: _commentController,
-                                  onChanged: (value) {},
-                                  //  controller: controller,
-                                  maxLines: 5,
-                                  decoration: InputDecoration(
-                                      contentPadding:
-                                      new EdgeInsets.symmetric(
-                                          vertical: 20.0),
-
-                                      labelText: "اكتب تعليق هنا",
-                                      hintText: "اكتب تعليق هنا",
-                                      prefixIcon: Icon(Icons.comment),
-                                      border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.all(Radius.circular(10.0)))),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+//                         Container(
+//                      height: 170,
+//                          child: Padding(
+//                            padding: const EdgeInsets.only(
+//                                top: 20.0, right: 10.0, left: 10.0, bottom: 10.0),
+//                            child: Card(
+//                              elevation: 0.0,
+//                              color: Colors.white,
+//                              shape: RoundedRectangleBorder(
+//                                borderRadius: BorderRadius.circular(5),
+//                              ),
+//                              child: Directionality(
+//                                textDirection: TextDirection.rtl,
+//                                child: TextFormField(
+//                                  controller: _commentController,
+//                                  onChanged: (value) {},
+//                                  //  controller: controller,
+//                                  maxLines: 5,
+//                                  decoration: InputDecoration(
+//                                      contentPadding:
+//                                      new EdgeInsets.symmetric(
+//                                          vertical: 20.0),
+//
+//                                      labelText: "اكتب تعليق هنا",
+//                                      hintText: "اكتب تعليق هنا",
+//                                      prefixIcon: Icon(Icons.comment),
+//                                      border: OutlineInputBorder(
+//                                          borderRadius:
+//                                              BorderRadius.all(Radius.circular(10.0)))),
+//                                ),
+//                              ),
+//                            ),
+//                          ),
+//                        ),
 
                       ],
                     ),
@@ -190,7 +190,7 @@ class _UserRatingPageState extends State<UserRatingPage> {
                           textColor: Colors.white,
                           color: const Color(0xff171732),
                           onPressed: () {
-                            getUser(com: _commentController.text);
+                            getUser(/*com: _commentController.text*/);
                           },
                           shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(15.0)),
@@ -207,7 +207,7 @@ class _UserRatingPageState extends State<UserRatingPage> {
     );
   }
 
-  void getUser({String com}) async {
+  void getUser(/*{String com}*/) async {
     if (_totalRate == null && _totalCust == null) {
       setState(() {
         _totalRate = "0.0";
@@ -216,7 +216,7 @@ class _UserRatingPageState extends State<UserRatingPage> {
     }
 
     FirebaseUser usr = await _firebaseAuth.currentUser();
-    if (usr != null && com != "" && Rate != 0.0) {
+    if (usr != null /*&& com != "" */&& Rate != 0.0) {
       ratingReference.child(widget.rating.id).child(usr.uid).set({
         'Comment': _commentController.text,
         'Rate': Rate,

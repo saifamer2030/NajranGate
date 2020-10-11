@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:NajranGate/screens/UserRatingForADV/RatingClass.dart';
 import 'package:NajranGate/screens/UserRatingForUser/RatingClass.dart';
 import 'package:NajranGate/screens/UserRatingForUser/UserRatingPageForUser.dart';
 import 'package:NajranGate/screens/profileUserVeiw.dart';
@@ -17,7 +16,7 @@ import 'package:NajranGate/screens/splash.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:intl/intl.dart' as intl;
 //import 'package:simple_slider/simple_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:toast/toast.dart';
@@ -25,7 +24,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'ModelsForChating/chat.dart';
 import 'ProfilePhoto.dart';
-import 'UserRatingForADV/UserRatingPageForADV.dart';
 
 class AdvProlile extends StatefulWidget {
   String cId;
@@ -40,6 +38,7 @@ class AdvProlile extends StatefulWidget {
 }
 
 class _AdvProlileState extends State<AdvProlile> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   String _userId;
   String _username;
   var _formKey1 = GlobalKey<FormState>();
@@ -47,10 +46,15 @@ class _AdvProlileState extends State<AdvProlile> {
   Future<void> _launched;
   var _controller = ScrollController();
   bool favcheck = false;
+  bool israting = false;
   Map map = Map<String, Uint8List>();
   bool presscheck = false;
   FirebaseAuth _firebaseAuth;
   FirebaseDatabase userdatabaseReference;
+  String ranking = "";
+  String rating1 = "";
+  int custRate1 = 0;
+  var cRate1 = 0.0;
 
   //List<OrderDetailClass> orderlist = [];
   List<CommentClass> commentlist = [];
@@ -308,6 +312,29 @@ class _AdvProlileState extends State<AdvProlile> {
                 }
               });
             });
+
+            final ratingAvrageReference2 =
+                FirebaseDatabase.instance.reference().child("NoRatingAgain");
+            ratingAvrageReference2
+                .child(widget.cId)
+                .child(widget.cDateID)
+                .child(_userId)
+                .child("isRating")
+                .once()
+                .then((DataSnapshot snapshot5) {
+              setState(() {
+                if (snapshot5.value != null) {
+                  setState(() {
+                    israting = snapshot5.value;
+                    print("isRating :$israting");
+                  });
+                } else {
+                  setState(() {
+                    israting = false;
+                  });
+                }
+              });
+            });
             /////////////////////////////////////
             final advdatabaseReference =
                 FirebaseDatabase.instance.reference().child("advdata");
@@ -368,6 +395,59 @@ class _AdvProlileState extends State<AdvProlile> {
                 });
               });
             });
+
+            ////////////////////////
+
+            userdatabaseReference
+                .child(widget.cId)
+                .child("rating")
+                .once()
+                .then((DataSnapshot snapshot5) {
+              setState(() {
+                if (snapshot5.value != null) {
+                  setState(() {
+                    rating1 = snapshot5.value;
+                    print("rating:$rating1####################");
+                  });
+                } else {
+                  setState(() {
+                    rating1 = "0";
+                  });
+                }
+              });
+            });
+
+            ////////////////////////
+
+            userdatabaseReference
+                .child(widget.cId)
+                .child("custRate")
+                .once()
+                .then((DataSnapshot snapshot5) {
+              setState(() {
+                if (snapshot5.value != null) {
+                  setState(() {
+                    custRate1 = snapshot5.value;
+                    print("custRate:$custRate1####################");
+                  });
+                } else {
+                  setState(() {
+                    custRate1 = 0;
+                  });
+                }
+              });
+            }).then((value) {
+              if (rating1 == null && custRate1 == null) {
+                rating1 = "0";
+                custRate1 = 0;
+              } else {
+                if (custRate1 > 0) {
+                  cRate1 = double.parse(rating1) / custRate1;
+                }
+                print(
+                    "###custRate:$custRate1####rating:$rating1####cRate1$cRate1");
+              }
+            });
           }));
   }
 
@@ -384,6 +464,7 @@ class _AdvProlileState extends State<AdvProlile> {
     TextStyle textStyle = Theme.of(context).textTheme.subtitle;
 
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: const Color(0xffffffff),
       body: Container(
         child: Stack(
@@ -717,28 +798,38 @@ class _AdvProlileState extends State<AdvProlile> {
                                   right: 130,
                                   child: InkWell(
                                     onTap: () {
-                                      if (_userId != null) {
-                                        if (_userId != widget.cId) {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    UserRatingPage(
-                                                        [""],
-                                                        widget.cDateID,
-                                                        Rating(widget.cId, "",
-                                                            ""))),
-                                          );
-                                        } else {
-                                          null;
-                                        }
-                                      } else {
-                                        Toast.show(
-                                            "ابشر ولكن سجل في بوابة نجران اولاً",
-                                            context,
-                                            duration: Toast.LENGTH_LONG,
-                                            gravity: Toast.BOTTOM);
-                                      }
+                                if(!israting){
+                                  if (_userId != null) {
+                                    if (_userId != widget.cId) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                UserRatingPageForUser(
+                                                    [""],
+                                                    widget.cDateID,
+                                                    RatingForUser(
+                                                        widget.cId,
+                                                        "",
+                                                        ""))),
+                                      );
+                                    } else {
+                                      null;
+                                    }
+                                  } else {
+
+                                    Toast.show(
+                                        "ابشر ولكن سجل في بوابة نجران اولاً",
+                                        context,
+                                        duration: Toast.LENGTH_LONG,
+                                        gravity: Toast.BOTTOM);
+                                  }
+                                }else{
+                                  print("isRating :$israting");
+                                  return showInSnackBar2(
+                                      "لا يمكن تقييم نفس الاعلان مرتين");
+                                }
+
                                     },
                                     child: _userId != widget.cId
                                         ? Container(
@@ -778,8 +869,7 @@ class _AdvProlileState extends State<AdvProlile> {
                                                             builder: (context) =>
                                                                 profileUserVeiw(
                                                                     widget.cId,
-                                                                    widget
-                                                                        .cRate,
+                                                                    cRate1,
                                                                     widget
                                                                         .cName,
                                                                     cPhone)),
@@ -1392,6 +1482,7 @@ class _AdvProlileState extends State<AdvProlile> {
                                           "لا يوجد تعليق",
                                         )
                                       : new ListView.builder(
+                                          reverse: true,
                                           physics: BouncingScrollPhysics(),
                                           controller: _controller,
                                           // reverse: true,
@@ -1574,6 +1665,8 @@ class _AdvProlileState extends State<AdvProlile> {
     final databasealarm =
         FirebaseDatabase.instance.reference().child("Alarm").child(widget.cId);
     setState(() {
+      DateTime time = DateTime.now();
+      String formattedDate = intl.DateFormat('dd MMM kk:mm').format(time);
       DateTime now = DateTime.now();
       // String date1 ='${now.year}-${now.month}-${now.day}';// ${now.hour}:${now.minute}:00.000';
       String date =
@@ -1587,7 +1680,7 @@ class _AdvProlileState extends State<AdvProlile> {
           .set({
         'cId': widget.cId,
         'cuserid': _userId,
-        'cdate': now.toString(),
+        'cdate': formattedDate,
         'cheaddate': _userId + date,
         'ccoment': _commentController.text,
         'cname': _username == null ? "لا يوجد اسم" : _username,
@@ -1675,7 +1768,25 @@ class _AdvProlileState extends State<AdvProlile> {
     // })
     // );
   }
-
+  void showInSnackBar2(String value) {
+    _scaffoldKey.currentState.showSnackBar(new SnackBar(
+      content: Row(
+        children: <Widget>[
+          Icon(
+            Icons.warning,
+            color: Colors.yellow,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: new Text(
+              value,
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ],
+      ),
+    ));
+  }
   Future<void> _showMyDialog() async {
     return showDialog<void>(
       context: context,
@@ -1896,6 +2007,7 @@ class _AdvProlileState extends State<AdvProlile> {
                           : Container(),
                       Column(
                         children: <Widget>[
+                          Text('$cdate'),
                           Padding(
                             padding: const EdgeInsets.all(2.0),
                             child: Row(
