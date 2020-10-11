@@ -1692,7 +1692,7 @@ class _AdvProlileState extends State<AdvProlile> {
         CommentClass commentclass = new CommentClass(
             widget.cId,
             _userId,
-            now.toString(),
+            formattedDate,
             _userId + date,
             _commentController.text,
             _username == null ? "لا يوجد اسم" : _username,
@@ -1715,7 +1715,7 @@ class _AdvProlileState extends State<AdvProlile> {
           'Name': _username == null ? "لا يوجد اسم" : _username,
           'cType': "comment",
           'chead': widget.cDateID,
-          'cDate': "${now.year.toString()}-${b}-${c} ${d}:${e}:${f}",
+          'cDate': formattedDate,
           'arrange': int.parse("${now.year.toString()}${b}${c}${d}${e}${f}")
         }).whenComplete(() {
           Toast.show("تم التعليق بنجاح", context,
