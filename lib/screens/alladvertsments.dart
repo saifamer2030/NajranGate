@@ -155,8 +155,7 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
   @override
   void initState() {
     super.initState();
-    registerNotification();
-    configLocalNotification();
+
     _firebaseAuth = FirebaseAuth.instance;
 //    getUserName();
 //    FirebaseAuth.instance.currentUser().then((user) => user == null
@@ -541,7 +540,10 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
       });
     });
     //);
-    setState(() {});
+    setState(() {
+      registerNotification();
+      configLocalNotification();
+    });
   }
 
   final double _minimumPadding = 5.0;
@@ -2238,21 +2240,17 @@ class _AllAdvertesmentaState extends State<AllAdvertesmenta> {
 
       showNotification(message['notification']);
       return;
-    }, onResume: (Map<String, dynamic> message) {
+    },
+
+        onResume: (Map<String, dynamic> message) {
       print('onResume: $message');
-      final notification = message['data'];
-//      handleRouting(notification);
       _serialiseAndNavigate(message);
       return;
     },
-
         // onBackgroundMessage: Platform.isIOS ? null : myBackgroundMessageHandler,
-
         onLaunch: (Map<String, dynamic> message) {
       print('onLaunch: $message');
-      final notification = message['data'];
       _serialiseAndNavigate(message);
-//      handleRouting(notification);
       return;
     });
   }

@@ -17,6 +17,7 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart' as intl;
+
 //import 'package:simple_slider/simple_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:toast/toast.dart';
@@ -104,6 +105,8 @@ class _AdvProlileState extends State<AdvProlile> {
     ///////////////////
     DateTime scheduledNotificationDateTime =
         DateTime.parse('$date1').add(new Duration(days: -15));
+    DateTime scheduledNotificationDateTime1 =
+        DateTime.parse('$date1').add(new Duration(days: -3));
     //  DateTime.now()/*parse('$date1')*/.add(new Duration(seconds: 5));
 //print("scheduledNotificationDateTime:$scheduledNotificationDateTime");
     //   DateTime scheduledNotificationDateTime = DateTime.now();
@@ -137,6 +140,13 @@ class _AdvProlileState extends State<AdvProlile> {
         'تذكير بحذف الاعلان',
         'عزيزى العميل سيتم حذف اعلان $title بعد اسبوعين يرجى عمل تمديد له',
         scheduledNotificationDateTime,
+        platformChannelSpecifics,
+        payload: "$_userId,$head,$name");
+    await flutterLocalNotificationsPlugin.schedule(
+        advnNameclass.carrange - 202000000000,
+        'تذكير بحذف الاعلان',
+        'عزيزى العميل سيتم حذف اعلان $title بعد يومين يرجى عمل تمديد له',
+        scheduledNotificationDateTime1,
         platformChannelSpecifics,
         payload: "$_userId,$head,$name");
     // payload: "");
@@ -798,38 +808,36 @@ class _AdvProlileState extends State<AdvProlile> {
                                   right: 130,
                                   child: InkWell(
                                     onTap: () {
-                                if(!israting){
-                                  if (_userId != null) {
-                                    if (_userId != widget.cId) {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                UserRatingPageForUser(
-                                                    [""],
-                                                    widget.cDateID,
-                                                    RatingForUser(
-                                                        widget.cId,
-                                                        "",
-                                                        ""))),
-                                      );
-                                    } else {
-                                      null;
-                                    }
-                                  } else {
-
-                                    Toast.show(
-                                        "ابشر ولكن سجل في بوابة نجران اولاً",
-                                        context,
-                                        duration: Toast.LENGTH_LONG,
-                                        gravity: Toast.BOTTOM);
-                                  }
-                                }else{
-                                  print("isRating :$israting");
-                                  return showInSnackBar2(
-                                      "لا يمكن تقييم نفس الاعلان مرتين");
-                                }
-
+                                      if (!israting) {
+                                        if (_userId != null) {
+                                          if (_userId != widget.cId) {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      UserRatingPageForUser(
+                                                          [""],
+                                                          widget.cDateID,
+                                                          RatingForUser(
+                                                              widget.cId,
+                                                              "",
+                                                              ""))),
+                                            );
+                                          } else {
+                                            null;
+                                          }
+                                        } else {
+                                          Toast.show(
+                                              "ابشر ولكن سجل في بوابة نجران اولاً",
+                                              context,
+                                              duration: Toast.LENGTH_LONG,
+                                              gravity: Toast.BOTTOM);
+                                        }
+                                      } else {
+                                        print("isRating :$israting");
+                                        return showInSnackBar2(
+                                            "لا يمكن تقييم نفس الاعلان مرتين");
+                                      }
                                     },
                                     child: _userId != widget.cId
                                         ? Container(
@@ -1486,6 +1494,7 @@ class _AdvProlileState extends State<AdvProlile> {
                                           physics: BouncingScrollPhysics(),
                                           controller: _controller,
                                           // reverse: true,
+                                          shrinkWrap: true,
                                           itemCount: commentlist.length,
                                           itemBuilder:
                                               (BuildContext ctxt, int index) {
@@ -1768,6 +1777,7 @@ class _AdvProlileState extends State<AdvProlile> {
     // })
     // );
   }
+
   void showInSnackBar2(String value) {
     _scaffoldKey.currentState.showSnackBar(new SnackBar(
       content: Row(
@@ -1787,6 +1797,7 @@ class _AdvProlileState extends State<AdvProlile> {
       ),
     ));
   }
+
   Future<void> _showMyDialog() async {
     return showDialog<void>(
       context: context,
