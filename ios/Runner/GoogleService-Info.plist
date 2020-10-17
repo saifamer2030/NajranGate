@@ -3,23 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>397187573277-1mha8amheo70a3fl120eoq8hodk4ptp6.apps.googleusercontent.com</string>
+	<string>381457442905-i8lts881a05bavf1jk287ock40godg55.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.397187573277-1mha8amheo70a3fl120eoq8hodk4ptp6</string>
+	<string>com.googleusercontent.apps.381457442905-i8lts881a05bavf1jk287ock40godg55</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>397187573277-to5ob7mcjupjj48utfmifv5qf4p4f9bk.apps.googleusercontent.com</string>
+	<string>381457442905-qesfk74j7u2u1ahmk1v3t711arsmd7r9.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyB3IsO505RbxYnXy9So8mQXZe2JgmTVZC4</string>
+	<string>AIzaSyA2vHG2S8j6zqlvcN0c5y-4UU_jub_F554</string>
 	<key>GCM_SENDER_ID</key>
-	<string>397187573277</string>
+	<string>381457442905</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.arabdevelopers.souqnagran</string>
 	<key>PROJECT_ID</key>
-	<string>najrangate-9be93</string>
+	<string>souqnagran-49abe</string>
 	<key>STORAGE_BUCKET</key>
-	<string>najrangate-9be93.appspot.com</string>
+	<string>souqnagran-49abe.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,8 +31,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:397187573277:ios:8bf4932a35cd8dd6ba08f4</string>
+	<string>1:381457442905:ios:574f89eca913c70b192948</string>
 	<key>DATABASE_URL</key>
-	<string>https://najrangate-9be93.firebaseio.com</string>
+	<string>https://souqnagran-49abe.firebaseio.com</string>
 </dict>
 </plist>
